@@ -386,13 +386,88 @@ main::before { content: ""; position: absolute; inset: 0 0 auto; height: 900px; 
 .pcard::after { inset: 0; }
 .pcard:hover { border-color: transparent; }
 html, body { overflow-x: clip; }
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- assistente: orbe de cristal + painel de conversa ---------- */
+.orb-wrap { position: fixed; z-index: 40; right: max(22px, calc(env(safe-area-inset-right, 0px) + 16px)); bottom: max(22px, calc(env(safe-area-inset-bottom, 0px) + 16px)); display: flex; align-items: center; gap: 12px; }
+.orb { position: relative; width: 66px; height: 66px; border-radius: 50%; border: 0; padding: 0; cursor: pointer; isolation: isolate; animation: orbFloat 4.5s ease-in-out infinite;
+  background:
+    radial-gradient(circle at 32% 26%, rgba(255, 255, 255, 0.95) 0 6%, rgba(255, 255, 255, 0.45) 11%, transparent 26%),
+    radial-gradient(circle at 70% 78%, rgba(255, 255, 255, 0.35), transparent 38%),
+    radial-gradient(circle at 50% 50%, #7FA6E0 0%, #5B6FD6 38%, #3A3F9E 72%, #241F5E 100%);
+  box-shadow: inset 0 -8px 16px rgba(20, 16, 70, 0.55), inset 0 6px 14px rgba(255, 255, 255, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.25), 0 12px 28px -8px rgba(70, 80, 200, 0.65), 0 0 40px rgba(120, 140, 255, 0.35); }
+.orb::before { content: ""; position: absolute; inset: 0; border-radius: 50%; z-index: -1; opacity: 0.75; mix-blend-mode: screen;
+  background: conic-gradient(from 0deg, rgba(120, 220, 255, 0.0), rgba(120, 220, 255, 0.55), rgba(200, 140, 255, 0.5), rgba(255, 170, 220, 0.4), rgba(120, 220, 255, 0.0));
+  -webkit-mask: radial-gradient(circle, transparent 46%, #000 70%); mask: radial-gradient(circle, transparent 46%, #000 70%); animation: orbSpin 9s linear infinite; }
+.orb::after { content: ""; position: absolute; inset: -10px; border-radius: 50%; z-index: -2; background: radial-gradient(circle, rgba(120, 140, 255, 0.35), transparent 65%); animation: orbPulse 3.2s ease-in-out infinite; }
+.orb:hover { animation-play-state: paused; transform: scale(1.06); transition: transform .2s; }
+.orb:focus-visible { outline: 3px solid #8FA2F0; outline-offset: 4px; }
+.orb-face { position: absolute; left: 50%; top: 52%; transform: translate(-50%, -50%); display: flex; gap: 11px; }
+.orb-face i { width: 7px; height: 11px; border-radius: 4px; background: #F4F7FF; box-shadow: 0 0 8px rgba(220, 230, 255, 0.95); animation: orbBlink 5s infinite; }
+.orb-sparkle { position: absolute; top: 9px; right: 12px; width: 9px; height: 9px; background: #fff; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); opacity: 0.9; animation: orbTwinkle 2.6s ease-in-out infinite; }
+.orb[aria-expanded="true"] .orb-face i { height: 4px; border-radius: 3px; animation: none; }
+@keyframes orbFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes orbSpin { to { transform: rotate(360deg); } }
+@keyframes orbPulse { 0%, 100% { opacity: 0.55; transform: scale(0.96); } 50% { opacity: 1; transform: scale(1.06); } }
+@keyframes orbBlink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+@keyframes orbTwinkle { 0%, 100% { opacity: 0.25; transform: scale(0.6) rotate(0deg); } 50% { opacity: 1; transform: scale(1) rotate(45deg); } }
+
+.orb-hint { position: relative; padding: 10px 14px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 12px 30px -16px rgba(0, 0, 0, 0.4); font-size: 0.9rem; color: var(--fg); white-space: nowrap; display: flex; align-items: center; gap: 10px; animation: hintIn .4s ease-out; }
+.orb-hint::after { content: ""; position: absolute; right: -6px; top: 50%; width: 10px; height: 10px; background: var(--surface); border-right: 1px solid var(--line); border-top: 1px solid var(--line); transform: translateY(-50%) rotate(45deg); }
+.orb-hint button { border: 0; background: none; color: var(--faint); cursor: pointer; font-size: 1.1rem; line-height: 1; padding: 0 2px; }
+@keyframes hintIn { from { opacity: 0; transform: translateX(8px); } to { opacity: 1; transform: none; } }
+
+.chat { position: fixed; z-index: 41; right: max(22px, calc(env(safe-area-inset-right, 0px) + 16px)); bottom: calc(max(22px, env(safe-area-inset-bottom, 0px) + 16px) + 82px);
+  width: min(400px, calc(100vw - 32px)); height: min(580px, calc(100vh - 140px)); display: flex; flex-direction: column; border-radius: 18px; overflow: hidden;
+  background: var(--surface); border: 1px solid var(--line); box-shadow: 0 30px 80px -30px rgba(20, 20, 60, 0.55); transform-origin: bottom right; animation: chatIn .22s ease-out; }
+.chat[hidden] { display: none; }
+@keyframes chatIn { from { opacity: 0; transform: translateY(10px) scale(0.97); } to { opacity: 1; transform: none; } }
+.chat-head { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--line); background: linear-gradient(135deg, color-mix(in srgb, #5B6FD6 10%, var(--surface)), var(--surface) 70%); }
+.mini-orb { width: 30px; height: 30px; border-radius: 50%; flex: none; background: radial-gradient(circle at 32% 26%, rgba(255, 255, 255, 0.9) 0 8%, transparent 28%), radial-gradient(circle, #7FA6E0, #5B6FD6 45%, #2D2A78); box-shadow: 0 0 14px rgba(110, 130, 255, 0.5); }
+.chat-head b { display: block; font-weight: 600; }
+.chat-head span { font-size: 0.8rem; color: var(--faint); }
+.chat-close { margin-left: auto; width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--muted); cursor: pointer; font-size: 1.1rem; }
+.chat-close:hover { color: var(--fg); }
+.chat-log { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
+.msg { max-width: 88%; padding: 10px 14px; border-radius: 14px; font-size: 0.95rem; line-height: 1.5; overflow-wrap: anywhere; }
+.msg.user { align-self: flex-end; background: var(--fg); color: var(--bg); border-bottom-right-radius: 4px; }
+.msg.bot { align-self: flex-start; background: var(--soft); color: var(--fg); border-bottom-left-radius: 4px; }
+.msg.bot b { font-weight: 600; }
+.msg .src { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.msg .src a { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); text-decoration: none; font-size: 0.8rem; }
+.msg .src a:hover { border-color: var(--faint); }
+.msg .why { display: block; margin-top: 8px; font-size: 0.72rem; color: var(--faint); font-family: var(--f-mono); }
+.typing { display: inline-flex; gap: 4px; padding: 14px; }
+.typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--faint); animation: typing 1s infinite; }
+.typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes typing { 0%, 60%, 100% { opacity: .3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+.sugs { display: flex; flex-wrap: wrap; gap: 6px; }
+.sugs button { font: 500 0.84rem var(--f-sans); padding: 7px 11px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); cursor: pointer; text-align: left; }
+.sugs button:hover { border-color: #8FA2F0; background: color-mix(in srgb, #5B6FD6 8%, var(--surface)); }
+.chat-form { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line); background: var(--surface); }
+.chat-form input { flex: 1; min-width: 0; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); font: 400 0.95rem var(--f-sans); outline: none; }
+.chat-form input:focus { border-color: #8FA2F0; box-shadow: 0 0 0 3px color-mix(in srgb, #5B6FD6 18%, transparent); }
+.chat-form button { width: 44px; border-radius: 12px; border: 0; cursor: pointer; color: #fff; background: radial-gradient(circle at 30% 25%, #9DB8F0, #5B6FD6 55%, #3A3F9E); display: grid; place-items: center; }
+.chat-foot { padding: 0 14px 10px; font-size: 0.72rem; color: var(--faint); text-align: center; background: var(--surface); }
+
+@media (max-width: 560px) {
+  .orb { width: 58px; height: 58px; }
+  .orb-hint { display: none; }
+  .chat { right: 10px; left: 10px; width: auto; bottom: calc(max(16px, env(safe-area-inset-bottom, 0px) + 10px) + 70px); height: min(72vh, 560px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orb, .orb::before, .orb::after, .orb-face i, .orb-sparkle, .chat, .orb-hint, .typing i { animation: none; }
+}
+.msg .lista { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 6px; }
+.msg .lista li::marker { color: #6B7FE0; }
 </style>
 <style>html{-webkit-text-size-adjust:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
 
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="ic-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></symbol><symbol id="ic-bot" viewBox="0 0 24 24"><path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" /></symbol><symbol id="ic-chart-column" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></symbol><symbol id="ic-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol><symbol id="ic-circle-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><line x1="12" x2="12" y1="8" y2="12" /><line x1="12" x2="12.01" y1="16" y2="16" /></symbol><symbol id="ic-circle-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></symbol><symbol id="ic-code-xml" viewBox="0 0 24 24"><path d="m18 16 4-4-4-4" /><path d="m6 8-4 4 4 4" /><path d="m14.5 4-5 16" /></symbol><symbol id="ic-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></symbol><symbol id="ic-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M3 5V19A9 3 0 0 0 21 19V5" /><path d="M3 12A9 3 0 0 0 21 12" /></symbol><symbol id="ic-external-link" viewBox="0 0 24 24"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></symbol><symbol id="ic-file-code" viewBox="0 0 24 24"><path d="M10 12.5 8 15l2 2.5" /><path d="m14 12.5 2 2.5-2 2.5" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" /></symbol><symbol id="ic-files" viewBox="0 0 24 24"><path d="M20 7h-3a2 2 0 0 1-2-2V2" /><path d="M9 18a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h7l4 4v10a2 2 0 0 1-2 2Z" /><path d="M3 7.6v12.8A1.6 1.6 0 0 0 4.6 22h9.8" /></symbol><symbol id="ic-flask-conical" viewBox="0 0 24 24"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /><path d="M6.453 15h11.094" /><path d="M8.5 2h7" /></symbol><symbol id="ic-folder-code" viewBox="0 0 24 24"><path d="M10 10.5 8 13l2 2.5" /><path d="m14 10.5 2 2.5-2 2.5" /><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2z" /></symbol><symbol id="ic-folder-git-2" viewBox="0 0 24 24"><path d="M9 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v5" /><circle cx="13" cy="12" r="2" /><path d="M18 19c-2.8 0-5-2.2-5-5v8" /><circle cx="20" cy="19" r="2" /></symbol><symbol id="ic-folder-open" viewBox="0 0 24 24"><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2" /></symbol><symbol id="ic-git-branch" viewBox="0 0 24 24"><line x1="6" x2="6" y1="3" y2="15" /><circle cx="18" cy="6" r="3" /><circle cx="6" cy="18" r="3" /><path d="M18 9a9 9 0 0 1-9 9" /></symbol><symbol id="ic-git-commit-horizontal" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" /><line x1="3" x2="9" y1="12" y2="12" /><line x1="15" x2="21" y1="12" y2="12" /></symbol><symbol id="ic-git-fork" viewBox="0 0 24 24"><circle cx="12" cy="18" r="3" /><circle cx="6" cy="6" r="3" /><circle cx="18" cy="6" r="3" /><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9" /><path d="M12 12v3" /></symbol><symbol id="ic-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" /></symbol><symbol id="ic-guitar" viewBox="0 0 24 24"><path d="m11.9 12.1 4.514-4.514" /><path d="M20.1 2.3a1 1 0 0 0-1.4 0l-1.114 1.114A2 2 0 0 0 17 4.828v1.344a2 2 0 0 1-.586 1.414A2 2 0 0 1 17.828 7h1.344a2 2 0 0 0 1.414-.586L21.7 5.3a1 1 0 0 0 0-1.4z" /><path d="m6 16 2 2" /><path d="M8.2 9.9C8.7 8.8 9.8 8 11 8c2.8 0 5 2.2 5 5 0 1.2-.8 2.3-1.9 2.8l-.9.4A2 2 0 0 0 12 18a4 4 0 0 1-4 4c-3.3 0-6-2.7-6-6a4 4 0 0 1 4-4 2 2 0 0 0 1.8-1.2z" /><circle cx="11.5" cy="12.5" r=".5" fill="currentColor" /></symbol><symbol id="ic-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></symbol><symbol id="ic-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></symbol><symbol id="ic-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></symbol><symbol id="ic-presentation" viewBox="0 0 24 24"><path d="M2 3h20" /><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" /><path d="m7 21 5-5 5 5" /></symbol><symbol id="ic-smartphone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></symbol><symbol id="ic-star" viewBox="0 0 24 24"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></symbol><symbol id="ic-table-2" viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18" /></symbol><symbol id="ic-terminal" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5" /><line x1="12" x2="20" y1="19" y2="19" /></symbol><symbol id="ic-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></symbol><symbol id="ic-braces" viewBox="0 0 24 24"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1" /><path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1" /></symbol><symbol id="ic-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7" /><path d="M19 12H5" /></symbol><symbol id="ic-book-open" viewBox="0 0 24 24"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></symbol><symbol id="ic-compass" viewBox="0 0 24 24"><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" /><circle cx="12" cy="12" r="10" /></symbol><symbol id="ic-file-spreadsheet" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M8 13h2" /><path d="M14 13h2" /><path d="M8 17h2" /><path d="M14 17h2" /></symbol><symbol id="ic-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4" /><path d="M3.34 19a10 10 0 1 1 17.32 0" /></symbol><symbol id="ic-lightbulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /><path d="M9 18h6" /><path d="M10 22h4" /></symbol><symbol id="ic-list-checks" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4" /><path d="m3 7 2 2 4-4" /><path d="M13 6h8" /><path d="M13 12h8" /><path d="M13 18h8" /></symbol><symbol id="ic-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></symbol><symbol id="ic-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></symbol><symbol id="ic-shield-check" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /><path d="m9 12 2 2 4-4" /></symbol><symbol id="ic-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></symbol><symbol id="ic-user-round" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5" /><path d="M20 21a8 8 0 0 0-16 0" /></symbol><symbol id="ic-workflow" viewBox="0 0 24 24"><rect width="8" height="8" x="3" y="3" rx="2" /><path d="M7 11v4a2 2 0 0 0 2 2h4" /><rect width="8" height="8" x="13" y="13" rx="2" /></symbol><symbol id="ic-zap" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></symbol></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="ic-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></symbol><symbol id="ic-bot" viewBox="0 0 24 24"><path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" /></symbol><symbol id="ic-chart-column" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></symbol><symbol id="ic-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol><symbol id="ic-circle-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><line x1="12" x2="12" y1="8" y2="12" /><line x1="12" x2="12.01" y1="16" y2="16" /></symbol><symbol id="ic-circle-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></symbol><symbol id="ic-code-xml" viewBox="0 0 24 24"><path d="m18 16 4-4-4-4" /><path d="m6 8-4 4 4 4" /><path d="m14.5 4-5 16" /></symbol><symbol id="ic-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></symbol><symbol id="ic-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M3 5V19A9 3 0 0 0 21 19V5" /><path d="M3 12A9 3 0 0 0 21 12" /></symbol><symbol id="ic-external-link" viewBox="0 0 24 24"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></symbol><symbol id="ic-file-code" viewBox="0 0 24 24"><path d="M10 12.5 8 15l2 2.5" /><path d="m14 12.5 2 2.5-2 2.5" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" /></symbol><symbol id="ic-files" viewBox="0 0 24 24"><path d="M20 7h-3a2 2 0 0 1-2-2V2" /><path d="M9 18a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h7l4 4v10a2 2 0 0 1-2 2Z" /><path d="M3 7.6v12.8A1.6 1.6 0 0 0 4.6 22h9.8" /></symbol><symbol id="ic-flask-conical" viewBox="0 0 24 24"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /><path d="M6.453 15h11.094" /><path d="M8.5 2h7" /></symbol><symbol id="ic-folder-code" viewBox="0 0 24 24"><path d="M10 10.5 8 13l2 2.5" /><path d="m14 10.5 2 2.5-2 2.5" /><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2z" /></symbol><symbol id="ic-folder-git-2" viewBox="0 0 24 24"><path d="M9 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v5" /><circle cx="13" cy="12" r="2" /><path d="M18 19c-2.8 0-5-2.2-5-5v8" /><circle cx="20" cy="19" r="2" /></symbol><symbol id="ic-folder-open" viewBox="0 0 24 24"><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2" /></symbol><symbol id="ic-git-branch" viewBox="0 0 24 24"><line x1="6" x2="6" y1="3" y2="15" /><circle cx="18" cy="6" r="3" /><circle cx="6" cy="18" r="3" /><path d="M18 9a9 9 0 0 1-9 9" /></symbol><symbol id="ic-git-commit-horizontal" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" /><line x1="3" x2="9" y1="12" y2="12" /><line x1="15" x2="21" y1="12" y2="12" /></symbol><symbol id="ic-git-fork" viewBox="0 0 24 24"><circle cx="12" cy="18" r="3" /><circle cx="6" cy="6" r="3" /><circle cx="18" cy="6" r="3" /><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9" /><path d="M12 12v3" /></symbol><symbol id="ic-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" /></symbol><symbol id="ic-guitar" viewBox="0 0 24 24"><path d="m11.9 12.1 4.514-4.514" /><path d="M20.1 2.3a1 1 0 0 0-1.4 0l-1.114 1.114A2 2 0 0 0 17 4.828v1.344a2 2 0 0 1-.586 1.414A2 2 0 0 1 17.828 7h1.344a2 2 0 0 0 1.414-.586L21.7 5.3a1 1 0 0 0 0-1.4z" /><path d="m6 16 2 2" /><path d="M8.2 9.9C8.7 8.8 9.8 8 11 8c2.8 0 5 2.2 5 5 0 1.2-.8 2.3-1.9 2.8l-.9.4A2 2 0 0 0 12 18a4 4 0 0 1-4 4c-3.3 0-6-2.7-6-6a4 4 0 0 1 4-4 2 2 0 0 0 1.8-1.2z" /><circle cx="11.5" cy="12.5" r=".5" fill="currentColor" /></symbol><symbol id="ic-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></symbol><symbol id="ic-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></symbol><symbol id="ic-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></symbol><symbol id="ic-presentation" viewBox="0 0 24 24"><path d="M2 3h20" /><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" /><path d="m7 21 5-5 5 5" /></symbol><symbol id="ic-smartphone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></symbol><symbol id="ic-star" viewBox="0 0 24 24"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></symbol><symbol id="ic-table-2" viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18" /></symbol><symbol id="ic-terminal" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5" /><line x1="12" x2="20" y1="19" y2="19" /></symbol><symbol id="ic-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></symbol><symbol id="ic-braces" viewBox="0 0 24 24"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1" /><path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1" /></symbol><symbol id="ic-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7" /><path d="M19 12H5" /></symbol><symbol id="ic-book-open" viewBox="0 0 24 24"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></symbol><symbol id="ic-compass" viewBox="0 0 24 24"><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" /><circle cx="12" cy="12" r="10" /></symbol><symbol id="ic-file-spreadsheet" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M8 13h2" /><path d="M14 13h2" /><path d="M8 17h2" /><path d="M14 17h2" /></symbol><symbol id="ic-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4" /><path d="M3.34 19a10 10 0 1 1 17.32 0" /></symbol><symbol id="ic-lightbulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /><path d="M9 18h6" /><path d="M10 22h4" /></symbol><symbol id="ic-list-checks" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4" /><path d="m3 7 2 2 4-4" /><path d="M13 6h8" /><path d="M13 12h8" /><path d="M13 18h8" /></symbol><symbol id="ic-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></symbol><symbol id="ic-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></symbol><symbol id="ic-send" viewBox="0 0 24 24"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" /><path d="m21.854 2.147-10.94 10.939" /></symbol><symbol id="ic-shield-check" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /><path d="m9 12 2 2 4-4" /></symbol><symbol id="ic-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></symbol><symbol id="ic-user-round" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5" /><path d="M20 21a8 8 0 0 0-16 0" /></symbol><symbol id="ic-workflow" viewBox="0 0 24 24"><rect width="8" height="8" x="3" y="3" rx="2" /><path d="M7 11v4a2 2 0 0 0 2 2h4" /><rect width="8" height="8" x="13" y="13" rx="2" /></symbol><symbol id="ic-zap" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></symbol></svg>
 <header class="site-head">
   <div class="wrap">
     <a class="brand" href="#inicio"><span class="mono-mark" aria-hidden="true">AL</span>Ayalan Lima</a>
@@ -466,7 +541,7 @@ html, body { overflow-x: clip; }
         </div>
       </section>
 
-      <section class="sec" aria-labelledby="como-h">
+      <section class="sec" id="principios" aria-labelledby="como-h">
         <div class="sec-head"><p class="eyebrow">Como eu trabalho</p><h2 id="como-h">Princípios</h2></div>
         <ul class="principles">
           <li><svg class="i i-md" aria-hidden="true"><use href="#ic-target"/></svg><div><b>Começo pelo problema real.</b><span>Todo projeto daqui nasceu de uma dor concreta do trabalho, não de um tutorial.</span></div></li>
@@ -961,6 +1036,17 @@ apenas os trechos recuperados das bases.</pre>
       </div>
 </main>
 
+<div class="orb-wrap">
+  <div class="orb-hint" id="orb-hint" role="status">Pergunte sobre o Ayalan <button type="button" aria-label="Fechar dica">×</button></div>
+  <button class="orb" id="orb" type="button" aria-label="Abrir o assistente do portfólio" aria-expanded="false" aria-controls="chat"><span class="orb-face" aria-hidden="true"><i></i><i></i></span><span class="orb-sparkle" aria-hidden="true"></span></button>
+</div>
+<section class="chat" id="chat" hidden aria-label="Assistente do portfólio">
+  <div class="chat-head"><span class="mini-orb" aria-hidden="true"></span><div><b>Assistente do portfólio</b><span>Responde com base no conteúdo deste site</span></div><button class="chat-close" id="chat-close" type="button" aria-label="Fechar o assistente">×</button></div>
+  <div class="chat-log" id="chat-log" aria-live="polite"></div>
+  <form class="chat-form" id="chat-form" autocomplete="off"><label class="sr" for="chat-q">Sua pergunta</label><input id="chat-q" type="text" placeholder="Pergunte sobre o Ayalan ou um projeto…" maxlength="200"><button type="submit" aria-label="Enviar pergunta"><svg class="i i-md" aria-hidden="true"><use href="#ic-send"/></svg></button></form>
+  <p class="chat-foot">Busca por similaridade (TF-IDF) treinada em Python · sem servidor</p>
+</section>
+
 <footer class="site-foot">
   <div class="wrap"><span>© 2026 Ayalan Lima · Desenvolvedor &amp; Analista de Dados</span><span><a href="#contato">Contato</a> · <a href="https://github.com/Ahaylima2721" target="_blank" rel="noopener">GitHub</a></span></div>
 </footer>
@@ -1137,6 +1223,127 @@ apenas os trechos recuperados das bases.</pre>
   route();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawHeat);
   var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(drawHeat, 150); });
+})();
+(function () {
+  // Assistente do portfólio: busca por similaridade (TF-IDF) no índice gerado pelo Python (assistente/construir_indice.py).
+  // A tokenização abaixo espelha assistente/texto.py; as stopwords e os sinônimos vêm do próprio índice.
+  var orb = document.getElementById('orb'), chat = document.getElementById('chat'), log = document.getElementById('chat-log');
+  var form = document.getElementById('chat-form'), input = document.getElementById('chat-q'), hint = document.getElementById('orb-hint');
+  var indice = null, carregando = null, stop = {}, pos = {};
+  var SUGESTOES = ['Quem é você?', 'O que você faz no dia a dia?', 'Como funciona o Fluxo?', 'Quais tecnologias você usa?', 'Como funciona o gerador de solos?', 'Como entrar em contato?'];
+
+  function carregar() {
+    if (!carregando) carregando = fetch('assistente/indice.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (d) {
+      indice = d; d.stopwords.forEach(function (s) { stop[s] = 1; }); d.vocabulario.forEach(function (t, i) { pos[t] = i; }); return d;
+    });
+    return carregando;
+  }
+  function normalizar(t) { return t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+  function radical(p) {
+    var n = p.length;
+    if (n > 4 && /oes$/.test(p)) return p.slice(0, -3) + 'ao';
+    if (n > 4 && /aes$/.test(p)) return p.slice(0, -3) + 'ao';
+    if (n > 5 && /ais$/.test(p)) return p.slice(0, -3) + 'al';
+    if (n > 4 && /es$/.test(p) && 'rsz'.indexOf(p[n - 3]) >= 0) return p.slice(0, -2);
+    if (n > 3 && /s$/.test(p) && !/ss$/.test(p)) return p.slice(0, -1);
+    return p;
+  }
+  function tokenizar(t) { return (normalizar(t).match(/[a-z0-9]+/g) || []).filter(function (w) { return w.length > 1 && !stop[w]; }).map(radical); }
+
+  function buscar(pergunta) {
+    var toks = tokenizar(pergunta), termos = toks.slice();
+    toks.forEach(function (t) { (indice.sinonimos[t] || []).forEach(function (s) { if (termos.indexOf(s) < 0) termos.push(s); }); });
+    for (var i = 0; i + 1 < toks.length; i++) termos.push(toks[i] + ' ' + toks[i + 1]);
+    var cont = {}; termos.forEach(function (t) { if (t in pos) cont[pos[t]] = (cont[pos[t]] || 0) + 1; });
+    var q = {}, norma = 0;
+    Object.keys(cont).forEach(function (j) { var v = (1 + Math.log(cont[j])) * indice.idf[j]; q[j] = v; norma += v * v; });
+    norma = Math.sqrt(norma) || 1;
+    var res = indice.trechos.map(function (t) {
+      var s = 0; t.vetor.forEach(function (p) { if (q[p[0]]) s += q[p[0]] / norma * p[1]; }); return { nota: s, t: t };
+    }).sort(function (a, b) { return b.nota - a.nota; });
+    return { toks: toks, res: res };
+  }
+
+  // monta a resposta com as frases do trecho que mais têm a ver com a pergunta
+  function resumir(texto, toks) {
+    if (texto.length <= 280) return texto;
+    var frases = texto.match(/[^.!?]+[.!?]+(\s|$)/g) || [texto];
+    var notas = frases.map(function (f, i) { var ft = tokenizar(f); return { i: i, f: f.trim(), n: toks.filter(function (t) { return ft.indexOf(t) >= 0; }).length }; });
+    var escolhidas = notas.slice().sort(function (a, b) { return b.n - a.n || a.i - b.i; }).slice(0, 2).sort(function (a, b) { return a.i - b.i; });
+    if (!escolhidas[0].n) escolhidas = notas.slice(0, 2);
+    return escolhidas.map(function (e) { return e.f; }).join(' ');
+  }
+
+  function el(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+  function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function rolar() { log.scrollTop = log.scrollHeight; }
+  function sugestoes(lista) {
+    var box = el('div', 'sugs');
+    lista.forEach(function (s) { var b = el('button'); b.type = 'button'; b.textContent = s; b.addEventListener('click', function () { perguntar(s); }); box.appendChild(b); });
+    log.appendChild(box); rolar();
+  }
+  function bot(html) { var m = el('div', 'msg bot', html); log.appendChild(m); rolar(); return m; }
+
+  function responder(pergunta) {
+    var n = normalizar(pergunta).trim();
+    if (/^(oi|ola|opa|e ai|eai|bom dia|boa tarde|boa noite|hey|hello|hi)\b[\s!.?]*$/.test(n)) return bot('Olá! Sou o assistente do portfólio do Ayalan. Pergunte sobre ele, o dia a dia de trabalho ou qualquer um dos projetos.');
+    if (/^(obrigad|valeu|vlw|brigad|thanks)/.test(n)) return bot('De nada! Se quiser falar direto com o Ayalan, o e-mail é <b>ayalanlima35@gmail.com</b>.');
+    var r = buscar(pergunta), top = r.res[0];
+    if (!r.toks.length || !top || top.nota < 0.1) {
+      bot('Não encontrei isso no portfólio. Tente perguntar de outro jeito ou escolha uma das sugestões abaixo. Para outros assuntos, fale com o Ayalan pelo e-mail <b>ayalanlima35@gmail.com</b>.');
+      return sugestoes(SUGESTOES.slice(0, 4));
+    }
+    var t = top.t, html;
+    // pergunta ampla: vários itens da mesma seção com nota parecida viram uma lista
+    var grupo = r.res.filter(function (x) { return x.nota >= top.nota * 0.72 && x.t.area === t.area && x.t.secao === t.secao; }).slice(0, 5);
+    if (grupo.length >= 3) {
+      html = '<b>' + esc(t.area === 'Sobre mim' ? t.secao : t.area + ' · ' + t.secao) + '</b><ul class="lista">' + grupo.map(function (x) {
+        var frase = (x.t.texto.match(/^[^.!?]+[.!?]?/) || [x.t.texto])[0];
+        return '<li><b>' + esc(x.t.titulo.replace(/^[^:]+: /, '')) + ':</b> ' + esc(frase) + '</li>';
+      }).join('') + '</ul>';
+    } else {
+      html = '<b>' + esc(t.titulo.replace(/^[^:]+: /, '')) + '</b><br>' + esc(resumir(t.texto, r.toks));
+    }
+    var fontes = [t], vistos = {}; vistos[t.link] = 1;
+    r.res.slice(1, 4).forEach(function (x) { if (x.nota > top.nota * 0.6 && !vistos[x.t.link] && fontes.length < 2) { fontes.push(x.t); vistos[x.t.link] = 1; } });
+    html += '<span class="src">' + fontes.map(function (f, i) {
+      return '<a href="' + f.link + '">' + (i ? 'Veja também: ' : 'Ver em: ') + esc(f.area) + ' · ' + esc(f.secao) + ' →</a>';
+    }).join('') + '</span><span class="why">similaridade ' + top.nota.toFixed(2) + ' · TF-IDF</span>';
+    var m = bot(html);
+    m.querySelectorAll('.src a').forEach(function (a) { a.addEventListener('click', function () { if (window.innerWidth < 700) fechar(); }); });
+  }
+
+  function perguntar(texto) {
+    texto = texto.trim(); if (!texto) return;
+    log.appendChild(el('div', 'msg user', esc(texto))); rolar();
+    var dig = el('div', 'msg bot typing', '<i></i><i></i><i></i>'); log.appendChild(dig); rolar();
+    carregar().then(function () {
+      setTimeout(function () { dig.remove(); responder(texto); }, 450 + Math.random() * 350);
+    }).catch(function () {
+      dig.remove(); bot('Não consegui carregar a base de conhecimento agora. Recarregue a página ou fale com o Ayalan pelo e-mail <b>ayalanlima35@gmail.com</b>.');
+    });
+  }
+
+  var iniciou = false;
+  function abrir() {
+    chat.hidden = false; orb.setAttribute('aria-expanded', 'true'); if (hint) hint.remove();
+    if (!iniciou) {
+      iniciou = true; carregar().catch(function () {});
+      bot('Olá! Sou o assistente do portfólio do <b>Ayalan</b>. Respondo com base no conteúdo deste site: quem ele é, o dia a dia e os projetos.');
+      sugestoes(SUGESTOES);
+    }
+    setTimeout(function () { input.focus(); }, 50);
+  }
+  function fechar() { chat.hidden = true; orb.setAttribute('aria-expanded', 'false'); orb.focus(); }
+  orb.addEventListener('click', function () { chat.hidden ? abrir() : fechar(); });
+  document.getElementById('chat-close').addEventListener('click', fechar);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !chat.hidden) fechar(); });
+  form.addEventListener('submit', function (e) { e.preventDefault(); var v = input.value; input.value = ''; perguntar(v); });
+  if (hint) {
+    hint.querySelector('button').addEventListener('click', function (e) { e.stopPropagation(); hint.remove(); });
+    hint.addEventListener('click', abrir);
+    setTimeout(function () { if (hint.isConnected) hint.remove(); }, 12000);
+  }
 })();
 </script>
 </body>

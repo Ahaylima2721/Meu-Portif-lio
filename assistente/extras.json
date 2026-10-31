@@ -1,0 +1,16 @@
+[
+  {
+    "area": "Assistente",
+    "secao": "Como funciona",
+    "titulo": "Como este assistente funciona",
+    "texto": "Este assistente foi feito por Ayalan com Python e machine learning. Um script lê o conteúdo do portfólio, divide em trechos, vetoriza com TF-IDF (scikit-learn) e gera um índice. No navegador, a sua pergunta vira um vetor e o assistente busca os trechos mais parecidos por similaridade de cosseno. Não há servidor nem chave de API: tudo roda aqui na página.",
+    "link": "#inicio"
+  },
+  {
+    "area": "Assistente",
+    "secao": "Limites",
+    "titulo": "Limites do assistente",
+    "texto": "Este assistente responde só com base no que está neste portfólio: quem é Ayalan, o dia a dia, habilidades, trajetória, ferramentas, contato e os projetos Fluxo, Mapa de Vendas, SuperAgente e Harmony. Para outros assuntos, o melhor é falar direto com Ayalan pelo e-mail ayalanlima35@gmail.com.",
+    "link": "#contato"
+  }
+]

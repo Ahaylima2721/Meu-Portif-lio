@@ -1,4 +1,4 @@
-# Publica o site estático (index.html + img/) no GitHub Pages a cada push na main.
+# A cada push na main: treina o índice do assistente em Python, roda os testes e publica o site no GitHub Pages.
 name: Publicar no GitHub Pages
 
 on:
@@ -23,6 +23,19 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: assistente/requirements.txt
+      - name: Instalar dependências do assistente
+        run: pip install -r assistente/requirements.txt
+      - name: Treinar o índice (TF-IDF)
+        run: python assistente/construir_indice.py
+      - name: Avaliar a qualidade das respostas
+        run: python assistente/avaliar.py
+      - name: Testes
+        run: python -m pytest -q assistente/tests
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

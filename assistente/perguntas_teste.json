@@ -1,0 +1,120 @@
+[
+  {
+    "pergunta": "Quem é você?",
+    "esperado": "#inicio"
+  },
+  {
+    "pergunta": "Qual é o seu email?",
+    "esperado": "#contato"
+  },
+  {
+    "pergunta": "Como posso entrar em contato?",
+    "esperado": "#contato"
+  },
+  {
+    "pergunta": "Você está disponível para uma vaga?",
+    "esperado": "#contato"
+  },
+  {
+    "pergunta": "Onde você trabalha?",
+    "esperado": "#sobre"
+  },
+  {
+    "pergunta": "Qual é o seu cargo atual?",
+    "esperado": "#sobre"
+  },
+  {
+    "pergunta": "O que você faz no dia a dia?",
+    "esperado": "#dia-a-dia"
+  },
+  {
+    "pergunta": "Quais linguagens você sabe?",
+    "esperado": [
+      "#ferramentas",
+      "#habilidades"
+    ]
+  },
+  {
+    "pergunta": "Você sabe Python?",
+    "esperado": [
+      "#habilidades",
+      "#ferramentas"
+    ]
+  },
+  {
+    "pergunta": "Qual a sua experiência?",
+    "esperado": "#trajetoria"
+  },
+  {
+    "pergunta": "Quais projetos você tem?",
+    "esperado": "#projetos"
+  },
+  {
+    "pergunta": "O que é o Fluxo?",
+    "esperado": "#fluxo"
+  },
+  {
+    "pergunta": "Como funciona a segurança do sistema de tarefas?",
+    "esperado": "#fluxo"
+  },
+  {
+    "pergunta": "O cronômetro liga sozinho?",
+    "esperado": "#fluxo"
+  },
+  {
+    "pergunta": "Como é feita a aprovação das tarefas?",
+    "esperado": "#fluxo"
+  },
+  {
+    "pergunta": "O que é o mapa de vendas?",
+    "esperado": "#mapa"
+  },
+  {
+    "pergunta": "Como o mapa lê arquivos Excel e CSV?",
+    "esperado": "#mapa"
+  },
+  {
+    "pergunta": "Quais bugs você resolveu no mapa de calor?",
+    "esperado": "#mapa"
+  },
+  {
+    "pergunta": "Os dados de venda saem do computador?",
+    "esperado": "#mapa"
+  },
+  {
+    "pergunta": "O que é o SuperAgente?",
+    "esperado": "#superagente"
+  },
+  {
+    "pergunta": "Você já trabalhou com inteligência artificial?",
+    "esperado": "#superagente"
+  },
+  {
+    "pergunta": "O que acontece quando o Gemini atinge o limite?",
+    "esperado": "#superagente"
+  },
+  {
+    "pergunta": "O que é o Harmony?",
+    "esperado": "#harmony"
+  },
+  {
+    "pergunta": "Como funciona o gerador de solos?",
+    "esperado": "#harmony"
+  },
+  {
+    "pergunta": "Quantos testes tem o app de violão?",
+    "esperado": "#harmony"
+  },
+  {
+    "pergunta": "O Harmony funciona no Android?",
+    "esperado": "#harmony"
+  },
+  {
+    "pergunta": "Como você usa IA no trabalho?",
+    "esperado": "#principios"
+  },
+  {
+    "pergunta": "Como este robô funciona?",
+    "esperado": "#inicio"
+  }
+]
