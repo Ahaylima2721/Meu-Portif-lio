@@ -1,0 +1,1265 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ayalan Lima</title>
+<meta property="og:title" content="Ayalan Lima · Desenvolvedor &amp; Analista de Dados">
+<meta property="og:description" content="Portfólio com os projetos Fluxo, Mapa de Vendas, SuperAgente e Harmony.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ahaylima2721.github.io/Meu-Portif-lio/">
+<meta property="og:image" content="https://ahaylima2721.github.io/Meu-Portif-lio/img/fluxo-dashboard.webp">
+<meta name="theme-color" content="#0A111D">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230A111D'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='15' font-weight='700' text-anchor='middle' fill='%235CC8FF'%3EAL%3C/text%3E%3C/svg%3E">
+
+<meta name="description" content="Ayalan Lima: desenvolvedor e analista de dados. Ferramentas web, análise de vendas e IA aplicada a dados de operação.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;800&family=Fira+Code:wght@400;500&display=swap">
+<style>
+/* Layout: o site é um editor de código. Barra lateral com os arquivos (= seções), cada seção é um painel com aba, barra de status fixa embaixo. Tema escuro único, de propósito. */
+:root {
+  color-scheme: dark;
+  --bg: #0A111D;
+  --side: #0F1828;
+  --panel: #111C2E;
+  --tab: #182842;
+  --line: #233654;
+  --fg: #E6ECF5;
+  --muted: #98A8C2;
+  --dim: #5A6E8E;
+  --teal: #5CC8FF;
+  --grid: rgba(120, 160, 220, 0.07);
+  --grid-strong: rgba(120, 160, 220, 0.13);
+  --orange: #FF8A3D;
+  --yellow: #FFD166;
+  --pink: #FF6F91;
+  --f-ui: "Outfit", "Segoe UI", system-ui, sans-serif;
+  --f-code: "Fira Code", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --side-w: 240px;
+  --status-h: 26px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 16px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; color: var(--fg);
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(900px 520px at 85% -5%, rgba(92, 200, 255, 0.14), transparent 65%),
+    radial-gradient(700px 480px at 10% 105%, rgba(255, 138, 61, 0.10), transparent 65%),
+    linear-gradient(var(--grid-strong) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-strong) 1px, transparent 1px),
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: auto, auto, 128px 128px, 128px 128px, 32px 32px, 32px 32px;
+  background-attachment: fixed;
+  font-family: var(--f-ui); font-size: 17px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--side); }
+h1, h2, h3 { margin: 0; text-wrap: balance; line-height: 1.08; }
+p { margin: 0; }
+a { color: var(--teal); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; border-radius: 4px; }
+code, .code { font-family: var(--f-code); }
+.k { color: var(--pink); } .v { color: var(--teal); } .s { color: var(--yellow); } .n { color: var(--orange); } .c { color: var(--dim); font-style: italic; } .p { color: var(--muted); }
+
+/* ---------- ícones (Lucide, SVG) ---------- */
+.i { width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; vertical-align: -0.125em; }
+.i-sm { width: 14px; height: 14px; }
+.i-md { width: 18px; height: 18px; }
+.icon-box { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 10px; background: var(--tab); border: 1px solid var(--line); }
+.icon-box.t { color: var(--teal); } .icon-box.o { color: var(--orange); } .icon-box.p { color: var(--pink); } .icon-box.y { color: var(--yellow); }
+
+/* ---------- moldura do editor ---------- */
+.app { display: grid; grid-template-columns: var(--side-w) minmax(0, 1fr); min-height: 100vh; padding-bottom: calc(var(--status-h) + env(safe-area-inset-bottom, 0px)); }
+.side {
+  z-index: 5;
+  position: sticky; top: env(safe-area-inset-top, 0px); align-self: start;
+  height: calc(100vh - var(--status-h) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  background: var(--side); border-right: 1px solid var(--line);
+  padding-left: max(0px, env(safe-area-inset-left, 0px));
+  display: flex; flex-direction: column; overflow-y: auto;
+}
+.side .head { padding: 14px 18px; font-family: var(--f-code); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.tree { list-style: none; margin: 0; padding: 0 0 12px; font-family: var(--f-code); font-size: 0.84rem; }
+.tree .dir { display: flex; align-items: center; gap: 6px; padding: 4px 14px; color: var(--fg); }
+.tree .dir .i { color: var(--yellow); }
+.tree .dir .chev { color: var(--dim); }
+.tree a { display: flex; align-items: center; gap: 8px; padding: 4px 18px 4px 34px; color: var(--muted); text-decoration: none; white-space: nowrap; }
+.tree a:hover { background: var(--tab); color: var(--fg); }
+.tree a.on { background: var(--tab); color: var(--fg); box-shadow: inset 2px 0 0 var(--teal); }
+.ico { width: 1.7em; flex: none; white-space: nowrap; text-align: center; font-size: 0.78rem; font-weight: 500; }
+.ico.ts { color: #4FA8FF; } .ico.py { color: var(--yellow); } .ico.js { color: var(--yellow); } .ico.md { color: var(--muted); } .ico.json { color: var(--orange); } .ico.git { color: var(--pink); }
+.side .who { margin-top: auto; padding: 16px 18px; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 12px; }
+.avatar { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--teal), var(--orange)); color: #061424; font-weight: 800; font-size: 0.95rem; flex: none; }
+.side .who b { display: block; font-size: 0.95rem; }
+.side .who span { font-size: 0.78rem; color: var(--muted); }
+
+.mobile-tabs { display: none; }
+
+main { min-width: 0; padding: 28px clamp(16px, 4vw, 48px) 40px; padding-right: max(clamp(16px, 4vw, 48px), env(safe-area-inset-right, 0px)); display: grid; gap: 34px; }
+
+/* painel = um arquivo aberto */
+.pane { box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.7); background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; min-width: 0; }
+.pane-tab { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--side); border-bottom: 1px solid var(--line); font-family: var(--f-code); font-size: 0.78rem; color: var(--muted); }
+.pane-tab .name { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--panel); color: var(--fg); box-shadow: inset 0 2px 0 var(--orange); border-right: 1px solid var(--line); white-space: nowrap; }
+.pane-tab .meta { padding: 10px 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pane-body { padding: clamp(22px, 3.5vw, 40px); }
+
+/* ---------- sobre.ts (hero) ---------- */
+.hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 48px); align-items: center; }
+.hello { font-family: var(--f-code); font-size: 0.9rem; color: var(--teal); }
+.hero h1 { margin-top: 10px; font-size: clamp(2.8rem, 7.5vw, 5.4rem); font-weight: 800; letter-spacing: -0.03em; line-height: 0.95; }
+.hero h1 span { color: var(--teal); }
+.hero .role { margin-top: 14px; font-size: clamp(1.15rem, 2.2vw, 1.4rem); font-weight: 600; }
+.hero .pitch { margin-top: 12px; color: var(--muted); max-width: 48ch; }
+.codeblock { margin: 22px 0 0; font-family: var(--f-code); font-size: 0.84rem; line-height: 1.75; overflow-x: auto; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.codeblock .ln { display: inline-block; width: 2ch; margin-right: 14px; text-align: right; color: var(--dim); user-select: none; }
+.cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 999px; font: 600 0.95rem var(--f-ui); text-decoration: none; cursor: pointer; border: 1.5px solid var(--teal); background: var(--teal); color: #061424; }
+.btn.ghost { background: transparent; color: var(--fg); border-color: var(--line); }
+.btn.ghost:hover { border-color: var(--teal); }
+.btn:hover { transform: translateY(-1px); }
+@media (prefers-reduced-motion: reduce) { .btn:hover { transform: none; } }
+
+.term { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--side); min-width: 0; }
+.term .bar { display: flex; align-items: center; gap: 8px; padding: 9px 12px; font-family: var(--f-code); font-size: 0.74rem; color: var(--muted); border-bottom: 1px solid var(--line); }
+.dots { display: inline-flex; gap: 5px; margin-right: 6px; }
+.dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--dim); }
+.dots i:nth-child(1) { background: var(--pink); } .dots i:nth-child(2) { background: var(--yellow); } .dots i:nth-child(3) { background: var(--teal); }
+.term .cmd { padding: 10px 14px 0; font-family: var(--f-code); font-size: 0.8rem; color: var(--fg); overflow-x: auto; white-space: nowrap; }
+.term .cmd b { color: var(--teal); font-weight: 500; }
+.term canvas { display: block; width: 100%; aspect-ratio: 4 / 3; max-width: 100%; }
+.term .legend { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 8px 14px 10px; font-family: var(--f-code); font-size: 0.72rem; color: var(--muted); border-top: 1px solid var(--line); }
+.grad { display: inline-flex; align-items: center; gap: 8px; }
+.grad i { width: 70px; height: 7px; border-radius: 4px; background: linear-gradient(90deg, var(--teal), var(--yellow), var(--orange)); }
+
+.facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border-top: 1px solid var(--line); }
+.facts div { background: var(--panel); padding: 18px clamp(16px, 2.5vw, 28px); }
+.facts .i { color: var(--muted); width: 18px; height: 18px; margin-bottom: 6px; }
+.facts b { display: block; font-family: var(--f-code); font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 500; color: var(--orange); font-variant-numeric: tabular-nums; }
+.facts span { font-size: 0.9rem; color: var(--muted); }
+
+/* ---------- README.md ---------- */
+.md h2 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); font-weight: 800; letter-spacing: -0.02em; }
+.md h2::before { content: "# "; color: var(--dim); font-family: var(--f-code); font-weight: 400; }
+.md .lead { margin-top: 12px; color: var(--muted); max-width: 62ch; }
+.skills { margin-top: 28px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.skill { border: 1px solid var(--line); border-radius: 10px; padding: 20px; background: var(--bg); }
+.skill h3 { margin-top: 14px; font-size: 1.2rem; font-weight: 600; }
+.skill h3::before { content: "## "; color: var(--dim); font-family: var(--f-code); font-weight: 400; font-size: 0.9rem; }
+.skill p { margin-top: 8px; color: var(--muted); font-size: 0.97rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; padding: 0; list-style: none; }
+.chip { font-family: var(--f-code); font-size: 0.74rem; padding: 3px 9px; border-radius: 999px; background: var(--tab); color: var(--fg); border: 1px solid var(--line); white-space: nowrap; }
+
+/* ---------- projetos ---------- */
+.sec-title { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.sec-title h2 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); font-weight: 800; letter-spacing: -0.02em; }
+.sec-title p { color: var(--muted); flex-basis: 100%; max-width: 62ch; }
+.sec-title .code { display: inline-flex; align-items: center; gap: 6px; color: var(--dim); font-size: 0.9rem; }
+
+.project { display: grid; grid-template-columns: minmax(0, 1fr) 290px; }
+.p-main { padding: clamp(22px, 3.5vw, 36px); min-width: 0; }
+.p-side { padding: clamp(22px, 3vw, 30px); border-left: 1px solid var(--line); background: var(--bg); display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+.badges { display: flex; gap: 8px; flex-wrap: wrap; }
+.badge { display: inline-flex; align-items: center; gap: 5px; font-family: var(--f-code); font-size: 0.72rem; padding: 3px 9px; border-radius: 6px; border: 1px solid currentColor; }
+.badge.web { color: var(--teal); } .badge.data { color: var(--orange); } .badge.ai { color: var(--pink); } .badge.ok { color: var(--muted); }
+.project h3 { margin-top: 14px; font-size: clamp(1.55rem, 3vw, 2.1rem); font-weight: 800; letter-spacing: -0.015em; }
+.project .lead { margin-top: 10px; font-size: 1.08rem; max-width: 62ch; }
+.case { margin: 24px 0 0; display: grid; gap: 16px; }
+.case > div { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 14px; }
+.case dt { display: flex; align-items: flex-start; gap: 6px; font-family: var(--f-code); font-size: 0.82rem; color: var(--pink); padding-top: 2px; }
+.case dt::after { content: ":"; color: var(--muted); }
+.case dd { margin: 0; color: var(--fg); max-width: 64ch; }
+.nums { display: grid; gap: 12px; }
+.nums div { display: flex; align-items: baseline; gap: 12px; }
+.nums b { font-family: var(--f-code); font-size: 1.45rem; font-weight: 500; color: var(--orange); min-width: 3.6ch; font-variant-numeric: tabular-nums; }
+.nums span { color: var(--muted); font-size: 0.92rem; line-height: 1.3; }
+.p-side .label { font-family: var(--f-code); font-size: 0.72rem; color: var(--dim); margin-bottom: 8px; }
+.links { margin-top: auto; display: grid; gap: 6px; font-size: 0.95rem; }
+.links a, .links .lock { display: inline-flex; align-items: center; gap: 7px; }
+.links .lock { font-family: var(--f-code); font-size: 0.78rem; color: var(--muted); }
+
+/* ---------- demonstração com prints ---------- */
+.demo { border-top: 1px solid var(--line); padding: clamp(20px, 3vw, 32px); background: var(--bg); display: grid; gap: 16px; }
+.demo-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.demo-title { display: inline-flex; align-items: center; gap: 8px; font-family: var(--f-code); font-size: 0.8rem; color: var(--muted); }
+.demo-title .i { color: var(--orange); }
+.demo-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.demo-tabs button { font: 500 0.85rem var(--f-ui); padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); color: var(--muted); cursor: pointer; }
+.demo-tabs button:hover { color: var(--fg); border-color: var(--dim); }
+.demo-tabs button[aria-selected="true"] { background: var(--teal); border-color: var(--teal); color: #061424; font-weight: 600; }
+.browser { margin: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--side); }
+.browser-bar { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+.browser-bar .url { flex: 1; min-width: 0; font-family: var(--f-code); font-size: 0.74rem; color: var(--muted); background: var(--bg); border-radius: 6px; padding: 3px 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.browser img, .browser .demo-img { display: block; width: 100%; height: auto; max-width: 100%; background: #F4F4F2; }
+.browser figcaption { padding: 10px 14px; font-size: 0.95rem; color: var(--fg); border-top: 1px solid var(--line); }
+.demo-note { font-size: 0.85rem; color: var(--muted); }
+
+/* ---------- galeria de celulares (Harmony) ---------- */
+.rail-nav { display: flex; gap: 6px; }
+.rail-btn { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--panel); color: var(--fg); cursor: pointer; }
+.rail-btn:hover { border-color: var(--teal); color: var(--teal); }
+#hr-prev .i { transform: rotate(180deg); }
+.rail { display: grid; grid-auto-flow: column; grid-auto-columns: 220px; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 14px; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+.rail:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; border-radius: 8px; }
+.phone { margin: 0; scroll-snap-align: start; display: grid; gap: 12px; align-content: start; }
+.phone-screen { border-radius: 30px; padding: 7px; background: linear-gradient(160deg, #2A3B57, #121A29); box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.06); }
+.phone-screen img { display: block; width: 100%; height: auto; max-width: 100%; aspect-ratio: 600 / 1298; border-radius: 24px; background: #15120F; }
+.phone figcaption { display: grid; gap: 2px; padding: 0 4px; }
+.phone figcaption b { font-weight: 600; font-size: 1rem; }
+.phone figcaption span { font-size: 0.88rem; color: var(--muted); line-height: 1.4; }
+@media (max-width: 560px) { .rail { grid-auto-columns: 72%; } }
+
+/* ---------- git log ---------- */
+.log { list-style: none; margin: 22px 0 0; padding: 0; font-family: var(--f-code); font-size: 0.86rem; }
+.log li { display: grid; grid-template-columns: 22px 78px 100px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-top: 1px dashed var(--line); align-items: start; }
+.log li:first-child { border-top: 0; }
+.log .dot { color: var(--teal); margin-top: 2px; display: inline-flex; }
+.log li:first-child .dot { color: var(--orange); }
+.log .hash { color: var(--yellow); }
+.log time { color: var(--muted); }
+.log .msg { font-family: var(--f-ui); font-size: 1rem; }
+.log .msg b { font-weight: 600; }
+.log .msg span { display: block; color: var(--muted); font-size: 0.94rem; margin-top: 2px; }
+.log .head-ref { font-family: var(--f-code); font-size: 0.72rem; color: var(--teal); border: 1px solid var(--teal); border-radius: 999px; padding: 0 7px; margin-left: 6px; }
+
+/* ---------- package.json ---------- */
+.json-block { margin: 22px 0 0; font-family: var(--f-code); font-size: 0.88rem; line-height: 1.85; overflow-x: auto; }
+.json-block .ind { padding-left: 2ch; } .json-block .ind2 { padding-left: 4ch; }
+
+/* ---------- contato.md ---------- */
+.contact { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 32px; align-items: end; }
+.contact h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 800; letter-spacing: -0.025em; }
+.contact h2 span { color: var(--orange); }
+.contact p { margin-top: 12px; color: var(--muted); max-width: 50ch; }
+.rows { display: grid; gap: 12px; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+.row > div { min-width: 0; }
+.row .k-lbl { display: inline-flex; align-items: center; gap: 6px; font-family: var(--f-code); font-size: 0.72rem; color: var(--pink); }
+.row .val { font-family: var(--f-code); font-size: 0.92rem; overflow-wrap: anywhere; user-select: all; }
+.mini { display: inline-flex; align-items: center; gap: 6px; flex: none; font: 600 0.85rem var(--f-ui); padding: 7px 14px; border-radius: 999px; border: 1.5px solid var(--teal); background: transparent; color: var(--teal); cursor: pointer; text-decoration: none; }
+.mini:hover { background: var(--teal); color: #061424; }
+
+/* ---------- barra de status ---------- */
+.status {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  display: flex; justify-content: space-between; gap: 12px;
+  background: var(--teal); color: #061424; font-family: var(--f-code); font-size: 0.74rem;
+  padding: 4px max(14px, env(safe-area-inset-right, 0px)) calc(4px + env(safe-area-inset-bottom, 0px)) max(14px, env(safe-area-inset-left, 0px));
+  min-height: var(--status-h);
+}
+.status span { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---------- responsivo ---------- */
+@media (max-width: 1100px) {
+  .project { grid-template-columns: minmax(0, 1fr); }
+  .p-side { border-left: 0; border-top: 1px solid var(--line); }
+  .nums { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .nums div { flex-direction: column; gap: 2px; }
+}
+@media (max-width: 900px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .side { display: none; }
+  .mobile-tabs {
+    display: flex; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 15;
+    background: var(--side); border-bottom: 1px solid var(--line); overflow-x: auto;
+    padding-left: max(8px, env(safe-area-inset-left, 0px)); padding-right: max(8px, env(safe-area-inset-right, 0px));
+    font-family: var(--f-code); font-size: 0.78rem; scrollbar-width: none;
+  }
+  .mobile-tabs a { padding: 11px 12px; color: var(--muted); text-decoration: none; white-space: nowrap; }
+  .mobile-tabs a.on { color: var(--fg); box-shadow: inset 0 -2px 0 var(--orange); }
+  html { scroll-padding-top: 56px; }
+  main { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-top: 20px; }
+  .hero, .contact { grid-template-columns: minmax(0, 1fr); }
+  .skills { grid-template-columns: minmax(0, 1fr); }
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .case > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .nums { grid-template-columns: minmax(0, 1fr); }
+  .nums div { flex-direction: row; gap: 12px; }
+  .log li { grid-template-columns: 18px minmax(0, 1fr); gap: 4px 10px; }
+  .log .hash, .log time { grid-column: 2; }
+  .log .hash { grid-row: 1; } .log time { grid-row: 2; }
+  .log .dot { grid-row: 1 / span 3; }
+  .log .msg { grid-column: 2; }
+  .pane-tab .meta { display: none; }
+  .status .opt { display: none; }
+}
+
+/* ---------- áreas (sobre mim, projetos, cada projeto) ---------- */
+.view { display: grid; gap: 34px; min-width: 0; }
+.view[hidden] { display: none; }
+.tree .dir-link { display: inline; padding: 0; color: inherit; background: none; box-shadow: none; }
+.tree .dir-link:hover { background: none; color: var(--teal); }
+.tree .dir-link.on { background: none; box-shadow: none; color: var(--teal); }
+
+/* ---------- dia-a-dia.md ---------- */
+.about { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 44px); align-items: start; }
+.about-text { display: grid; gap: 14px; }
+.about-text p { color: var(--fg); max-width: 64ch; font-size: 1.05rem; }
+.about-text p + p { color: var(--muted); }
+.role-card { border: 1px solid var(--line); border-radius: 12px; background: var(--bg); padding: 22px; display: grid; gap: 12px; }
+.rc-label { display: inline-flex; align-items: center; gap: 8px; font-family: var(--f-code); font-size: 0.75rem; color: var(--orange); }
+.rc-role { font-size: 1.25rem; font-weight: 700; line-height: 1.25; }
+.role-card dl { margin: 6px 0 0; display: grid; gap: 10px; }
+.role-card dl div { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
+.role-card dt { font-family: var(--f-code); font-size: 0.78rem; color: var(--pink); }
+.role-card dd { margin: 0; font-size: 0.95rem; }
+.sub-h { margin-top: 40px; font-size: 1.35rem; font-weight: 700; }
+.sub-h::before { content: "## "; color: var(--dim); font-family: var(--f-code); font-weight: 400; font-size: 0.95rem; }
+.day { margin-top: 16px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.day-card { border: 1px solid var(--line); border-radius: 10px; background: var(--bg); padding: 18px; display: grid; gap: 8px; align-content: start; }
+.day-card h4 { margin: 6px 0 0; font-size: 1.05rem; font-weight: 600; }
+.day-card p { color: var(--muted); font-size: 0.93rem; line-height: 1.5; }
+.principles { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.principles li { display: flex; gap: 14px; align-items: flex-start; padding: 16px 18px; border: 1px solid var(--line); border-radius: 10px; }
+.principles li > .i { color: var(--teal); margin-top: 3px; }
+.principles li div { display: grid; gap: 2px; min-width: 0; }
+.principles b { font-weight: 600; }
+.principles span { color: var(--muted); font-size: 0.93rem; }
+
+/* ---------- projetos/ (visão geral) ---------- */
+.cards { margin-top: 26px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.pcard { display: grid; grid-template-rows: auto 1fr; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--bg); color: var(--fg); text-decoration: none; transition: border-color .15s, transform .15s; }
+.pcard:hover { border-color: var(--teal); transform: translateY(-2px); }
+@media (prefers-reduced-motion: reduce) { .pcard, .pcard:hover { transition: none; transform: none; } }
+.pthumb { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--side); border-bottom: 1px solid var(--line); }
+.pthumb img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top left; max-width: 100%; }
+.pthumb-phones { display: flex; justify-content: center; align-items: flex-start; gap: 12px; padding: 18px 18px 0; background: linear-gradient(160deg, #1B2740, #0F1828); }
+.pthumb-phones img { width: 27%; height: auto; border-radius: 14px 14px 0 0; object-fit: cover; box-shadow: 0 10px 30px -12px rgba(0, 0, 0, .8); }
+.pthumb-term { display: flex; align-items: center; padding: 22px; }
+.pthumb-term code { font-family: var(--f-code); font-size: 0.82rem; line-height: 1.8; color: var(--fg); }
+.pthumb-term b { color: var(--teal); font-weight: 500; }
+.pthumb-term i { color: var(--muted); font-style: normal; }
+.pinfo { display: grid; gap: 10px; padding: 20px; align-content: start; }
+.pinfo > b { font-size: 1.45rem; font-weight: 800; letter-spacing: -0.01em; }
+.pdesc { color: var(--muted); font-size: 0.97rem; }
+.pfoot { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 6px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.pfoot .code { font-family: var(--f-code); font-size: 0.78rem; color: var(--dim); }
+.open { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--teal); font-size: 0.92rem; }
+
+/* ---------- página de projeto ---------- */
+.back { display: inline-flex; align-items: center; gap: 6px; font-family: var(--f-code); font-size: 0.82rem; color: var(--muted); text-decoration: none; margin-bottom: 18px; }
+.back:hover { color: var(--teal); }
+.ptitle { margin-top: 14px; font-size: clamp(2.6rem, 6vw, 4.2rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+.plead { margin-top: 14px; font-size: 1.15rem; max-width: 66ch; color: var(--fg); }
+.plinks { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px; }
+.plinks a { display: inline-flex; align-items: center; gap: 7px; font-weight: 600; }
+.metrics { margin-top: 28px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.metrics div { background: var(--bg); padding: 16px 18px; display: grid; gap: 4px; }
+.metrics b { font-family: var(--f-code); font-weight: 500; font-size: clamp(1.35rem, 2.4vw, 1.75rem); color: var(--orange); font-variant-numeric: tabular-nums; }
+.metrics span { color: var(--muted); font-size: 0.88rem; line-height: 1.35; }
+.pdeep { border-top: 1px solid var(--line); display: grid; gap: 40px; }
+.block { display: grid; gap: 14px; }
+.block > p { max-width: 70ch; }
+.blabel { font-family: var(--f-code); font-size: 0.85rem; color: var(--teal); }
+.feat { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; max-width: 78ch; }
+.feat li { position: relative; padding-left: 22px; color: var(--muted); }
+.feat li::before { content: ""; position: absolute; left: 2px; top: 0.62em; width: 8px; height: 8px; border-radius: 2px; background: var(--orange); }
+.feat b { color: var(--fg); font-weight: 600; }
+.flow { list-style: none; margin: 4px 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; counter-reset: f; }
+.flow-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.flow li { position: relative; display: grid; gap: 4px; align-content: start; padding: 16px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); counter-increment: f; }
+.flow li::after { content: counter(f, decimal-leading-zero); position: absolute; top: 12px; right: 12px; font-family: var(--f-code); font-size: 0.72rem; color: var(--dim); }
+.flow .step { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 9px; background: var(--tab); color: var(--teal); margin-bottom: 6px; }
+.flow b { font-weight: 600; font-size: 0.98rem; }
+.flow li > span:last-child { color: var(--muted); font-size: 0.86rem; line-height: 1.4; }
+.arch { margin-top: 6px; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; align-items: stretch; }
+.arch > div:not(.arch-arrow) { border: 1px dashed var(--line); border-radius: 10px; padding: 14px 16px; }
+.arch-h { font-family: var(--f-code); font-size: 0.75rem; color: var(--pink); margin-bottom: 4px; }
+.arch p:not(.arch-h) { font-size: 0.92rem; color: var(--fg); }
+.arch-arrow { display: grid; place-items: center; color: var(--dim); }
+.decisions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.decisions > div { border-left: 2px solid var(--teal); padding: 4px 0 4px 16px; display: grid; gap: 4px; }
+.decisions b { font-weight: 600; }
+.decisions p { color: var(--muted); font-size: 0.95rem; }
+.decisions code, .challenges code { font-family: var(--f-code); font-size: 0.85em; color: var(--yellow); }
+.challenges { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.challenges > div { border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; background: var(--bg); display: grid; gap: 6px; }
+.ch-q { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: var(--fg); }
+.ch-q .i { color: var(--orange); }
+.challenges p:not(.ch-q) { color: var(--muted); font-size: 0.94rem; }
+.next { margin: 0; padding-left: 20px; display: grid; gap: 6px; color: var(--muted); max-width: 72ch; }
+.next li::marker { color: var(--teal); }
+.stackline { display: flex; flex-wrap: wrap; gap: 6px; }
+.pnav { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-top: 22px; border-top: 1px solid var(--line); }
+.pnav a { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; text-decoration: none; padding: 10px 16px; border: 1px solid var(--line); border-radius: 999px; color: var(--fg); }
+.pnav a:hover { border-color: var(--teal); color: var(--teal); }
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+.cmp { width: 100%; border-collapse: collapse; font-size: 0.95rem; min-width: 460px; }
+.cmp th, .cmp td { padding: 11px 16px; text-align: left; border-bottom: 1px solid var(--line); }
+.cmp th { font-family: var(--f-code); font-size: 0.75rem; font-weight: 500; color: var(--muted); background: var(--bg); }
+.cmp td:nth-child(n+2) { font-family: var(--f-code); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cmp td:nth-child(2) { color: var(--muted); }
+.cmp td.good { color: var(--teal); }
+.cmp tr:last-child td { border-bottom: 0; }
+.term-demo .term-out { margin: 0; padding: 16px 18px; font-family: var(--f-code); font-size: 0.82rem; line-height: 1.7; color: var(--fg); overflow-x: auto; }
+.term-out b { color: var(--teal); font-weight: 500; }
+
+@media (max-width: 1100px) {
+  .day { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .flow, .flow-6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .about { grid-template-columns: minmax(0, 1fr); }
+  .cards, .decisions, .challenges, .principles { grid-template-columns: minmax(0, 1fr); }
+  .arch { grid-template-columns: minmax(0, 1fr); }
+  .arch-arrow { transform: rotate(90deg); }
+}
+@media (max-width: 560px) {
+  .day, .flow, .flow-6 { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+<style>html{-webkit-text-size-adjust:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="ic-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></symbol><symbol id="ic-bot" viewBox="0 0 24 24"><path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" /></symbol><symbol id="ic-chart-column" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></symbol><symbol id="ic-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol><symbol id="ic-circle-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><line x1="12" x2="12" y1="8" y2="12" /><line x1="12" x2="12.01" y1="16" y2="16" /></symbol><symbol id="ic-circle-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></symbol><symbol id="ic-code-xml" viewBox="0 0 24 24"><path d="m18 16 4-4-4-4" /><path d="m6 8-4 4 4 4" /><path d="m14.5 4-5 16" /></symbol><symbol id="ic-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></symbol><symbol id="ic-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M3 5V19A9 3 0 0 0 21 19V5" /><path d="M3 12A9 3 0 0 0 21 12" /></symbol><symbol id="ic-external-link" viewBox="0 0 24 24"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></symbol><symbol id="ic-file-code" viewBox="0 0 24 24"><path d="M10 12.5 8 15l2 2.5" /><path d="m14 12.5 2 2.5-2 2.5" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" /></symbol><symbol id="ic-files" viewBox="0 0 24 24"><path d="M20 7h-3a2 2 0 0 1-2-2V2" /><path d="M9 18a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h7l4 4v10a2 2 0 0 1-2 2Z" /><path d="M3 7.6v12.8A1.6 1.6 0 0 0 4.6 22h9.8" /></symbol><symbol id="ic-flask-conical" viewBox="0 0 24 24"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /><path d="M6.453 15h11.094" /><path d="M8.5 2h7" /></symbol><symbol id="ic-folder-code" viewBox="0 0 24 24"><path d="M10 10.5 8 13l2 2.5" /><path d="m14 10.5 2 2.5-2 2.5" /><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2z" /></symbol><symbol id="ic-folder-git-2" viewBox="0 0 24 24"><path d="M9 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v5" /><circle cx="13" cy="12" r="2" /><path d="M18 19c-2.8 0-5-2.2-5-5v8" /><circle cx="20" cy="19" r="2" /></symbol><symbol id="ic-folder-open" viewBox="0 0 24 24"><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2" /></symbol><symbol id="ic-git-branch" viewBox="0 0 24 24"><line x1="6" x2="6" y1="3" y2="15" /><circle cx="18" cy="6" r="3" /><circle cx="6" cy="18" r="3" /><path d="M18 9a9 9 0 0 1-9 9" /></symbol><symbol id="ic-git-commit-horizontal" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" /><line x1="3" x2="9" y1="12" y2="12" /><line x1="15" x2="21" y1="12" y2="12" /></symbol><symbol id="ic-git-fork" viewBox="0 0 24 24"><circle cx="12" cy="18" r="3" /><circle cx="6" cy="6" r="3" /><circle cx="18" cy="6" r="3" /><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9" /><path d="M12 12v3" /></symbol><symbol id="ic-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" /></symbol><symbol id="ic-guitar" viewBox="0 0 24 24"><path d="m11.9 12.1 4.514-4.514" /><path d="M20.1 2.3a1 1 0 0 0-1.4 0l-1.114 1.114A2 2 0 0 0 17 4.828v1.344a2 2 0 0 1-.586 1.414A2 2 0 0 1 17.828 7h1.344a2 2 0 0 0 1.414-.586L21.7 5.3a1 1 0 0 0 0-1.4z" /><path d="m6 16 2 2" /><path d="M8.2 9.9C8.7 8.8 9.8 8 11 8c2.8 0 5 2.2 5 5 0 1.2-.8 2.3-1.9 2.8l-.9.4A2 2 0 0 0 12 18a4 4 0 0 1-4 4c-3.3 0-6-2.7-6-6a4 4 0 0 1 4-4 2 2 0 0 0 1.8-1.2z" /><circle cx="11.5" cy="12.5" r=".5" fill="currentColor" /></symbol><symbol id="ic-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></symbol><symbol id="ic-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></symbol><symbol id="ic-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></symbol><symbol id="ic-presentation" viewBox="0 0 24 24"><path d="M2 3h20" /><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" /><path d="m7 21 5-5 5 5" /></symbol><symbol id="ic-smartphone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></symbol><symbol id="ic-star" viewBox="0 0 24 24"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></symbol><symbol id="ic-table-2" viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18" /></symbol><symbol id="ic-terminal" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5" /><line x1="12" x2="20" y1="19" y2="19" /></symbol><symbol id="ic-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></symbol><symbol id="ic-braces" viewBox="0 0 24 24"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1" /><path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1" /></symbol><symbol id="ic-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7" /><path d="M19 12H5" /></symbol><symbol id="ic-book-open" viewBox="0 0 24 24"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></symbol><symbol id="ic-briefcase-business" viewBox="0 0 24 24"><path d="M12 12h.01" /><path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" /><path d="M22 13a18.15 18.15 0 0 1-20 0" /><rect width="20" height="14" x="2" y="6" rx="2" /></symbol><symbol id="ic-compass" viewBox="0 0 24 24"><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" /><circle cx="12" cy="12" r="10" /></symbol><symbol id="ic-file-spreadsheet" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M8 13h2" /><path d="M14 13h2" /><path d="M8 17h2" /><path d="M14 17h2" /></symbol><symbol id="ic-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4" /><path d="M3.34 19a10 10 0 1 1 17.32 0" /></symbol><symbol id="ic-lightbulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /><path d="M9 18h6" /><path d="M10 22h4" /></symbol><symbol id="ic-list-checks" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4" /><path d="m3 7 2 2 4-4" /><path d="M13 6h8" /><path d="M13 12h8" /><path d="M13 18h8" /></symbol><symbol id="ic-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></symbol><symbol id="ic-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></symbol><symbol id="ic-shield-check" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /><path d="m9 12 2 2 4-4" /></symbol><symbol id="ic-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></symbol><symbol id="ic-user-round" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5" /><path d="M20 21a8 8 0 0 0-16 0" /></symbol><symbol id="ic-workflow" viewBox="0 0 24 24"><rect width="8" height="8" x="3" y="3" rx="2" /><path d="M7 11v4a2 2 0 0 0 2 2h4" /><rect width="8" height="8" x="13" y="13" rx="2" /></symbol><symbol id="ic-zap" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></symbol></svg>
+<div class="app">
+  <aside class="side" aria-label="Arquivos do portfólio">
+    <p class="head" style="display:flex;align-items:center;gap:8px"><svg class="i i-sm" aria-hidden="true"><use href="#ic-files"/></svg>Explorador</p>
+    <ul class="tree">
+      <li class="dir"><svg class="i i-sm chev" aria-hidden="true"><use href="#ic-chevron-down"/></svg><svg class="i i-sm" aria-hidden="true"><use href="#ic-folder-open"/></svg>sobre-mim</li>
+      <li><a href="#sobre" data-nav><span class="ico ts">TS</span>sobre.ts</a></li>
+      <li><a href="#dia-a-dia" data-nav><span class="ico md">M↓</span>dia-a-dia.md</a></li>
+      <li><a href="#readme" data-nav><span class="ico md">M↓</span>README.md</a></li>
+      <li><a href="#trajetoria" data-nav><span class="ico git"><svg class="i i-sm" aria-hidden="true"><use href="#ic-git-branch"/></svg></span>git log</a></li>
+      <li><a href="#stack" data-nav><span class="ico json"><svg class="i i-sm" aria-hidden="true"><use href="#ic-braces"/></svg></span>package.json</a></li>
+      <li><a href="#contato" data-nav><span class="ico md">M↓</span>contato.md</a></li>
+      <li class="dir"><svg class="i i-sm chev" aria-hidden="true"><use href="#ic-chevron-down"/></svg><svg class="i i-sm" aria-hidden="true"><use href="#ic-folder-code"/></svg><a class="dir-link" href="#projetos" data-nav>projetos</a></li>
+      <li><a href="#fluxo" data-nav><span class="ico ts">TS</span>fluxo.tsx</a></li>
+      <li><a href="#mapa" data-nav><span class="ico js">JS</span>mapa_vendas.js</a></li>
+      <li><a href="#superagente" data-nav><span class="ico py">PY</span>superagente.py</a></li>
+      <li><a href="#harmony" data-nav><span class="ico ts">TS</span>harmony.tsx</a></li>
+    </ul>
+    <div class="who">
+      <span class="avatar" aria-hidden="true">AL</span>
+      <div><b>Ayalan Lima</b><span>Dev &amp; Analista de Dados</span></div>
+    </div>
+  </aside>
+
+  <div style="min-width:0">
+    <nav class="mobile-tabs" aria-label="Seções">
+      <a href="#sobre" data-nav>sobre-mim</a>
+      <a href="#projetos" data-nav>projetos/</a>
+      <a href="#fluxo" data-nav>fluxo</a>
+      <a href="#mapa" data-nav>mapa</a>
+      <a href="#superagente" data-nav>superagente</a>
+      <a href="#harmony" data-nav>harmony</a>
+      <a href="#contato" data-nav>contato</a>
+    </nav>
+
+    <main>
+<!-- =========================================================== SOBRE MIM -->
+      <div class="view" id="v-sobre" data-view="sobre">
+        <section id="sobre" class="pane" aria-labelledby="nome">
+          <div class="pane-tab"><span class="name"><span class="ico ts">TS</span>sobre.ts</span><span class="meta">sobre-mim / sobre.ts</span></div>
+          <div class="pane-body">
+            <div class="hero">
+              <div>
+                <p class="hello">// olá, mundo. eu sou</p>
+                <h1 id="nome">Ayalan <span>Lima</span></h1>
+                <p class="role">Desenvolvedor &amp; Analista de Dados</p>
+                <p class="pitch">Transformo planilhas e processos manuais em ferramentas que a equipe usa todos os dias: mapas de vendas, sistemas de gestão de tarefas e assistentes de IA que respondem perguntas sobre as bases da empresa.</p>
+<pre class="codeblock"><span class="ln">1</span><span class="k">const</span> <span class="v">ayalan</span> = {
+<span class="ln">2</span>  foco: [<span class="s">"dados"</span>, <span class="s">"web"</span>, <span class="s">"IA aplicada"</span>],
+<span class="ln">3</span>  stack: [<span class="s">"React"</span>, <span class="s">"TypeScript"</span>, <span class="s">"Python"</span>, <span class="s">"SQL"</span>],
+<span class="ln">4</span>  projetos: <span class="n">6</span>,
+<span class="ln">5</span>  disponivel: <span class="k">true</span>,
+<span class="ln">6</span>};</pre>
+                <div class="cta">
+                  <a class="btn" href="#projetos">Ver projetos <svg class="i" aria-hidden="true"><use href="#ic-arrow-right"/></svg></a>
+                  <a class="btn ghost" href="https://github.com/Ahaylima2721" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#ic-github"/></svg>GitHub</a>
+                  <a class="btn ghost" href="#contato"><svg class="i" aria-hidden="true"><use href="#ic-mail"/></svg>Contato</a>
+                </div>
+              </div>
+              <figure class="term" style="margin:0">
+                <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><svg class="i i-sm" aria-hidden="true"><use href="#ic-terminal"/></svg>terminal · mapa_vendas</div>
+                <p class="cmd"><b>~/projetos $</b> node mapa_vendas.js --uf RS --modo vendas</p>
+                <canvas id="heat" aria-label="Mapa de calor ilustrativo de vendas por cidade no Rio Grande do Sul"></canvas>
+                <figcaption class="legend"><span>intensidade ilustrativa por cidade</span><span class="grad">baixo <i></i> alto</span></figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="facts">
+            <div><svg class="i" aria-hidden="true"><use href="#ic-folder-git-2"/></svg><b>6</b><span>projetos em 12 meses</span></div>
+            <div><svg class="i" aria-hidden="true"><use href="#ic-table-2"/></svg><b>14.090</b><span>linhas de vendas mapeadas</span></div>
+            <div><svg class="i" aria-hidden="true"><use href="#ic-database"/></svg><b>19</b><span>migrations de banco no Fluxo</span></div>
+            <div><svg class="i" aria-hidden="true"><use href="#ic-flask-conical"/></svg><b>354</b><span>testes automatizados no Harmony</span></div>
+          </div>
+        </section>
+
+        <section id="dia-a-dia" class="pane md" aria-labelledby="dia-h">
+          <div class="pane-tab"><span class="name"><span class="ico md">M↓</span>dia-a-dia.md</span><span class="meta">quem sou e o que faço</span></div>
+          <div class="pane-body">
+            <div class="about">
+              <div class="about-text">
+                <h2 id="dia-h">Quem sou</h2>
+                <p>Trabalho no setor de peças de uma concessionária de máquinas agrícolas no Rio Grande do Sul. Meu dia passa por dados de vendas, compras e pela rotina de uma equipe que precisa saber o que fazer, até quando e com qual arquivo.</p>
+                <p>Comecei a programar para resolver problemas que eu mesmo enfrentava nesse trabalho. Uma planilha que ninguém conseguia ler virou um mapa de calor. Tarefas soltas no e-mail viraram um sistema com cronômetro e aprovação. Hoje meu papel fica no meio do caminho entre a análise e o desenvolvimento: entendo o dado e o problema do negócio, e construo a ferramenta que coloca a resposta na mão de quem decide.</p>
+                <p>Fora do trabalho, a música é o meu outro laboratório. O Harmony nasceu do meu próprio estudo de violão.</p>
+              </div>
+              <aside class="role-card" aria-label="Resumo da função">
+                <p class="rc-label"><svg class="i i-sm" aria-hidden="true"><use href="#ic-briefcase-business"/></svg>função atual</p>
+                <p class="rc-role">Analista de dados e desenvolvedor de ferramentas internas</p>
+                <dl>
+                  <div><dt>setor</dt><dd>Peças · máquinas agrícolas</dd></div>
+                  <div><dt>região</dt><dd>Rio Grande do Sul</dd></div>
+                  <div><dt>dados</dt><dd>Vendas, margem, clientes, compras</dd></div>
+                  <div><dt>entrega</dt><dd>Análises, mapas e sistemas web</dd></div>
+                </dl>
+              </aside>
+            </div>
+
+            <h3 class="sub-h">Meu dia a dia</h3>
+            <div class="day">
+              <article class="day-card">
+                <span class="icon-box o"><svg class="i i-md" aria-hidden="true"><use href="#ic-file-spreadsheet"/></svg></span>
+                <h4>Tratar os dados</h4>
+                <p>Exporto relatórios do sistema de vendas, limpo os arquivos (codificação, números no padrão brasileiro, linhas de total) e cruzo vendas, margem, cliente, cidade e filial.</p>
+              </article>
+              <article class="day-card">
+                <span class="icon-box y"><svg class="i i-md" aria-hidden="true"><use href="#ic-presentation"/></svg></span>
+                <h4>Mostrar o que o dado diz</h4>
+                <p>Transformo a análise em algo que se lê em segundos numa reunião: onde vendemos mais, onde a margem é melhor, quais clientes e peças puxam cada cidade.</p>
+              </article>
+              <article class="day-card">
+                <span class="icon-box t"><svg class="i i-md" aria-hidden="true"><use href="#ic-list-checks"/></svg></span>
+                <h4>Organizar a equipe</h4>
+                <p>Distribuo e acompanho as tarefas e as compras programadas da equipe, confiro os arquivos de retorno e aprovo ou devolvo cada entrega.</p>
+              </article>
+              <article class="day-card">
+                <span class="icon-box p"><svg class="i i-md" aria-hidden="true"><use href="#ic-zap"/></svg></span>
+                <h4>Automatizar o que se repete</h4>
+                <p>Quando um trabalho manual aparece toda semana, ele vira ferramenta: um app, um script ou um assistente de IA que responde perguntas sobre as planilhas.</p>
+              </article>
+            </div>
+
+            <h3 class="sub-h">Como eu trabalho</h3>
+            <ul class="principles">
+              <li><svg class="i i-md" aria-hidden="true"><use href="#ic-target"/></svg><div><b>Começo pelo problema real.</b><span>Todo projeto daqui nasceu de uma dor concreta do trabalho, não de um tutorial.</span></div></li>
+              <li><svg class="i i-md" aria-hidden="true"><use href="#ic-shield-check"/></svg><div><b>Segurança desde o primeiro dia.</b><span>Regras de acesso no banco de dados, não só na tela. Dados sensíveis ficam fora do código.</span></div></li>
+              <li><svg class="i i-md" aria-hidden="true"><use href="#ic-book-open"/></svg><div><b>Documento o porquê.</b><span>READMEs com arquitetura, decisões, bugs encontrados e próximos passos.</span></div></li>
+              <li><svg class="i i-md" aria-hidden="true"><use href="#ic-bot"/></svg><div><b>Uso IA como ferramenta de trabalho.</b><span>Claude Code e Lovable aceleram a escrita do código. As decisões, os testes e a revisão continuam comigo.</span></div></li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="readme" class="pane md" aria-labelledby="readme-h">
+          <div class="pane-tab"><span class="name"><span class="ico md">M↓</span>README.md</span><span class="meta">habilidades</span></div>
+          <div class="pane-body">
+            <h2 id="readme-h">Do dado bruto à ferramenta pronta</h2>
+            <p class="lead">Três frentes que se completam no mesmo trabalho.</p>
+            <div class="skills">
+              <div class="skill">
+                <span class="icon-box o"><svg class="i i-md" aria-hidden="true"><use href="#ic-chart-column"/></svg></span>
+                <h3>Dados</h3>
+                <p>Leitura e limpeza de CSV e Excel de sistemas legados, números e datas no padrão brasileiro, agregações e mapas de calor geográficos.</p>
+                <ul class="chips"><li class="chip">Python</li><li class="chip">pandas</li><li class="chip">Excel</li><li class="chip">SQL</li><li class="chip">Leaflet</li></ul>
+              </div>
+              <div class="skill">
+                <span class="icon-box t"><svg class="i i-md" aria-hidden="true"><use href="#ic-code-xml"/></svg></span>
+                <h3>Web</h3>
+                <p>Aplicações em React e TypeScript com Supabase: login, Postgres com RLS, arquivos, tempo real, dashboards, testes e deploy com CI.</p>
+                <ul class="chips"><li class="chip">React</li><li class="chip">TypeScript</li><li class="chip">Supabase</li><li class="chip">Tailwind</li><li class="chip">Vitest</li></ul>
+              </div>
+              <div class="skill">
+                <span class="icon-box p"><svg class="i i-md" aria-hidden="true"><use href="#ic-bot"/></svg></span>
+                <h3>IA aplicada</h3>
+                <p>Pipelines de RAG que indexam planilhas e respondem perguntas em português com Gemini, com troca automática para Groq.</p>
+                <ul class="chips"><li class="chip">RAG</li><li class="chip">scikit-learn</li><li class="chip">Gemini</li><li class="chip">Groq</li></ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="trajetoria" class="pane" aria-labelledby="log-h">
+          <div class="pane-tab"><span class="name"><span class="ico git"><svg class="i i-sm" aria-hidden="true"><use href="#ic-git-branch"/></svg></span>git log</span><span class="meta">último commit de cada projeto</span></div>
+          <div class="pane-body">
+            <div class="sec-title"><h2 id="log-h">Um ano de evolução</h2><p>Do primeiro protótipo a sistemas com banco de dados, segurança e testes. Hashes e datas são do último commit de cada repositório.</p></div>
+            <ol class="log" reversed>
+              <li><span class="dot"><svg class="i i-md" aria-hidden="true"><use href="#ic-git-commit-horizontal"/></svg></span><span class="hash">8c959fc</span><time datetime="2026-10-24">24 out 2026</time><p class="msg"><b>Harmony</b><span class="head-ref">HEAD</span><span>Motor de solos reescrito, 354 testes e versão Android.</span></p></li>
+              <li><span class="dot"><svg class="i i-md" aria-hidden="true"><use href="#ic-git-commit-horizontal"/></svg></span><span class="hash">00534bb</span><time datetime="2026-10-20">20 out 2026</time><p class="msg"><b>Fluxo</b><span>O TaskFlow vira o Fluxo: envio em lote, aprovações, calendário de compras, RLS por coluna e CI.</span></p></li>
+              <li><span class="dot"><svg class="i i-md" aria-hidden="true"><use href="#ic-git-commit-horizontal"/></svg></span><span class="hash">8364814</span><time datetime="2026-08-08">08 ago 2026</time><p class="msg"><b>TaskFlow</b><span>Primeira versão do sistema de tarefas: login, cronômetro e dashboard com Supabase.</span></p></li>
+              <li><span class="dot"><svg class="i i-md" aria-hidden="true"><use href="#ic-git-commit-horizontal"/></svg></span><span class="hash">9a66741</span><time datetime="2026-07-16">16 jul 2026</time><p class="msg"><b>SuperAgente</b><span>Primeiro projeto de IA aplicada: RAG sobre planilhas com Python, Gemini e Groq.</span></p></li>
+              <li><span class="dot"><svg class="i i-md" aria-hidden="true"><use href="#ic-git-commit-horizontal"/></svg></span><span class="hash">ab08e71</span><time datetime="2026-02-27">27 fev 2026</time><p class="msg"><b>Mapa de Vendas</b><span>Primeira ferramenta de dados usada no trabalho, com documentação técnica completa.</span></p></li>
+              <li><span class="dot"><svg class="i i-md" aria-hidden="true"><use href="#ic-git-commit-horizontal"/></svg></span><span class="hash">041cce5</span><time datetime="2025-11-23">23 nov 2025</time><p class="msg"><b>Guitar Harmony Viz</b><span>Primeiro protótipo em React. Virou a base do Harmony.</span></p></li>
+            </ol>
+          </div>
+        </section>
+
+        <section id="stack" class="pane" aria-labelledby="stack-h">
+          <div class="pane-tab"><span class="name"><span class="ico json"><svg class="i i-sm" aria-hidden="true"><use href="#ic-braces"/></svg></span>package.json</span><span class="meta">ferramentas que uso</span></div>
+          <div class="pane-body">
+            <div class="sec-title"><h2 id="stack-h">Stack</h2></div>
+<pre class="json-block">{
+<span class="ind"><span class="s">"name"</span>: <span class="s">"ayalan-lima"</span>,</span>
+<span class="ind"><span class="s">"dados"</span>: [<span class="v">"Python"</span>, <span class="v">"pandas"</span>, <span class="v">"SQL"</span>, <span class="v">"PostgreSQL"</span>, <span class="v">"Excel"</span>, <span class="v">"scikit-learn"</span>],</span>
+<span class="ind"><span class="s">"frontend"</span>: [<span class="v">"React"</span>, <span class="v">"TypeScript"</span>, <span class="v">"Tailwind"</span>, <span class="v">"TanStack"</span>, <span class="v">"Recharts"</span>, <span class="v">"Leaflet"</span>],</span>
+<span class="ind"><span class="s">"backend"</span>: [<span class="v">"Supabase"</span>, <span class="v">"RLS"</span>, <span class="v">"Realtime"</span>, <span class="v">"Node"</span>, <span class="v">"Capacitor"</span>],</span>
+<span class="ind"><span class="s">"qualidade"</span>: [<span class="v">"Vitest"</span>, <span class="v">"ESLint"</span>, <span class="v">"GitHub Actions"</span>],</span>
+<span class="ind"><span class="s">"ia"</span>: [<span class="v">"Gemini"</span>, <span class="v">"Groq"</span>, <span class="v">"RAG"</span>, <span class="v">"Claude Code"</span>],</span>
+<span class="ind"><span class="s">"entrega"</span>: [<span class="v">"Git"</span>, <span class="v">"Vercel"</span>, <span class="v">"Docker"</span>]</span>
+}</pre>
+          </div>
+        </section>
+
+        <section id="contato" class="pane" aria-labelledby="contato-h">
+          <div class="pane-tab"><span class="name"><span class="ico md">M↓</span>contato.md</span><span class="meta">aberto a oportunidades</span></div>
+          <div class="pane-body">
+            <div class="contact">
+              <div>
+                <p class="hello">// próximo passo</p>
+                <h2 id="contato-h" style="margin-top:10px">Vamos <span>conversar?</span></h2>
+                <p>Estou aberto a oportunidades como desenvolvedor ou analista de dados. Posso apresentar qualquer projeto daqui ao vivo.</p>
+              </div>
+              <div class="rows">
+                <div class="row">
+                  <div><p class="k-lbl"><svg class="i i-sm" aria-hidden="true"><use href="#ic-mail"/></svg>email</p><p class="val" id="email">ayalanlima35@gmail.com</p></div>
+                  <button class="mini" type="button" id="copy-email"><svg class="i i-sm" aria-hidden="true"><use href="#ic-copy"/></svg><span>Copiar</span></button>
+                </div>
+                <div class="row">
+                  <div><p class="k-lbl"><svg class="i i-sm" aria-hidden="true"><use href="#ic-github"/></svg>github</p><p class="val">github.com/Ahaylima2721</p></div>
+                  <a class="mini" href="https://github.com/Ahaylima2721" target="_blank" rel="noopener"><svg class="i i-sm" aria-hidden="true"><use href="#ic-external-link"/></svg>Abrir</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+<!-- =========================================================== PROJETOS (visão geral) -->
+      <div class="view" id="projetos" data-view="projetos" hidden>
+        <section class="pane" aria-labelledby="proj-h">
+          <div class="pane-tab"><span class="name"><svg class="i i-sm" aria-hidden="true"><use href="#ic-folder-code"/></svg>projetos/</span><span class="meta">4 projetos em destaque</span></div>
+          <div class="pane-body">
+            <div class="sec-title"><h2 id="proj-h">Problemas reais, soluções em uso</h2><p>Cada projeto nasceu de uma necessidade concreta do trabalho ou do estudo. Abra um para ver o problema, como ele funciona por dentro, as decisões técnicas e o que dá para medir.</p></div>
+            <div class="cards">
+              <a class="pcard" href="#fluxo">
+                <span class="pthumb"><img src="img/fluxo-dashboard.webp" alt="" width="1600" height="823" loading="lazy"></span>
+                <span class="pinfo">
+                  <span class="badges"><span class="badge web"><svg class="i i-sm" aria-hidden="true"><use href="#ic-layers"/></svg>full stack</span><span class="badge ok"><svg class="i i-sm" aria-hidden="true"><use href="#ic-circle-check"/></svg>em produção</span></span>
+                  <b>Fluxo</b>
+                  <span class="pdesc">Gestão de tarefas da equipe com cronômetro, envio em lote, aprovações e calendário de compras.</span>
+                  <span class="pfoot"><span class="code">fluxo.tsx</span><span class="open">Abrir projeto <svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-right"/></svg></span></span>
+                </span>
+              </a>
+              <a class="pcard" href="#mapa">
+                <span class="pthumb"><img src="img/mapa-vendas.webp" alt="" width="1600" height="1000" loading="lazy"></span>
+                <span class="pinfo">
+                  <span class="badges"><span class="badge data"><svg class="i i-sm" aria-hidden="true"><use href="#ic-chart-column"/></svg>análise de dados</span><span class="badge ok"><svg class="i i-sm" aria-hidden="true"><use href="#ic-presentation"/></svg>usado em reuniões</span></span>
+                  <b>Mapa de Vendas</b>
+                  <span class="pdesc">A planilha de vendas de peças vira um mapa de calor interativo por cidade, com volume e margem.</span>
+                  <span class="pfoot"><span class="code">mapa_vendas.js</span><span class="open">Abrir projeto <svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-right"/></svg></span></span>
+                </span>
+              </a>
+              <a class="pcard" href="#superagente">
+                <span class="pthumb pthumb-term"><code><b>$</b> python executar_leitura_bases_v2.py<br>&gt; Quais clientes têm maior volume?<br><i>buscando 8 trechos relevantes…</i><br><i>gemini-2.5-flash respondendo…</i></code></span>
+                <span class="pinfo">
+                  <span class="badges"><span class="badge ai"><svg class="i i-sm" aria-hidden="true"><use href="#ic-bot"/></svg>IA + dados</span><span class="badge ok"><svg class="i i-sm" aria-hidden="true"><use href="#ic-git-fork"/></svg>código aberto</span></span>
+                  <b>SuperAgente</b>
+                  <span class="pdesc">Assistente que lê as planilhas da empresa e responde perguntas em português com RAG.</span>
+                  <span class="pfoot"><span class="code">superagente.py</span><span class="open">Abrir projeto <svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-right"/></svg></span></span>
+                </span>
+              </a>
+              <a class="pcard" href="#harmony">
+                <span class="pthumb pthumb-phones"><img src="img/harmony-inicio.webp" alt="" width="600" height="1298" loading="lazy"><img src="img/harmony-escalas.webp" alt="" width="600" height="1298" loading="lazy"><img src="img/harmony-gerador.webp" alt="" width="600" height="1298" loading="lazy"></span>
+                <span class="pinfo">
+                  <span class="badges"><span class="badge web"><svg class="i i-sm" aria-hidden="true"><use href="#ic-guitar"/></svg>produto</span><span class="badge ok"><svg class="i i-sm" aria-hidden="true"><use href="#ic-smartphone"/></svg>web + android</span></span>
+                  <b>Harmony</b>
+                  <span class="pdesc">App de estudo de violão com motor de teoria musical próprio, gerador de solos e 354 testes.</span>
+                  <span class="pfoot"><span class="code">harmony.tsx</span><span class="open">Abrir projeto <svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-right"/></svg></span></span>
+                </span>
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+<!-- =========================================================== FLUXO -->
+      <div class="view" id="fluxo" data-view="fluxo" hidden>
+        <article class="pane proj" aria-labelledby="fluxo-h">
+          <div class="pane-tab"><span class="name"><span class="ico ts">TS</span>fluxo.tsx</span><span class="meta">projetos / fluxo.tsx</span></div>
+          <div class="pane-body">
+            <a class="back" href="#projetos"><svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-left"/></svg>projetos/</a>
+            <div class="badges"><span class="badge web"><svg class="i i-sm" aria-hidden="true"><use href="#ic-layers"/></svg>full stack</span><span class="badge ok"><svg class="i i-sm" aria-hidden="true"><use href="#ic-circle-check"/></svg>em produção</span><span class="badge ok"><svg class="i i-sm" aria-hidden="true"><use href="#ic-lock"/></svg>código privado</span></div>
+            <h1 class="ptitle" id="fluxo-h">Fluxo</h1>
+            <p class="plead">Sistema web de gestão de tarefas: o supervisor distribui atividades para uma pessoa, um grupo ou uma filial inteira, cada um executa com cronômetro e devolve o arquivo, e o supervisor aprova. Tudo atualizado em tempo real.</p>
+            <div class="plinks"><a href="https://agente-fluxo-sptnw.vercel.app" target="_blank" rel="noopener"><svg class="i i-sm" aria-hidden="true"><use href="#ic-external-link"/></svg>Abrir o app</a><a href="#fluxo-demo"><svg class="i i-sm" aria-hidden="true"><use href="#ic-presentation"/></svg>Ver as telas</a></div>
+            <div class="metrics">
+              <div><b>9</b><span>telas, com dois papéis de acesso</span></div>
+              <div><b>11+</b><span>tabelas no Postgres com RLS</span></div>
+              <div><b>19</b><span>migrations versionadas</span></div>
+              <div><b>8,9 mil</b><span>linhas de TypeScript</span></div>
+            </div>
+          </div>
+        <div class="demo" id="fluxo-demo">
+          <div class="demo-head">
+            <p class="demo-title"><svg class="i i-sm" aria-hidden="true"><use href="#ic-presentation"/></svg>telas do sistema em uso · dados trocados por fictícios</p>
+            <div class="demo-tabs" role="tablist" aria-label="Telas do Fluxo">
+              <button type="button" role="tab" id="ft-login" aria-selected="true" data-img="img/fluxo-login.webp" data-cap="Tela de entrada com e-mail, senha e recuperação de senha por e-mail.">Login</button>
+              <button type="button" role="tab" id="ft-dashboard" aria-selected="false" data-img="img/fluxo-dashboard.webp" data-cap="Indicadores em tempo real: total, pendentes, em andamento, concluídas, atrasadas e tempo médio.">Dashboard</button>
+              <button type="button" role="tab" id="ft-recentes" aria-selected="false" data-img="img/fluxo-recentes.webp" data-cap="Lotes em andamento, tarefas atrasadas com o tempo de atraso e a lista das últimas tarefas.">Tarefas recentes</button>
+              <button type="button" role="tab" id="ft-atividades" aria-selected="false" data-img="img/fluxo-atividades.webp" data-cap="Cadastro completo com busca, filtros por status, prioridade, categoria e período.">Atividades</button>
+              <button type="button" role="tab" id="ft-nova-atividade" aria-selected="false" data-img="img/fluxo-nova-atividade.webp" data-cap="Envio para uma pessoa ou para um grupo ou filial, com opção de exigir arquivo de retorno.">Nova atividade</button>
+              <button type="button" role="tab" id="ft-minhas-tarefas" aria-selected="false" data-img="img/fluxo-minhas-tarefas.webp" data-cap="O painel do funcionário: cada tarefa com prazo, tempo restante e cronômetro.">Minhas tarefas</button>
+              <button type="button" role="tab" id="ft-cronometro" aria-selected="false" data-img="img/fluxo-cronometro.webp" data-cap="Detalhe da tarefa com tempo cronometrado, arquivos de retorno e histórico de eventos.">Cronômetro</button>
+              <button type="button" role="tab" id="ft-acompanhamento" aria-selected="false" data-img="img/fluxo-acompanhamento.webp" data-cap="Progresso de cada envio em grupo, pessoa a pessoa, com download dos retornos.">Acompanhamento</button>
+              <button type="button" role="tab" id="ft-aprovacoes" aria-selected="false" data-img="img/fluxo-aprovacoes.webp" data-cap="O supervisor aprova ou recusa cada conclusão, com o arquivo entregue ao lado.">Aprovações</button>
+              <button type="button" role="tab" id="ft-calendario" aria-selected="false" data-img="img/fluxo-calendario.webp" data-cap="Compras programadas por mês, com responsável e tipo de produto.">Calendário de compras</button>
+              <button type="button" role="tab" id="ft-grupos" aria-selected="false" data-img="img/fluxo-grupos.webp" data-cap="Equipe organizada por filial e cargo para envios em lote.">Grupos e filiais</button>
+              <button type="button" role="tab" id="ft-senhas" aria-selected="false" data-img="img/fluxo-senhas.webp" data-cap="Senha temporária para quem esqueceu a própria, com troca obrigatória no próximo login.">Senhas da equipe</button>
+            </div>
+          </div>
+          <figure class="browser">
+            <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">fluxo · gestão de tarefas</span></div>
+            <img class="demo-img" src="img/fluxo-login.webp" width="1600" height="823" alt="Tela de entrada com e-mail, senha e recuperação de senha por e-mail.">
+            <figcaption class="demo-cap">Tela de entrada com e-mail, senha e recuperação de senha por e-mail.</figcaption>
+          </figure>
+          <p class="demo-note">Capturas reais do sistema. Nomes de pessoas, e-mail, tarefas, arquivos e o logo da empresa foram trocados por dados fictícios.</p>
+        </div>
+          <div class="pane-body pdeep">
+            <section class="block"><p class="blabel">// contexto e problema</p>
+              <p>As tarefas da equipe circulavam por e-mail e planilha. O supervisor não sabia quem já tinha começado, quanto tempo cada atividade levava nem quem tinha devolvido o arquivo. Mandar a mesma tarefa para vinte pessoas significava vinte e-mails e vinte respostas para conferir à mão.</p>
+            </section>
+
+            <section class="block"><p class="blabel">// o que construí</p>
+              <ul class="feat">
+                <li><b>Envio individual ou em lote.</b> Um envio para um grupo ou filial cria uma atividade por pessoa, cada uma com cronômetro, status e anexos próprios, ligadas pelo mesmo lote.</li>
+                <li><b>Cronômetro automático.</b> Iniciar, pausar, retomar e concluir. Baixar o arquivo da tarefa já liga o cronômetro, sem depender de alguém lembrar de clicar.</li>
+                <li><b>Retorno com regras.</b> O retorno só pode ser enviado 2 minutos depois do download e é limitado ao número de arquivos que o supervisor mandou.</li>
+                <li><b>Aprovações.</b> O supervisor master aprova ou recusa cada conclusão com motivo, e o histórico exporta para CSV.</li>
+                <li><b>Calendário de compras.</b> Compras programadas por mês, com um responsável fixo por tipo de produto e importação em lote.</li>
+                <li><b>Dashboard em tempo real.</b> Indicadores, produtividade por dia, semana e funcionário, tarefas atrasadas e lotes em andamento.</li>
+                <li><b>Gestão de acesso.</b> Senha temporária para quem esqueceu a própria, com troca obrigatória e bloqueio após 3 tentativas erradas.</li>
+              </ul>
+            </section>
+
+            <section class="block"><p class="blabel">// como funciona</p>
+              <ol class="flow">
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-user-round"/></svg></span><b>Supervisor cria</b><span>Atividade para uma pessoa, um grupo ou uma filial</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-layers"/></svg></span><b>Lote gera tarefas</b><span>Uma atividade por pessoa, com o arquivo base copiado</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-gauge"/></svg></span><b>Execução cronometrada</b><span>O download liga o cronômetro; pausas ficam registradas</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-file-spreadsheet"/></svg></span><b>Retorno</b><span>O funcionário anexa o arquivo e conclui</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-shield-check"/></svg></span><b>Aprovação</b><span>O supervisor aprova ou recusa com motivo</span></li>
+              </ol>
+              <div class="arch">
+                <div><p class="arch-h">frontend</p><p>React 19 · TanStack Start (SSR) · TanStack Query · Tailwind · Radix · Recharts</p></div>
+                <div class="arch-arrow" aria-hidden="true"><svg class="i i-md" aria-hidden="true"><use href="#ic-arrow-right"/></svg></div>
+                <div><p class="arch-h">cliente</p><p>supabase-js, a única porta de entrada para o backend</p></div>
+                <div class="arch-arrow" aria-hidden="true"><svg class="i i-md" aria-hidden="true"><use href="#ic-arrow-right"/></svg></div>
+                <div><p class="arch-h">backend</p><p>Postgres com RLS · Auth · Storage privado · Realtime</p></div>
+              </div>
+            </section>
+
+            <section class="block"><p class="blabel">// decisões técnicas</p>
+              <div class="decisions">
+                <div><b>Segurança no banco, não só na tela</b><p>O acesso é controlado por políticas RLS no Postgres. Um gatilho trava a atualização por coluna: o funcionário só altera status, tempo e observações.</p></div>
+                <div><b>Uma regra, um lugar</b><p>A mesma função <code>pode_enviar_retorno()</code> é usada pela política do banco e pela tela, para as duas nunca discordarem.</p></div>
+                <div><b>Backend trocável</b><p>O app fala com o backend só pelo supabase-js. Migrar para um servidor próprio é trocar duas variáveis de ambiente, sem reescrever telas.</p></div>
+                <div><b>Sem revelar quem tem conta</b><p>A recuperação de senha mostra sempre a mesma mensagem, exista ou não o e-mail, para evitar enumeração de contas.</p></div>
+              </div>
+            </section>
+
+            <section class="block"><p class="blabel">// desafios que resolvi</p>
+              <div class="challenges">
+                <div><p class="ch-q"><svg class="i i-sm" aria-hidden="true"><use href="#ic-circle-alert"/></svg>Permissão que eu não pedi</p><p>O Supabase concede escrita por padrão em toda tabela nova. Na tabela de downloads, que só deve ser gravada por uma função segura, foi preciso revogar a escrita explicitamente.</p></div>
+                <div><p class="ch-q"><svg class="i i-sm" aria-hidden="true"><use href="#ic-circle-alert"/></svg>Upload antes da linha existir</p><p>O app sobe o arquivo antes de gravar o registro do anexo. A política do Storage passou a ler a atividade pelo prefixo do caminho do arquivo, em vez de depender da linha.</p></div>
+                <div><p class="ch-q"><svg class="i i-sm" aria-hidden="true"><use href="#ic-circle-alert"/></svg>Abuso de login e upload</p><p>Limite de requisições no gateway: 20 logins, 5 cadastros e 30 uploads por minuto, sem tocar no código do app.</p></div>
+                <div><p class="ch-q"><svg class="i i-sm" aria-hidden="true"><use href="#ic-circle-alert"/></svg>Banco reproduzível</p><p>Um script SQL único e idempotente cria tudo, e scripts de verificação conferem cada política e função, respondendo OK linha a linha.</p></div>
+              </div>
+            </section>
+
+            <section class="block"><p class="blabel">// próximos passos</p>
+              <ul class="next">
+                <li>Migrar para um servidor próprio administrado pelo TI, já com roteiro de execução e requisitos de máquina.</li>
+                <li>Validação de payload com Zod no servidor e checagem de assinatura binária nos uploads.</li>
+                <li>Devolver retorno para correção com motivo, e notificação quando um lote chega a 100%.</li>
+              </ul>
+            </section>
+
+            <div class="stackline"><span class="chip">React 19</span><span class="chip">TypeScript</span><span class="chip">TanStack Start</span><span class="chip">Supabase</span><span class="chip">PostgreSQL</span><span class="chip">Recharts</span><span class="chip">Docker</span><span class="chip">Envoy</span><span class="chip">GitHub Actions</span><span class="chip">Vercel</span></div>
+            <nav class="pnav" aria-label="Outros projetos"><a href="#projetos"><svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-left"/></svg>Todos os projetos</a><a href="#mapa">Mapa de Vendas <svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-right"/></svg></a></nav>
+          </div>
+        </article>
+      </div>
+
+<!-- =========================================================== MAPA -->
+      <div class="view" id="mapa" data-view="mapa" hidden>
+        <article class="pane proj" aria-labelledby="mapa-h">
+          <div class="pane-tab"><span class="name"><span class="ico js">JS</span>mapa_vendas.js</span><span class="meta">projetos / mapa_vendas.js</span></div>
+          <div class="pane-body">
+            <a class="back" href="#projetos"><svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-left"/></svg>projetos/</a>
+            <div class="badges"><span class="badge data"><svg class="i i-sm" aria-hidden="true"><use href="#ic-chart-column"/></svg>análise de dados</span><span class="badge ok"><svg class="i i-sm" aria-hidden="true"><use href="#ic-presentation"/></svg>usado em reuniões</span><span class="badge ok"><svg class="i i-sm" aria-hidden="true"><use href="#ic-lock"/></svg>código privado</span></div>
+            <h1 class="ptitle" id="mapa-h">Mapa de Vendas</h1>
+            <p class="plead">Aplicação que transforma a exportação de vendas de peças em um mapa de calor interativo do Rio Grande do Sul e estados vizinhos. Arrasta o arquivo, confere as colunas e o mapa aparece. Roda inteiro no navegador.</p>
+            <div class="plinks"><a href="#mapa-demo"><svg class="i i-sm" aria-hidden="true"><use href="#ic-presentation"/></svg>Ver a demonstração</a></div>
+            <div class="metrics">
+              <div><b>14.090</b><span>linhas no arquivo de referência</span></div>
+              <div><b>200+</b><span>municípios georreferenciados</span></div>
+              <div><b>12</b><span>campos detectados sozinhos</span></div>
+              <div><b>0</b><span>servidores: os dados não saem do computador</span></div>
+            </div>
+          </div>
+        <div class="demo" id="mapa-demo">
+          <div class="demo-head">
+            <p class="demo-title"><svg class="i i-sm" aria-hidden="true"><use href="#ic-presentation"/></svg>demonstração · app rodando com uma base fictícia</p>
+            <div class="demo-tabs" role="tablist" aria-label="Telas do Mapa de Vendas">
+              <button type="button" role="tab" id="dt-vendas" data-cap="Modo Vendas: 1.400 registros e 65 cidades agregados no mapa de calor, com o ranking por volume na lateral." aria-selected="true" data-img="img/mapa-vendas.webp">Vendas</button>
+              <button type="button" role="tab" id="dt-margem" data-cap="Modo Margem: o gradiente se inverte e o ranking passa a ordenar as cidades pela margem percentual média." aria-selected="false" data-img="img/mapa-margem.webp">Margem</button>
+              <button type="button" role="tab" id="dt-detalhe" data-cap="Clique numa cidade: volume, margem, clientes únicos e cada cliente com as peças que comprou." aria-selected="false" data-img="img/mapa-detalhe.webp">Clientes da cidade</button>
+              <button type="button" role="tab" id="dt-pecas" data-cap="Aba Peças: os produtos mais vendidos na cidade, com marca, unidades e número de vendas." aria-selected="false" data-img="img/mapa-pecas.webp">Peças</button>
+              <button type="button" role="tab" id="dt-colunas" data-cap="Ao carregar o arquivo, o app reconhece sozinho as 12 colunas que usa entre as 51 da exportação e mostra uma prévia." aria-selected="false" data-img="img/mapa-colunas.webp">Leitura do arquivo</button>
+              <button type="button" role="tab" id="dt-filtro" data-cap="Filtros por UF, filial, departamento e período recalculam mapa, ranking e totais na hora." aria-selected="false" data-img="img/mapa-filtro.webp">Filtro por filial</button>
+            </div>
+          </div>
+          <figure class="browser">
+            <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">mapa-de-vendas.html</span></div>
+            <img class="demo-img" src="img/mapa-vendas.webp" width="1600" height="1000" alt="Mapa de calor das vendas por cidade no Rio Grande do Sul, com ranking de cidades na lateral">
+            <figcaption class="demo-cap">Modo Vendas: 1.400 registros e 65 cidades agregados no mapa de calor, com o ranking por volume na lateral.</figcaption>
+          </figure>
+          <p class="demo-note">Base de teste gerada com as mesmas 51 colunas da exportação real do sistema. Clientes, valores, filiais e marcas são inventados.</p>
+        </div>
+          <div class="pane-body pdeep">
+            <section class="block"><p class="blabel">// contexto e problema</p>
+              <p>O sistema exporta as vendas como uma planilha de 49 colunas e milhares de linhas. Em reunião, ninguém conseguia responder rápido onde vendemos mais, onde a margem é melhor e quais clientes e peças puxam cada cidade.</p>
+            </section>
+
+            <section class="block"><p class="blabel">// o que construí</p>
+              <ul class="feat">
+                <li><b>Carregamento sem atrito.</b> CSV ou Excel por botão ou arrastando o arquivo para a janela.</li>
+                <li><b>Leitura conferida.</b> Um modal mostra as colunas reconhecidas e os 5 primeiros registros antes de desenhar qualquer coisa.</li>
+                <li><b>Dois modos de mapa.</b> Vendas (volume líquido por cidade) e Margem (percentual médio), cada um com seu gradiente e ranking.</li>
+                <li><b>Filtros em cascata.</b> UF, filial, departamento e período recalculam mapa, ranking e totais na hora.</li>
+                <li><b>Painel da cidade.</b> Volume, margem, clientes únicos, cada cliente com as peças compradas e o ranking de produtos, com busca.</li>
+              </ul>
+            </section>
+
+            <section class="block"><p class="blabel">// como funciona</p>
+              <ol class="flow">
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-file-spreadsheet"/></svg></span><b>Arquivo</b><span>Lido como bytes; tenta UTF-8 e recorre a Latin-1</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-table-2"/></svg></span><b>Parse</b><span>PapaParse (CSV) ou SheetJS (Excel), com delimitador detectado</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-list-checks"/></svg></span><b>Colunas</b><span>Detecção em dois passes: nome exato, depois nome parcial</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-wrench"/></svg></span><b>Normalização</b><span>Números 1.234,56, datas dd/mm/aaaa, fórmulas do Excel</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-map-pin"/></svg></span><b>Mapa</b><span>Agrega por cidade e desenha o calor com Leaflet</span></li>
+              </ol>
+            </section>
+
+            <section class="block"><p class="blabel">// decisões técnicas</p>
+              <div class="decisions">
+                <div><b>Um único arquivo HTML</b><p>Sem servidor, sem banco e sem instalação. Os dados de venda nunca saem do computador de quem abre o arquivo.</p></div>
+                <div><b>Coordenadas embutidas</b><p>Mais de 200 municípios mapeados à mão, com busca normalizada sem acento e em maiúsculas, para funcionar sem API externa.</p></div>
+                <div><b>Calor que reage ao zoom</b><p>Raio, desfoque e opacidade são recalculados a cada zoom: afastado mostra manchas suaves, aproximado mostra pontos definidos.</p></div>
+                <div><b>Intensidade normalizada</b><p>Cada cidade vira um valor entre 0 e 1 pela fórmula (valor − mínimo) / (máximo − mínimo), comparável em qualquer filtro.</p></div>
+              </div>
+            </section>
+
+            <section class="block"><p class="blabel">// desafios que resolvi</p>
+              <div class="challenges">
+                <div><p class="ch-q"><svg class="i i-sm" aria-hidden="true"><use href="#ic-circle-alert"/></svg>O upload que não fazia nada</p><p>Um ternário duplicado gerava um erro de sintaxe que impedia todo o JavaScript de rodar, sem nenhuma mensagem visível. Achei e documentei a causa.</p></div>
+                <div><p class="ch-q"><svg class="i i-sm" aria-hidden="true"><use href="#ic-circle-alert"/></svg>Filtros que se duplicavam</p><p>Preencher a data disparava o evento de mudança, que recarregava tudo e repetia as opções. Corrigi com uma trava durante o preenchimento e limpando o <code>\r</code> dos arquivos do Windows.</p></div>
+                <div><p class="ch-q"><svg class="i i-sm" aria-hidden="true"><use href="#ic-circle-alert"/></svg>Código no lugar do nome</p><p>A coluna de código do produto vinha antes da descrição e era escolhida no lugar dela. A detecção passou a respeitar a ordem de prioridade dos nomes.</p></div>
+                <div><p class="ch-q"><svg class="i i-sm" aria-hidden="true"><use href="#ic-circle-alert"/></svg>Dados de sistema legado</p><p>Arquivos em Latin-1, códigos exportados como fórmula <code>=("…")</code> e linhas de total misturadas aos dados, todos tratados na leitura.</p></div>
+              </div>
+            </section>
+
+            <section class="block"><p class="blabel">// próximos passos</p>
+              <ul class="next">
+                <li>Geocodificação automática para cidades que ainda não estão no banco de coordenadas.</li>
+                <li>Guardar a última análise no navegador para não carregar o arquivo de novo.</li>
+                <li>Separar cidades homônimas de estados diferentes sem depender do filtro de UF.</li>
+              </ul>
+            </section>
+
+            <div class="stackline"><span class="chip">JavaScript</span><span class="chip">Leaflet</span><span class="chip">leaflet.heat</span><span class="chip">PapaParse</span><span class="chip">SheetJS</span><span class="chip">HTML + CSS</span></div>
+            <nav class="pnav" aria-label="Outros projetos"><a href="#fluxo"><svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-left"/></svg>Fluxo</a><a href="#superagente">SuperAgente <svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-right"/></svg></a></nav>
+          </div>
+        </article>
+      </div>
+
+<!-- =========================================================== SUPERAGENTE -->
+      <div class="view" id="superagente" data-view="superagente" hidden>
+        <article class="pane proj" aria-labelledby="sa-h">
+          <div class="pane-tab"><span class="name"><span class="ico py">PY</span>superagente.py</span><span class="meta">projetos / superagente.py</span></div>
+          <div class="pane-body">
+            <a class="back" href="#projetos"><svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-left"/></svg>projetos/</a>
+            <div class="badges"><span class="badge ai"><svg class="i i-sm" aria-hidden="true"><use href="#ic-bot"/></svg>IA + dados</span><span class="badge ok"><svg class="i i-sm" aria-hidden="true"><use href="#ic-git-fork"/></svg>código aberto</span></div>
+            <h1 class="ptitle" id="sa-h">SuperAgente</h1>
+            <p class="plead">Assistente que lê as bases da empresa em CSV e Excel e responde perguntas em português, como “quais clientes têm maior volume de vendas?”, usando só o conteúdo das próprias planilhas.</p>
+            <div class="plinks"><a href="https://github.com/Ahaylima2721/SuperAgente" target="_blank" rel="noopener"><svg class="i i-sm" aria-hidden="true"><use href="#ic-github"/></svg>Ver código no GitHub</a></div>
+            <div class="metrics">
+              <div><b>4</b><span>formatos lidos: csv, xlsx, xls, xlsm</span></div>
+              <div><b>2</b><span>provedores de IA com troca automática</span></div>
+              <div><b>3</b><span>níveis de busca, do vetor à palavra-chave</span></div>
+              <div><b>~900</b><span>linhas de Python</span></div>
+            </div>
+          </div>
+          <div class="demo">
+            <div class="demo-head"><p class="demo-title"><svg class="i i-sm" aria-hidden="true"><use href="#ic-terminal"/></svg>exemplo de uso · pergunta e dados ilustrativos</p></div>
+            <figure class="term term-demo" style="margin:0">
+              <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>terminal · superagente</div>
+<pre class="term-out"><b>$</b> python vetorizar_bases.py
+  lendo Dados Base/ … 2 planilhas
+  removendo duplicados por hash … ok
+  <span class="v">índice salvo em index_vetorial/chunks.json</span>
+
+<b>$</b> python executar_leitura_bases_v2.py --pergunta "Quais filiais venderam mais filtros em outubro?"
+  buscando trechos relevantes (TF-IDF local) … <span class="n">8 trechos</span>
+  montando prompt com o contexto recuperado …
+  gemini-2.5-flash … <span class="p">limite de cota atingido</span>
+  fallback → groq llama-3.3-70b … <span class="v">ok</span>
+
+<span class="s">Resposta:</span> Com base nos registros encontrados, a filial Norte lidera
+em filtros no período, seguida pela filial Serra. A resposta considera
+apenas os trechos recuperados das bases.</pre>
+            </figure>
+            <p class="demo-note">O texto acima ilustra o fluxo do script com uma pergunta e uma resposta inventadas, sem dados reais.</p>
+          </div>
+          <div class="pane-body pdeep">
+            <section class="block"><p class="blabel">// contexto e problema</p>
+              <p>Para responder uma pergunta simples sobre vendas era preciso abrir várias planilhas grandes, filtrar e cruzar tudo à mão. Mandar a planilha inteira para uma IA também não serve: é grande demais e a resposta perde o foco.</p>
+            </section>
+
+            <section class="block"><p class="blabel">// como funciona</p>
+              <ol class="flow">
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-file-spreadsheet"/></svg></span><b>Leitura</b><span>pandas lê cada planilha da pasta de bases</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-layers"/></svg></span><b>Trechos</b><span>Cada linha vira um texto curto; duplicados saem por hash</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-database"/></svg></span><b>Índice</b><span>Vetores TF-IDF salvos localmente</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-target"/></svg></span><b>Busca</b><span>Os trechos mais parecidos com a pergunta</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-bot"/></svg></span><b>Resposta</b><span>Gemini responde só com esse contexto</span></li>
+              </ol>
+            </section>
+
+            <section class="block"><p class="blabel">// decisões técnicas</p>
+              <div class="decisions">
+                <div><b>Busca local, sem custo</b><p>O ranking dos trechos usa TF-IDF no próprio computador. A API de IA só é chamada uma vez, na hora de responder.</p></div>
+                <div><b>Resposta presa ao contexto</b><p>O prompt leva só os trechos recuperados e pede que a resposta se baseie neles, o que reduz respostas inventadas.</p></div>
+                <div><b>Três níveis de busca</b><p>Vetores TF-IDF, compatibilidade com embeddings do Gemini e, se nada estiver disponível, sobreposição de palavras-chave.</p></div>
+                <div><b>Chaves fora do código</b><p>As chaves de API ficam num arquivo .env que não vai para o repositório, com um modelo de exemplo versionado.</p></div>
+              </div>
+            </section>
+
+            <section class="block"><p class="blabel">// desafios que resolvi</p>
+              <div class="challenges">
+                <div><p class="ch-q"><svg class="i i-sm" aria-hidden="true"><use href="#ic-circle-alert"/></svg>Limite de cota da API</p><p>Quando o Gemini atinge o limite ou fica indisponível, o script tenta de novo e troca para o Llama 3.3 no Groq, sem interromper a pergunta.</p></div>
+                <div><p class="ch-q"><svg class="i i-sm" aria-hidden="true"><use href="#ic-circle-alert"/></svg>Planilhas grandes e repetidas</p><p>Bases de dezenas de megabytes com linhas repetidas. A remoção de duplicados por hash diminui o índice e a busca fica mais limpa.</p></div>
+              </div>
+            </section>
+
+            <section class="block"><p class="blabel">// próximos passos</p>
+              <ul class="next">
+                <li>Uma interface web simples no lugar do terminal, para a equipe usar sem instalar nada.</li>
+                <li>Testes do fluxo completo, da leitura das bases à formação do índice.</li>
+              </ul>
+            </section>
+
+            <div class="stackline"><span class="chip">Python</span><span class="chip">pandas</span><span class="chip">openpyxl</span><span class="chip">scikit-learn</span><span class="chip">Gemini 2.5 Flash</span><span class="chip">Groq · Llama 3.3</span></div>
+            <nav class="pnav" aria-label="Outros projetos"><a href="#mapa"><svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-left"/></svg>Mapa de Vendas</a><a href="#harmony">Harmony <svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-right"/></svg></a></nav>
+          </div>
+        </article>
+      </div>
+
+<!-- =========================================================== HARMONY -->
+      <div class="view" id="harmony" data-view="harmony" hidden>
+        <article class="pane proj" aria-labelledby="hm-h">
+          <div class="pane-tab"><span class="name"><span class="ico ts">TS</span>harmony.tsx</span><span class="meta">projetos / harmony.tsx</span></div>
+          <div class="pane-body">
+            <a class="back" href="#projetos"><svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-left"/></svg>projetos/</a>
+            <div class="badges"><span class="badge web"><svg class="i i-sm" aria-hidden="true"><use href="#ic-guitar"/></svg>produto</span><span class="badge ok"><svg class="i i-sm" aria-hidden="true"><use href="#ic-smartphone"/></svg>web + android</span><span class="badge ok"><svg class="i i-sm" aria-hidden="true"><use href="#ic-lock"/></svg>código privado</span></div>
+            <h1 class="ptitle" id="hm-h">Harmony</h1>
+            <p class="plead">App de estudo de violão que conecta escala, campo harmônico, acordes e sistema CAGED, com trilhas para tocar junto, um gerador de solos por regras musicais e revisão de teoria por repetição espaçada.</p>
+            <div class="plinks"><a href="#harmony-demo"><svg class="i i-sm" aria-hidden="true"><use href="#ic-smartphone"/></svg>Ver as telas</a></div>
+            <div class="metrics">
+              <div><b>354</b><span>testes automatizados, todos passando</span></div>
+              <div><b>14,6 mil</b><span>linhas de TypeScript</span></div>
+              <div><b>14</b><span>trilhas de acompanhamento</span></div>
+              <div><b>8</b><span>baralhos de revisão</span></div>
+            </div>
+          </div>
+        <div class="demo" id="harmony-demo">
+          <div class="demo-head">
+            <p class="demo-title"><svg class="i i-sm" aria-hidden="true"><use href="#ic-smartphone"/></svg>telas · app rodando no celular</p>
+            <div class="rail-nav">
+              <button type="button" class="rail-btn" id="hr-prev" aria-label="Telas anteriores"><svg class="i i-md" aria-hidden="true"><use href="#ic-arrow-right"/></svg></button>
+              <button type="button" class="rail-btn" id="hr-next" aria-label="Próximas telas"><svg class="i i-md" aria-hidden="true"><use href="#ic-arrow-right"/></svg></button>
+            </div>
+          </div>
+          <div class="rail" id="harmony-rail" tabindex="0" aria-label="Telas do Harmony, role para o lado">
+              <figure class="phone">
+                <div class="phone-screen"><img src="img/harmony-splash.webp" width="600" height="1298" alt="Tela Abertura do Harmony: Animação de entrada com a marca do app." loading="lazy"></div>
+                <figcaption><b>Abertura</b><span>Animação de entrada com a marca do app.</span></figcaption>
+              </figure>
+              <figure class="phone">
+                <div class="phone-screen"><img src="img/harmony-onboarding.webp" width="600" height="1298" alt="Tela Primeiro acesso do Harmony: Três perguntas: tônica, afinação e nível." loading="lazy"></div>
+                <figcaption><b>Primeiro acesso</b><span>Três perguntas: tônica, afinação e nível.</span></figcaption>
+              </figure>
+              <figure class="phone">
+                <div class="phone-screen"><img src="img/harmony-inicio.webp" width="600" height="1298" alt="Tela Início do Harmony: Sequência de dias, mapa de constância e o que está em estudo." loading="lazy"></div>
+                <figcaption><b>Início</b><span>Sequência de dias, mapa de constância e o que está em estudo.</span></figcaption>
+              </figure>
+              <figure class="phone">
+                <div class="phone-screen"><img src="img/harmony-escalas.webp" width="600" height="1298" alt="Tela Escalas do Harmony: A escala no braço, por grau ou nota, e os 5 desenhos." loading="lazy"></div>
+                <figcaption><b>Escalas</b><span>A escala no braço, por grau ou nota, e os 5 desenhos.</span></figcaption>
+              </figure>
+              <figure class="phone">
+                <div class="phone-screen"><img src="img/harmony-campo.webp" width="600" height="1298" alt="Tela Campo harmônico do Harmony: Os sete graus com a função de cada acorde." loading="lazy"></div>
+                <figcaption><b>Campo harmônico</b><span>Os sete graus com a função de cada acorde.</span></figcaption>
+              </figure>
+              <figure class="phone">
+                <div class="phone-screen"><img src="img/harmony-acordes.webp" width="600" height="1298" alt="Tela Acordes do Harmony: Biblioteca de pegadas com dedilhado e pestana." loading="lazy"></div>
+                <figcaption><b>Acordes</b><span>Biblioteca de pegadas com dedilhado e pestana.</span></figcaption>
+              </figure>
+              <figure class="phone">
+                <div class="phone-screen"><img src="img/harmony-caged.webp" width="600" height="1298" alt="Tela CAGED do Harmony: As cinco formas ancoradas na tônica." loading="lazy"></div>
+                <figcaption><b>CAGED</b><span>As cinco formas ancoradas na tônica.</span></figcaption>
+              </figure>
+              <figure class="phone">
+                <div class="phone-screen"><img src="img/harmony-tocar-junto.webp" width="600" height="1298" alt="Tela Tocar junto do Harmony: Trilhas de acompanhamento com solo sugerido." loading="lazy"></div>
+                <figcaption><b>Tocar junto</b><span>Trilhas de acompanhamento com solo sugerido.</span></figcaption>
+              </figure>
+              <figure class="phone">
+                <div class="phone-screen"><img src="img/harmony-gerador.webp" width="600" height="1298" alt="Tela Gerador de solos do Harmony: Solo por regras musicais, no braço e em tablatura." loading="lazy"></div>
+                <figcaption><b>Gerador de solos</b><span>Solo por regras musicais, no braço e em tablatura.</span></figcaption>
+              </figure>
+              <figure class="phone">
+                <div class="phone-screen"><img src="img/harmony-revisar.webp" width="600" height="1298" alt="Tela Revisar do Harmony: Perguntas de teoria e de ouvido com repetição espaçada." loading="lazy"></div>
+                <figcaption><b>Revisar</b><span>Perguntas de teoria e de ouvido com repetição espaçada.</span></figcaption>
+              </figure>
+          </div>
+          <p class="demo-note">Capturas do app em execução, na ordem de uso: do primeiro acesso à revisão. Arraste para o lado para ver todas.</p>
+        </div>
+          <div class="pane-body pdeep">
+            <section class="block"><p class="blabel">// contexto e problema</p>
+              <p>Os apps de violão mostram acordes soltos. Quem quer improvisar precisa cruzar vários assuntos ao mesmo tempo: a escala desenhada no braço, o campo harmônico que a acompanha, as formas do CAGED e o ouvido. O Harmony junta isso num lugar só.</p>
+            </section>
+
+            <section class="block"><p class="blabel">// o que construí</p>
+              <ul class="feat">
+                <li><b>Estudar.</b> 12 escalas com os 5 desenhos no braço, campo harmônico com a função de cada grau, biblioteca de acordes com dedilhado calculado e as cinco formas do CAGED.</li>
+                <li><b>Praticar.</b> 14 trilhas gravadas com instrumentos reais em domínio público, solo sugerido, arpejo em fingerstyle e memorização do campo.</li>
+                <li><b>Gerador de solos.</b> Frases construídas por regras que músicos usam, no braço e em tablatura, com reprodução.</li>
+                <li><b>Revisar.</b> 8 baralhos de teoria e de ouvido, agendados por caixas de Leitner.</li>
+                <li><b>Meus solos.</b> Guardar o que foi gerado e escrever tablatura própria numa grade de casas e tempos.</li>
+              </ul>
+            </section>
+
+            <section class="block"><p class="blabel">// desafio principal: o gerador de solos</p>
+              <p>O relato de uso era claro: o solo gerado ficava parado no mesmo traste e soava estranho. A causa estava no motor, que trabalhava com classes de altura de 0 a 11. Nesse espaço, subir um grau a partir da 7ª voltava para a tônica uma oitava abaixo, e a linha girava em vez de subir. Reescrevi o motor com alturas reais e regras de melodia, e medi 500 solos antes e depois:</p>
+              <div class="tablewrap">
+                <table class="cmp">
+                  <thead><tr><th scope="col">medida em 500 solos</th><th scope="col">antes</th><th scope="col">depois</th></tr></thead>
+                  <tbody>
+                    <tr><td>notas seguidas na mesma casa</td><td>61,1%</td><td class="good">13,5%</td></tr>
+                    <tr><td>salto médio entre notas</td><td>8,82 semitons</td><td class="good">3,47 semitons</td></tr>
+                    <tr><td>movimento por grau conjunto</td><td>1,5%</td><td class="good">43,6%</td></tr>
+                    <tr><td>durações diferentes usadas</td><td>1</td><td class="good">4</td></tr>
+                    <tr><td>notas com articulação</td><td>0%</td><td class="good">34,8%</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <ol class="flow flow-6">
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-music"/></svg></span><b>Altura real</b><span>Escada de notas MIDI, não classes de 0 a 11</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-compass"/></svg></span><b>Semente</b><span>Gerador com semente para testar e repetir solos</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-workflow"/></svg></span><b>Contorno</b><span>Frases com desenho; salto sempre resolvido</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-gauge"/></svg></span><b>Ritmo</b><span>Células na grade da colcheia, com respiro no fim</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-lightbulb"/></svg></span><b>Motivo</b><span>Pergunta e resposta, forma AAB do blues</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-guitar"/></svg></span><b>Posição de mão</b><span>Quatro dedos cobrindo cinco casas</span></li>
+              </ol>
+            </section>
+
+            <section class="block"><p class="blabel">// decisões técnicas</p>
+              <div class="decisions">
+                <div><b>Busca em feixe</b><p>Cada frase inteira é escolhida comparando dezenas de versões, e a melhor fica. A tela mostra as etapas enquanto isso acontece.</p></div>
+                <div><b>Uma regra visual só</b><p>Tônica em índigo, 3ª em âmbar, 5ª neutra e blue note em ferrugem, em todos os modos do app.</p></div>
+                <div><b>Um código, duas plataformas</b><p>O mesmo projeto React vira app Android com Capacitor, sem reescrever telas.</p></div>
+                <div><b>Testes como rede de segurança</b><p>354 testes cobrem o motor de teoria, o gerador, a revisão e as telas, rodando a cada mudança.</p></div>
+              </div>
+            </section>
+
+            <section class="block"><p class="blabel">// próximos passos</p>
+              <ul class="next">
+                <li>Publicar a versão Android na loja.</li>
+                <li>Novos baralhos de revisão e mais trilhas de acompanhamento.</li>
+              </ul>
+            </section>
+
+            <div class="stackline"><span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Vite</span><span class="chip">SVG</span><span class="chip">Web Audio</span><span class="chip">Capacitor</span><span class="chip">Vitest</span></div>
+            <nav class="pnav" aria-label="Outros projetos"><a href="#superagente"><svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-left"/></svg>SuperAgente</a><a href="#projetos">Todos os projetos <svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-right"/></svg></a></nav>
+          </div>
+        </article>
+      </div>
+    </main>
+  </div>
+</div>
+
+<footer class="status" aria-label="Barra de status">
+  <span><svg class="i i-sm" aria-hidden="true"><use href="#ic-git-branch"/></svg>main <svg class="i i-sm" aria-hidden="true"><use href="#ic-circle-check"/></svg>0 erros · 6 projetos</span>
+  <span class="opt">Ayalan Lima · Dev &amp; Analista de Dados</span>
+  <span><svg class="i i-sm" aria-hidden="true"><use href="#ic-file-code"/></svg><span id="status-file">sobre.ts · UTF-8</span></span>
+</footer>
+
+<script>
+(function () {
+  // copiar e-mail
+  var btn = document.getElementById('copy-email');
+  var btnText = btn.querySelector('span');
+  btn.addEventListener('click', function () {
+    var el = document.getElementById('email');
+    var fallback = function () {
+      var r = document.createRange(); r.selectNodeContents(el);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      btnText.textContent = 'Selecionado';
+    };
+    try {
+      navigator.clipboard.writeText(el.textContent).then(function () {
+        btnText.textContent = 'Copiado';
+        setTimeout(function () { btnText.textContent = 'Copiar'; }, 1800);
+      }, fallback);
+    } catch (e) { fallback(); }
+  });
+
+  // demonstrações com abas (Mapa de Vendas, Fluxo): cada aba troca o print e a legenda do próprio bloco
+  document.querySelectorAll('.demo').forEach(function (demo) {
+    var tabs = demo.querySelectorAll('.demo-tabs button');
+    var img = demo.querySelector('.demo-img'), cap = demo.querySelector('.demo-cap');
+    if (!tabs.length || !img) return;
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () {
+        tabs.forEach(function (o) { o.setAttribute('aria-selected', o === t ? 'true' : 'false'); });
+        img.src = t.dataset.img; img.alt = t.dataset.cap; cap.textContent = t.dataset.cap;
+      });
+    });
+    demo.preload = function () { tabs.forEach(function (t) { var im = new Image(); im.src = t.dataset.img; }); };
+  });
+
+  // galeria do Harmony: botões rolam uma tela por vez
+  var rail = document.getElementById('harmony-rail');
+  function railStep(dir) {
+    var card = rail.querySelector('.phone');
+    var step = card ? card.getBoundingClientRect().width + 20 : 240;
+    rail.scrollBy({ left: dir * step, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }
+  document.getElementById('hr-prev').addEventListener('click', function () { railStep(-1); });
+  document.getElementById('hr-next').addEventListener('click', function () { railStep(1); });
+
+  // navegação por áreas: cada arquivo abre a sua área (sobre mim, projetos, um projeto)
+  var names = { sobre: 'sobre.ts', 'dia-a-dia': 'dia-a-dia.md', readme: 'README.md', trajetoria: 'git log', stack: 'package.json', contato: 'contato.md',
+    projetos: 'projetos/', fluxo: 'fluxo.tsx', mapa: 'mapa_vendas.js', superagente: 'superagente.py', harmony: 'harmony.tsx' };
+  var views = Array.prototype.slice.call(document.querySelectorAll('.view'));
+  var links = document.querySelectorAll('[data-nav]');
+  var statusFile = document.getElementById('status-file');
+  var aboutSections = ['sobre', 'dia-a-dia', 'readme', 'trajetoria', 'stack', 'contato'].map(function (id) { return document.getElementById(id); });
+  var current = 'sobre';
+
+  function mark(id) {
+    var view = document.getElementById(id) && document.getElementById(id).closest('.view');
+    var viewName = view ? view.dataset.view : 'sobre';
+    links.forEach(function (a) {
+      var target = a.getAttribute('href').slice(1);
+      var inMobile = !!a.closest('.mobile-tabs');
+      var on = inMobile ? (target === id || (viewName === 'sobre' && target === 'sobre' && id !== 'contato')) : target === id;
+      a.classList.toggle('on', on);
+      if (on) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
+    });
+    statusFile.textContent = (names[id] || names[viewName] || '') + ' · UTF-8';
+  }
+
+  function route() {
+    var id = decodeURIComponent(location.hash.slice(1)) || 'sobre';
+    var el = document.getElementById(id);
+    if (!el || !el.closest('.view')) { id = 'sobre'; el = document.getElementById('sobre'); }
+    var view = el.closest('.view');
+    views.forEach(function (v) { v.hidden = v !== view; });
+    current = view.dataset.view;
+    if (el === view || el.id === 'sobre') window.scrollTo(0, 0);
+    else el.scrollIntoView();
+    var demo = view.querySelector('.demo');
+    if (demo && demo.preload) { demo.preload(); demo.preload = null; }
+    if (view.dataset.view === 'sobre') { if (id === 'v-sobre') id = 'sobre'; drawHeat(); }
+    mark(names[id] ? id : view.dataset.view);
+  }
+  window.addEventListener('hashchange', route);
+
+  // dentro de "sobre mim", o arquivo marcado acompanha a rolagem
+  window.addEventListener('scroll', function () {
+    if (current !== 'sobre') return;
+    var y = window.innerHeight * 0.35, cur = 'sobre';
+    aboutSections.forEach(function (s) { if (s.getBoundingClientRect().top <= y) cur = s.id; });
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) cur = 'contato';
+    mark(cur);
+  }, { passive: true });
+
+  // mapa de calor ilustrativo do RS
+  var cities = [
+    ['Porto Alegre', -30.03, -51.23, 1], ['Caxias do Sul', -29.17, -51.18, 0.8], ['Passo Fundo', -28.26, -52.41, 0.75],
+    ['Santa Maria', -29.68, -53.81, 0.6], ['Pelotas', -31.77, -52.34, 0.55], ['Ijuí', -28.39, -53.92, 0.5],
+    ['Santo Ângelo', -28.30, -54.26, 0.4], ['Uruguaiana', -29.75, -57.09, 0.35], ['Bagé', -31.33, -54.10, 0.3],
+    ['Erechim', -27.63, -52.27, 0.45], ['Santa Cruz do Sul', -29.72, -52.43, 0.5], ['Lajeado', -29.47, -51.96, 0.45],
+    ['Cruz Alta', -28.64, -53.61, 0.5], ['Carazinho', -28.28, -52.79, 0.45], ['Alegrete', -29.79, -55.79, 0.3], ['Vacaria', -28.51, -50.93, 0.35]
+  ];
+  var seed = 11;
+  function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+  var pts = [];
+  cities.forEach(function (c) {
+    var n = Math.round(6 + c[3] * 22);
+    for (var i = 0; i < n; i++) pts.push([c[2] + (rnd() - 0.5) * 0.9, c[1] + (rnd() - 0.5) * 0.7, c[3] * (0.35 + rnd() * 0.65)]);
+  });
+  var stops = [[92, 200, 255], [255, 209, 102], [255, 138, 61]];
+  function lerp(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
+  var canvas = document.getElementById('heat');
+
+  function drawHeat() {
+    var rect = canvas.getBoundingClientRect();
+    if (!rect.width) return;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W = Math.max(60, Math.round(rect.width * dpr)), H = Math.max(45, Math.round(rect.height * dpr));
+    canvas.width = W; canvas.height = H;
+    var ctx = canvas.getContext('2d');
+    var scale = Math.min(W / 8.2, H / 6.0) * 0.92;
+    function proj(lon, lat) { return [W / 2 + (lon + 53.7) * scale, H / 2 - (lat + 30.0) * scale]; }
+    ctx.fillStyle = '#0F1828'; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(92,200,255,0.10)'; ctx.lineWidth = 1;
+    var step = 26 * dpr;
+    for (var x = 0; x < W; x += step) { ctx.beginPath(); ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, H); ctx.stroke(); }
+    for (var y = 0; y < H; y += step) { ctx.beginPath(); ctx.moveTo(0, y + 0.5); ctx.lineTo(W, y + 0.5); ctx.stroke(); }
+    var r = Math.min(W, H) * 0.12;
+    var o = document.createElement('canvas'); o.width = W; o.height = H;
+    var g2 = o.getContext('2d');
+    pts.forEach(function (p) {
+      var q = proj(p[0], p[1]);
+      var g = g2.createRadialGradient(q[0], q[1], 0, q[0], q[1], r);
+      g.addColorStop(0, 'rgba(0,0,0,' + (0.2 * p[2]) + ')'); g.addColorStop(1, 'rgba(0,0,0,0)');
+      g2.fillStyle = g; g2.fillRect(q[0] - r, q[1] - r, r * 2, r * 2);
+    });
+    var d = g2.getImageData(0, 0, W, H).data;
+    var base = ctx.getImageData(0, 0, W, H), b = base.data;
+    for (var k = 0; k < d.length; k += 4) {
+      var a = Math.min(1, d[k + 3] / 255 * 1.5);
+      if (a < 0.05) continue;
+      var c = a < 0.5 ? lerp(stops[0], stops[1], a / 0.5) : lerp(stops[1], stops[2], (a - 0.5) / 0.5);
+      var al = Math.min(0.95, 0.3 + a * 0.7);
+      b[k] = b[k] * (1 - al) + c[0] * al; b[k + 1] = b[k + 1] * (1 - al) + c[1] * al; b[k + 2] = b[k + 2] * (1 - al) + c[2] * al;
+    }
+    ctx.putImageData(base, 0, 0);
+    ctx.fillStyle = '#E6ECF5';
+    ctx.font = '500 ' + (11 * dpr) + 'px "Fira Code", monospace';
+    cities.slice(0, 3).forEach(function (c) {
+      var q = proj(c[2], c[1]);
+      ctx.beginPath(); ctx.arc(q[0], q[1], 3 * dpr, 0, Math.PI * 2); ctx.fill();
+      ctx.fillText(c[0], q[0] + 7 * dpr, q[1] - 6 * dpr);
+    });
+  }
+
+  route();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawHeat);
+  var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(drawHeat, 150); });
+})();
+</script>
+</body>
+</html>
