@@ -80,3 +80,89 @@ def expandir(tokens: list[str]) -> list[str]:
     sin = sinonimos_normalizados()
     extra = [s for t in tokens for s in sin.get(t, []) if s not in tokens]
     return tokens + extra
+
+
+def ngramas_char(texto: str) -> list[str]:
+    """Pedaços de 3 e 4 letras de cada palavra (com espaço nas pontas). Aguentam erro de digitação:
+    "pyton" e "python" ainda dividem " py", "pyt" e "on ". Mesma lógica de `ngramasChar` no motor.js."""
+    out = []
+    for w in re.findall(r"[a-z0-9]+", normalizar(texto)):
+        w = f" {w} "
+        for n in (3, 4):
+            out.extend(w[i:i + n] for i in range(len(w) - n + 1))
+    return out
+
+
+def distancia(a: str, b: str, limite: int) -> int:
+    """Distância de edição (inserir, apagar, trocar ou inverter duas letras vizinhas), parando em `limite` + 1."""
+    if abs(len(a) - len(b)) > limite:
+        return limite + 1
+    ant2, ant = None, list(range(len(b) + 1))
+    for i in range(1, len(a) + 1):
+        atual = [i] + [0] * len(b)
+        for j in range(1, len(b) + 1):
+            custo = 0 if a[i - 1] == b[j - 1] else 1
+            atual[j] = min(ant[j] + 1, atual[j - 1] + 1, ant[j - 1] + custo)
+            if ant2 and i > 1 and j > 1 and a[i - 1] == b[j - 2] and a[i - 2] == b[j - 1]:
+                atual[j] = min(atual[j], ant2[j - 2] + 1)
+        if min(atual) > limite:
+            return limite + 1
+        ant2, ant = ant, atual
+    return ant[-1]
+
+
+def corrigir(tokens: list[str], conhecidas: dict[str, float]) -> list[str]:
+    """Troca palavras que o índice não conhece pela mais parecida que ele conhece ("harmoni" -> "harmony").
+    `conhecidas` é palavra -> idf; no empate de distância fica a palavra mais comum (menor idf).
+    A primeira letra precisa bater: sem isso, "idade" vira "cidade"."""
+    out = []
+    for t in tokens:
+        if t in conhecidas or len(t) < 4 or t.isdigit():
+            out.append(t)
+            continue
+        limite = 1 if len(t) < 8 else 2
+        melhor = None
+        for c, idf in conhecidas.items():
+            if c[0] != t[0] or " " in c:
+                continue
+            d = distancia(t, c, limite)
+            if d <= limite and (melhor is None or (d, idf, c) < melhor):
+                melhor = (d, idf, c)
+        out.append(melhor[2] if melhor else t)
+    return out
+
+
+# Palavras que nomeiam um projeto. Sem nenhuma delas, a pergunta pode estar falando do projeto anterior.
+PROJETOS = {
+    "fluxo": ["fluxo", "taskflow", "tarefa", "tarefas", "supervisor", "cronometro"],
+    "mapa": ["mapa", "mapas", "calor", "leaflet"],
+    "superagente": ["superagente", "agente", "rag", "gemini", "groq"],
+    "harmony": ["harmony", "violao", "guitarra", "solo", "solos", "caged", "acorde", "acordes", "escala", "escalas"],
+}
+# Só o nome do projeto (já com radical), mais palavras genéricas: "o que é o Fluxo?" pede a visão geral.
+NOMES_PROJETO = {"fluxo": ["fluxo", "taskflow"], "mapa": ["mapa", "venda"], "superagente": ["superagente"], "harmony": ["harmony"]}
+GENERICOS = ["funciona", "projeto", "app", "aplicativo", "sistema", "ferramenta"]
+# Palavras que apontam para algo já dito na conversa: "e as telas dele?", "esse projeto usa testes?".
+REFERENCIAS = sorted({
+    "ele", "ela", "dele", "dela", "nele", "nela", "esse", "essa", "desse", "dessa", "nesse", "nessa", "este", "esta",
+    "deste", "desta", "neste", "nesta", "isso", "disso", "nisso",
+})
+# Palavras que mostram que a pergunta é sobre a pessoa, não sobre o projeto: "qual a sua idade?".
+PESSOA = sorted({"voce", "vc", "tu", "teu", "tua", "seu", "sua", "seus", "suas", "contigo", "ayalan"})
+
+
+def projeto_citado(pergunta: str) -> str | None:
+    palavras = set(re.findall(r"[a-z0-9]+", normalizar(pergunta)))
+    for p, termos in PROJETOS.items():
+        if palavras & set(termos):
+            return p
+    return None
+
+
+def tem_referencia(pergunta: str) -> bool:
+    palavras = re.findall(r"[a-z0-9]+", normalizar(pergunta))
+    return bool(set(palavras) & set(REFERENCIAS)) or (len(palavras) > 1 and palavras[0] == "e")
+
+
+def fala_da_pessoa(pergunta: str) -> bool:
+    return bool(set(re.findall(r"[a-z0-9]+", normalizar(pergunta))) & set(PESSOA))

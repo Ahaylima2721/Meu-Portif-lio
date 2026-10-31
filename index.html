@@ -1041,16 +1041,17 @@ apenas os trechos recuperados das bases.</pre>
   <button class="orb" id="orb" type="button" aria-label="Abrir o assistente do portfólio" aria-expanded="false" aria-controls="chat"><span class="orb-face" aria-hidden="true"><i></i><i></i></span><span class="orb-sparkle" aria-hidden="true"></span></button>
 </div>
 <section class="chat" id="chat" hidden aria-label="Assistente do portfólio">
-  <div class="chat-head"><span class="mini-orb" aria-hidden="true"></span><div><b>Assistente do portfólio</b><span>Responde com base no conteúdo deste site</span></div><button class="chat-close" id="chat-close" type="button" aria-label="Fechar o assistente">×</button></div>
+  <div class="chat-head"><span class="mini-orb" aria-hidden="true"></span><div><b>Assistente do portfólio</b><span>Responde com base neste site e nos repositórios</span></div><button class="chat-close" id="chat-close" type="button" aria-label="Fechar o assistente">×</button></div>
   <div class="chat-log" id="chat-log" aria-live="polite"></div>
   <form class="chat-form" id="chat-form" autocomplete="off"><label class="sr" for="chat-q">Sua pergunta</label><input id="chat-q" type="text" placeholder="Pergunte sobre o Ayalan ou um projeto…" maxlength="200"><button type="submit" aria-label="Enviar pergunta"><svg class="i i-md" aria-hidden="true"><use href="#ic-send"/></svg></button></form>
-  <p class="chat-foot">Busca por similaridade (TF-IDF) treinada em Python · sem servidor</p>
+  <p class="chat-foot">Classificador + TF-IDF treinados em Python · roda no seu navegador</p>
 </section>
 
 <footer class="site-foot">
   <div class="wrap"><span>© 2026 Ayalan Lima · Desenvolvedor &amp; Analista de Dados</span><span><a href="#contato">Contato</a> · <a href="https://github.com/Ahaylima2721" target="_blank" rel="noopener">GitHub</a></span></div>
 </footer>
 
+<script src="assistente/motor.js"></script>
 <script>
 (function () {
   // copiar e-mail
@@ -1225,50 +1226,29 @@ apenas os trechos recuperados das bases.</pre>
   var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(drawHeat, 150); });
 })();
 (function () {
-  // Assistente do portfólio: busca por similaridade (TF-IDF) no índice gerado pelo Python (assistente/construir_indice.py).
-  // A tokenização abaixo espelha assistente/texto.py; as stopwords e os sinônimos vêm do próprio índice.
+  // Assistente do portfólio. A busca fica em assistente/motor.js, que lê o índice treinado em Python
+  // (assistente/construir_indice.py): classificador de tema + similaridade TF-IDF, com correção de digitação e contexto.
   var orb = document.getElementById('orb'), chat = document.getElementById('chat'), log = document.getElementById('chat-log');
   var form = document.getElementById('chat-form'), input = document.getElementById('chat-q'), hint = document.getElementById('orb-hint');
-  var indice = null, carregando = null, stop = {}, pos = {};
+  var motor = null, carregando = null, projetoAnterior = null, normalizar = window.MotorAssistente.normalizar;
   var SUGESTOES = ['Quem é você?', 'O que você faz no dia a dia?', 'Como funciona o Fluxo?', 'Quais tecnologias você usa?', 'Como funciona o gerador de solos?', 'Como entrar em contato?'];
+  var TEMAS = { apresentacao: 'Apresentação', sobre: 'Sobre mim', dia_a_dia: 'Dia a dia', principios: 'Como trabalho', habilidades: 'Habilidades',
+    trajetoria: 'Trajetória', ferramentas: 'Ferramentas', contato: 'Contato', projetos: 'Projetos', fluxo: 'Fluxo', mapa: 'Mapa de Vendas',
+    superagente: 'SuperAgente', harmony: 'Harmony', assistente: 'Assistente', fora: 'Fora do portfólio' };
+  var TEMAS_PROJETO = { fluxo: 1, mapa: 1, superagente: 1, harmony: 1 };
 
   function carregar() {
     if (!carregando) carregando = fetch('assistente/indice.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (d) {
-      indice = d; d.stopwords.forEach(function (s) { stop[s] = 1; }); d.vocabulario.forEach(function (t, i) { pos[t] = i; }); return d;
+      motor = window.MotorAssistente(d); return motor;
     });
     return carregando;
-  }
-  function normalizar(t) { return t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
-  function radical(p) {
-    var n = p.length;
-    if (n > 4 && /oes$/.test(p)) return p.slice(0, -3) + 'ao';
-    if (n > 4 && /aes$/.test(p)) return p.slice(0, -3) + 'ao';
-    if (n > 5 && /ais$/.test(p)) return p.slice(0, -3) + 'al';
-    if (n > 4 && /es$/.test(p) && 'rsz'.indexOf(p[n - 3]) >= 0) return p.slice(0, -2);
-    if (n > 3 && /s$/.test(p) && !/ss$/.test(p)) return p.slice(0, -1);
-    return p;
-  }
-  function tokenizar(t) { return (normalizar(t).match(/[a-z0-9]+/g) || []).filter(function (w) { return w.length > 1 && !stop[w]; }).map(radical); }
-
-  function buscar(pergunta) {
-    var toks = tokenizar(pergunta), termos = toks.slice();
-    toks.forEach(function (t) { (indice.sinonimos[t] || []).forEach(function (s) { if (termos.indexOf(s) < 0) termos.push(s); }); });
-    for (var i = 0; i + 1 < toks.length; i++) termos.push(toks[i] + ' ' + toks[i + 1]);
-    var cont = {}; termos.forEach(function (t) { if (t in pos) cont[pos[t]] = (cont[pos[t]] || 0) + 1; });
-    var q = {}, norma = 0;
-    Object.keys(cont).forEach(function (j) { var v = (1 + Math.log(cont[j])) * indice.idf[j]; q[j] = v; norma += v * v; });
-    norma = Math.sqrt(norma) || 1;
-    var res = indice.trechos.map(function (t) {
-      var s = 0; t.vetor.forEach(function (p) { if (q[p[0]]) s += q[p[0]] / norma * p[1]; }); return { nota: s, t: t };
-    }).sort(function (a, b) { return b.nota - a.nota; });
-    return { toks: toks, res: res };
   }
 
   // monta a resposta com as frases do trecho que mais têm a ver com a pergunta
   function resumir(texto, toks) {
     if (texto.length <= 280) return texto;
     var frases = texto.match(/[^.!?]+[.!?]+(\s|$)/g) || [texto];
-    var notas = frases.map(function (f, i) { var ft = tokenizar(f); return { i: i, f: f.trim(), n: toks.filter(function (t) { return ft.indexOf(t) >= 0; }).length }; });
+    var notas = frases.map(function (f, i) { var ft = motor.tokenizar(f); return { i: i, f: f.trim(), n: toks.filter(function (t) { return ft.indexOf(t) >= 0; }).length }; });
     var escolhidas = notas.slice().sort(function (a, b) { return b.n - a.n || a.i - b.i; }).slice(0, 2).sort(function (a, b) { return a.i - b.i; });
     if (!escolhidas[0].n) escolhidas = notas.slice(0, 2);
     return escolhidas.map(function (e) { return e.f; }).join(' ');
@@ -1288,27 +1268,32 @@ apenas os trechos recuperados das bases.</pre>
     var n = normalizar(pergunta).trim();
     if (/^(oi|ola|opa|e ai|eai|bom dia|boa tarde|boa noite|hey|hello|hi)\b[\s!.?]*$/.test(n)) return bot('Olá! Sou o assistente do portfólio do Ayalan. Pergunte sobre ele, o dia a dia de trabalho ou qualquer um dos projetos.');
     if (/^(obrigad|valeu|vlw|brigad|thanks)/.test(n)) return bot('De nada! Se quiser falar direto com o Ayalan, o e-mail é <b>ayalanlima35@gmail.com</b>.');
-    var r = buscar(pergunta), top = r.res[0];
-    if (!r.toks.length || !top || top.nota < 0.1) {
-      bot('Não encontrei isso no portfólio. Tente perguntar de outro jeito ou escolha uma das sugestões abaixo. Para outros assuntos, fale com o Ayalan pelo e-mail <b>ayalanlima35@gmail.com</b>.');
+    var r = motor.buscar(pergunta, projetoAnterior, 20), top = r.res[0];
+    if (r.fora) {
+      bot(r.tema === 'fora'
+        ? 'Essa pergunta foge do que está no portfólio, então prefiro não inventar. Aqui eu respondo sobre o Ayalan, o trabalho dele e os projetos. Para o resto, o e-mail é <b>ayalanlima35@gmail.com</b>.'
+        : 'Não encontrei isso no portfólio. Tente perguntar de outro jeito ou escolha uma das sugestões abaixo. Para outros assuntos, fale com o Ayalan pelo e-mail <b>ayalanlima35@gmail.com</b>.');
       return sugestoes(SUGESTOES.slice(0, 4));
     }
     var t = top.t, html;
-    // pergunta ampla: vários itens da mesma seção com nota parecida viram uma lista
-    var grupo = r.res.filter(function (x) { return x.nota >= top.nota * 0.72 && x.t.area === t.area && x.t.secao === t.secao; }).slice(0, 5);
+    projetoAnterior = TEMAS_PROJETO[t.tema] ? t.tema : null;
+    // pergunta ampla: vários itens da mesma seção com similaridade parecida viram uma lista
+    var grupo = top.cos > 0 ? r.res.filter(function (x) { return x.cos >= top.cos * 0.72 && x.t.area === t.area && x.t.secao === t.secao; }).slice(0, 5) : [];
     if (grupo.length >= 3) {
       html = '<b>' + esc(t.area === 'Sobre mim' ? t.secao : t.area + ' · ' + t.secao) + '</b><ul class="lista">' + grupo.map(function (x) {
         var frase = (x.t.texto.match(/^[^.!?]+[.!?]?/) || [x.t.texto])[0];
         return '<li><b>' + esc(x.t.titulo.replace(/^[^:]+: /, '')) + ':</b> ' + esc(frase) + '</li>';
       }).join('') + '</ul>';
     } else {
-      html = '<b>' + esc(t.titulo.replace(/^[^:]+: /, '')) + '</b><br>' + esc(resumir(t.texto, r.toks));
+      var titulo = t.titulo.replace(/^[^:]+: /, '');
+      html = '<b>' + esc(titulo[0].toUpperCase() + titulo.slice(1)) + '</b><br>' + esc(resumir(t.texto, r.toks));
     }
     var fontes = [t], vistos = {}; vistos[t.link] = 1;
     r.res.slice(1, 4).forEach(function (x) { if (x.nota > top.nota * 0.6 && !vistos[x.t.link] && fontes.length < 2) { fontes.push(x.t); vistos[x.t.link] = 1; } });
     html += '<span class="src">' + fontes.map(function (f, i) {
       return '<a href="' + f.link + '">' + (i ? 'Veja também: ' : 'Ver em: ') + esc(f.area) + ' · ' + esc(f.secao) + ' →</a>';
-    }).join('') + '</span><span class="why">similaridade ' + top.nota.toFixed(2) + ' · TF-IDF</span>';
+    }).join('') + '</span><span class="why">' + (r.contexto ? 'continuando sobre ' + esc(TEMAS[r.contexto]) + ' · ' : '') +
+      'tema ' + esc(TEMAS[r.tema]) + ' ' + Math.round(r.prob * 100) + '%' + (top.cos > 0 ? ' · similaridade ' + top.cos.toFixed(2) : '') + '</span>';
     var m = bot(html);
     m.querySelectorAll('.src a').forEach(function (a) { a.addEventListener('click', function () { if (window.innerWidth < 700) fechar(); }); });
   }
@@ -1329,7 +1314,7 @@ apenas os trechos recuperados das bases.</pre>
     chat.hidden = false; orb.setAttribute('aria-expanded', 'true'); if (hint) hint.remove();
     if (!iniciou) {
       iniciou = true; carregar().catch(function () {});
-      bot('Olá! Sou o assistente do portfólio do <b>Ayalan</b>. Respondo com base no conteúdo deste site: quem ele é, o dia a dia e os projetos.');
+      bot('Olá! Sou o assistente do portfólio do <b>Ayalan</b>. Respondo com base no conteúdo deste site e dos repositórios dele: quem ele é, o dia a dia e os projetos. Pode perguntar em sequência, como “e os testes dele?”.');
       sugestoes(SUGESTOES);
     }
     setTimeout(function () { input.focus(); }, 50);

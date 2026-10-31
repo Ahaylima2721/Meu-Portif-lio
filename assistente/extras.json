@@ -3,7 +3,7 @@
     "area": "Assistente",
     "secao": "Como funciona",
     "titulo": "Como este assistente funciona",
-    "texto": "Este assistente foi feito por Ayalan com Python e machine learning. Um script lê o conteúdo do portfólio, divide em trechos, vetoriza com TF-IDF (scikit-learn) e gera um índice. No navegador, a sua pergunta vira um vetor e o assistente busca os trechos mais parecidos por similaridade de cosseno. Não há servidor nem chave de API: tudo roda aqui na página.",
+    "texto": "Este assistente foi feito por Ayalan com Python e machine learning. Ele junta dois modelos: uma busca por similaridade TF-IDF nos trechos do portfólio e um classificador de tema (regressão logística sobre palavras e pedaços de letras), treinado com mais de 500 perguntas escritas à mão. Ele corrige erros de digitação, lembra o projeto da pergunta anterior e diz quando a pergunta foge do portfólio. O treino é no scikit-learn; a resposta roda aqui no navegador, sem servidor e sem chave de API.",
     "link": "#inicio"
   },
   {

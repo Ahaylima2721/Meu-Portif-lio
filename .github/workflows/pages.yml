@@ -1,4 +1,4 @@
-# A cada push na main: treina o índice do assistente em Python, roda os testes e publica o site no GitHub Pages.
+# A cada push na main: treina o assistente em Python, avalia, roda os testes (inclusive a paridade com o motor.js no Node) e publica no GitHub Pages.
 name: Publicar no GitHub Pages
 
 on:
@@ -30,7 +30,7 @@ jobs:
           cache-dependency-path: assistente/requirements.txt
       - name: Instalar dependências do assistente
         run: pip install -r assistente/requirements.txt
-      - name: Treinar o índice (TF-IDF)
+      - name: Treinar o assistente (TF-IDF + classificador)
         run: python assistente/construir_indice.py
       - name: Avaliar a qualidade das respostas
         run: python assistente/avaliar.py

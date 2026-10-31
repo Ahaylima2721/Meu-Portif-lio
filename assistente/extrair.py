@@ -101,5 +101,9 @@ def trechos_do_site(html: str) -> list[dict]:
 
 
 def trechos_extras() -> list[dict]:
-    """Trechos escritos à mão, sobre o próprio assistente."""
-    return [dict(t, busca=t["texto"]) for t in json.loads((RAIZ / "extras.json").read_text(encoding="utf-8"))]
+    """Trechos escritos à mão: sobre o próprio assistente (extras.json) e fatos dos READMEs dos repositórios
+    que não cabem na página (repositorios.json)."""
+    out = []
+    for nome in ("extras.json", "repositorios.json"):
+        out += [dict(t, busca=t["texto"]) for t in json.loads((RAIZ / nome).read_text(encoding="utf-8"))]
+    return out

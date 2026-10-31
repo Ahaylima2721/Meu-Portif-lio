@@ -116,5 +116,161 @@
   {
     "pergunta": "Como este robô funciona?",
     "esperado": "#inicio"
+  },
+  {
+    "pergunta": "Voce sabe pyton?",
+    "esperado": [
+      "#habilidades",
+      "#ferramentas"
+    ]
+  },
+  {
+    "pergunta": "como funsiona o harmoni?",
+    "esperado": "#harmony"
+  },
+  {
+    "pergunta": "oq é o superagnte",
+    "esperado": "#superagente"
+  },
+  {
+    "pergunta": "qual seu emial",
+    "esperado": "#contato"
+  },
+  {
+    "pergunta": "o mapa de vendaz le excel?",
+    "esperado": "#mapa"
+  },
+  {
+    "pergunta": "cronometo do fluxo",
+    "esperado": "#fluxo"
+  },
+  {
+    "pergunta": "Quem é o Ayalan?",
+    "esperado": "#inicio"
+  },
+  {
+    "pergunta": "Tu programa em quê?",
+    "esperado": [
+      "#ferramentas",
+      "#habilidades"
+    ]
+  },
+  {
+    "pergunta": "Em que cidade fica o seu trabalho?",
+    "esperado": "#sobre"
+  },
+  {
+    "pergunta": "O que você fez primeiro?",
+    "esperado": "#trajetoria"
+  },
+  {
+    "pergunta": "Dá pra ver o código de algum projeto?",
+    "esperado": [
+      "#projetos",
+      "#superagente"
+    ]
+  },
+  {
+    "pergunta": "Você se considera bom com dados?",
+    "esperado": [
+      "#habilidades",
+      "#dia-a-dia"
+    ]
+  },
+  {
+    "pergunta": "Quais afinações o app de violão tem?",
+    "esperado": "#harmony"
+  },
+  {
+    "pergunta": "Quantos baralhos de revisão existem?",
+    "esperado": "#harmony"
+  },
+  {
+    "pergunta": "Que modelo de embedding o SuperAgente usa?",
+    "esperado": "#superagente"
+  },
+  {
+    "pergunta": "Quantas tabelas tem o banco de dados do Fluxo?",
+    "esperado": "#fluxo"
+  },
+  {
+    "pergunta": "Quais fontes tipográficas o Harmony usa?",
+    "esperado": "#harmony"
+  },
+  {
+    "pergunta": "Esse site foi feito com React?",
+    "esperado": "#inicio"
+  },
+  {
+    "pergunta": "Qual é a capital da Alemanha?",
+    "esperado": "fora"
+  },
+  {
+    "pergunta": "Me ensina a fazer lasanha",
+    "esperado": "fora"
+  },
+  {
+    "pergunta": "Quem vai ganhar o campeonato brasileiro?",
+    "esperado": "fora"
+  },
+  {
+    "pergunta": "Qual a sua idade?",
+    "esperado": "fora"
+  },
+  {
+    "pergunta": "Quanto você quer ganhar?",
+    "esperado": "fora"
+  },
+  {
+    "pergunta": "Escreva uma redação sobre o meio ambiente",
+    "esperado": "fora"
+  },
+  {
+    "pergunta": "Qual é o maior planeta do sistema solar?",
+    "esperado": "fora"
+  },
+  {
+    "anterior": "Como funciona o gerador de solos?",
+    "pergunta": "E quantos testes ele tem?",
+    "esperado": "#harmony"
+  },
+  {
+    "anterior": "O que é o Fluxo?",
+    "pergunta": "Quais tecnologias ele usa?",
+    "esperado": "#fluxo"
+  },
+  {
+    "anterior": "O que é o mapa de vendas?",
+    "pergunta": "e os próximos passos?",
+    "esperado": "#mapa"
+  },
+  {
+    "anterior": "O que é o SuperAgente?",
+    "pergunta": "Esse projeto usa qual modelo?",
+    "esperado": "#superagente"
+  },
+  {
+    "anterior": "O que é o Harmony?",
+    "pergunta": "Qual o seu email?",
+    "esperado": "#contato"
+  },
+  {
+    "anterior": "O que é o Fluxo?",
+    "pergunta": "e o harmony?",
+    "esperado": "#harmony"
+  },
+  {
+    "anterior": "O que é o Fluxo?",
+    "pergunta": "Qual sua idade?",
+    "esperado": "fora"
+  },
+  {
+    "anterior": "Como funciona o gerador de solos?",
+    "pergunta": "tem testes?",
+    "esperado": "#harmony"
+  },
+  {
+    "pergunta": "O que é o Fluxo?",
+    "esperado": "#fluxo"
   }
 ]

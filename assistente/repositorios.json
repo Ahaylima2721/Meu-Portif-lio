@@ -1,0 +1,101 @@
+[
+  {
+    "area": "Harmony",
+    "secao": "Navegação",
+    "titulo": "Harmony: navegação e ajustes",
+    "texto": "O Harmony tem cinco destinos fixos na base da tela: Início, Estudar, Praticar, Revisar e Ajustes. Na primeira abertura, um onboarding de três perguntas define tônica, afinação e nível. Nos Ajustes dá para trocar o nome, a tônica, a afinação (padrão, Drop D, meio tom abaixo ou DADGAD), os trastes visíveis, a aparência e o nível.",
+    "link": "#harmony"
+  },
+  {
+    "area": "Harmony",
+    "secao": "Tocar junto",
+    "titulo": "Harmony: trilhas de acompanhamento",
+    "texto": "São 14 trilhas de acompanhamento: blues, jazz, pop, balada, rock, funk, andaluza, rhythm changes, ii-V-i menor e outras. Elas são renderizadas a partir de gravações reais de bateria, baixo, guitarra, piano e órgão, todas em domínio público (CC0). Por cima de cada trilha dá para tocar um solo sugerido, a escala ou um arpejo dedilhado em fingerstyle, com a pegada de cada compasso no braço e em tablatura.",
+    "link": "#harmony"
+  },
+  {
+    "area": "Harmony",
+    "secao": "Revisar",
+    "titulo": "Harmony: baralhos de revisão",
+    "texto": "A revisão tem oito baralhos em ordem de estudo: notas no braço, intervalos, intervalos de ouvido, tríades, acordes de ouvido, escala maior e tons, os desenhos da escala e campo harmônico. Cada cartão é um conceito e a pergunta é montada na hora. O agendamento usa caixas de Leitner: errou, a pergunta volta logo; acertou em dias diferentes, volta cada vez mais tarde.",
+    "link": "#harmony"
+  },
+  {
+    "area": "Harmony",
+    "secao": "Gerador de solos",
+    "titulo": "Harmony: opções do gerador de solos",
+    "texto": "O gerador faz solo curto, de 4 compassos, ou longo, de 12. Usa pares de pergunta e resposta, nota do acorde nos tempos fortes, grau conjunto, salto resolvido, respiro entre as frases e a blue note sempre resolvendo por meio-tom. O nível escolhido nos Ajustes muda o ritmo, os saltos, a posição de mão e as técnicas.",
+    "link": "#harmony"
+  },
+  {
+    "area": "Harmony",
+    "secao": "Design",
+    "titulo": "Harmony: identidade visual Papel & Índigo",
+    "texto": "A identidade visual se chama Papel & Índigo: papel quente como base, índigo como a voz do blues e âmbar como a madeira do instrumento. As fontes são Spectral nos títulos, Inter no corpo e IBM Plex Mono em graus, casas e tablatura, todas self-hosted para funcionar offline. Todos os pares de texto passam no contraste WCAG 2.1 AA. Os tokens de design vivem num arquivo só e viram variáveis CSS em tempo de execução, com CSS Modules e sem Tailwind.",
+    "link": "#harmony"
+  },
+  {
+    "area": "Harmony",
+    "secao": "Arquitetura",
+    "titulo": "Harmony: arquitetura do motor de teoria",
+    "texto": "O motor de teoria musical é TypeScript puro, sem dependência de DOM, por isso é testável e portátil para o app. O campo harmônico vem de empilhar terças dentro da escala, não de uma tabela fixa. O CAGED é calculado como uma janela de trastes a partir da tônica, então toda escala nova ganha CAGED de graça. A enarmonia é resolvida por categoria de escala: pentatônicas e blues usam bemóis. A geometria do braço é uma função pura, calibrada para 7 trastes caberem em 390 px.",
+    "link": "#harmony"
+  },
+  {
+    "area": "Harmony",
+    "secao": "Tecnologias",
+    "titulo": "Harmony: stack completa",
+    "texto": "Stack do Harmony: React 19, TypeScript, React Router 7, Vite 8, Vitest 4 com Testing Library e jsdom, lint com oxlint, CSS Modules, fontes @fontsource e Capacitor para o Android. O braço e a tablatura são desenhados em SVG próprio, sem biblioteca de notação musical. Ainda no roteiro: versão iOS e metrônomo.",
+    "link": "#harmony"
+  },
+  {
+    "area": "SuperAgente",
+    "secao": "Uso",
+    "titulo": "SuperAgente: como usar",
+    "texto": "O SuperAgente roda no terminal. Ele lê arquivos .csv, .xlsx, .xls e .xlsm da pasta de bases. Há um modo de pergunta única, um modo interativo para perguntas seguidas (sair, exit ou q encerram) e um modo que só valida a leitura das planilhas, contando linhas e colunas. O código é aberto no GitHub: github.com/Ahaylima2721/SuperAgente.",
+    "link": "#superagente"
+  },
+  {
+    "area": "SuperAgente",
+    "secao": "Modelos",
+    "titulo": "SuperAgente: modelos de IA",
+    "texto": "Modelos de IA do SuperAgente: Gemini 2.5 Flash para responder, gemini-embedding-001 para embeddings e Llama 3.3 70B no Groq como reserva quando o Gemini atinge a cota. O vetorizador TF-IDF treinado fica salvo em disco, então a busca dos trechos não gasta chamadas de API.",
+    "link": "#superagente"
+  },
+  {
+    "area": "Fluxo",
+    "secao": "Banco de dados",
+    "titulo": "Fluxo: banco de dados",
+    "texto": "O banco do Fluxo tem 11 tabelas no Postgres: perfis, papéis, atividades, histórico, anexos, downloads, filiais, grupos, membros dos grupos, lotes e a lista de e-mails que viram supervisor no cadastro. Cada usuário tem o papel de supervisor ou funcionário.",
+    "link": "#fluxo"
+  },
+  {
+    "area": "Fluxo",
+    "secao": "Estados",
+    "titulo": "Fluxo: estados de uma atividade",
+    "texto": "Uma atividade do Fluxo tem quatro estados: não iniciada, em andamento, pausada e concluída. O estado atrasada é derivado na tela quando o prazo passou e a tarefa não foi concluída. O Realtime do Supabase escuta mudanças na tabela de atividades e mantém o dashboard e as listas atualizados sozinhos, sem recarregar a página.",
+    "link": "#fluxo"
+  },
+  {
+    "area": "Fluxo",
+    "secao": "Tecnologias",
+    "titulo": "Fluxo: stack completa",
+    "texto": "Stack do Fluxo: React 19, TypeScript, TanStack Router e Start com SSR via Nitro, TanStack Query, Tailwind, Radix UI, Recharts e Sonner no front. No back, Supabase: Postgres com RLS, Auth com login por e-mail ou Google, Storage para os anexos e Realtime. O acompanhamento mostra cada envio em grupo com uma barra de progresso em três estágios, calculada a partir dos arquivos de retorno.",
+    "link": "#fluxo"
+  },
+  {
+    "area": "Portfólio",
+    "secao": "Este site",
+    "titulo": "Como este portfólio foi feito",
+    "texto": "Este portfólio é uma página HTML única, com CSS e JavaScript puros e sem build, que imita um editor de código: cada arquivo da barra lateral abre uma área. Ele é publicado no GitHub Pages, e a cada push o GitHub Actions treina o assistente, roda a avaliação e os testes antes de publicar. As capturas de tela do Fluxo e do Mapa de Vendas usam dados fictícios no lugar dos reais.",
+    "link": "#inicio"
+  },
+  {
+    "area": "Portfólio",
+    "secao": "Repositórios",
+    "titulo": "Repositórios no GitHub",
+    "texto": "O perfil no GitHub é github.com/Ahaylima2721. Os repositórios públicos são o deste portfólio (Meu-Portif-lio) e o SuperAgente. O código do Fluxo, do Mapa de Vendas e do Harmony não é público (os dois primeiros são ferramentas internas do trabalho), mas a arquitetura, as decisões e as telas estão descritas aqui.",
+    "link": "#contato",
+    "tema": "projetos"
+  }
+]
