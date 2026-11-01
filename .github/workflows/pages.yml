@@ -36,6 +36,8 @@ jobs:
         run: python assistente/avaliar.py
       - name: Testes
         run: python -m pytest -q assistente/tests
+      - name: Carimbar a versão nos arquivos do assistente (evita motor.js e índice antigos em cache)
+        run: sed -i "s/__VERSAO__/${GITHUB_SHA::7}/g" index.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
