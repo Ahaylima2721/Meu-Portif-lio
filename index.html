@@ -15,7 +15,7 @@
 <meta name="description" content="Ayalan Lima: desenvolvedor e analista de dados. Ferramentas web, análise de vendas e IA aplicada a dados de operação.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Great+Vibes&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Great+Vibes&family=STIX+Two+Text:ital@0;1&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: portfólio clássico. Menu fixo no topo, uma coluna centralizada de 1100px; início com apresentação, projetos em página própria e cada projeto com sua página.
    Identidade: paleta neutra (preto, cinzas e branco) com o vermelho como única cor dominante,
@@ -889,6 +889,98 @@ body { background: var(--bg); }
   .folder { animation: none; }
   .card:hover, .pcard:hover, .challenges > div:hover, .flow li:hover { transform: none; }
 }
+/* ================= Zoe viva: ondas, boca, gestos e voo do topo para o canto ================= */
+.orb-liquid { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; z-index: 0; pointer-events: none; }
+.orb-liquid i { position: absolute; left: -50%; width: 200%; height: 200%; border-radius: 42%; animation: ondaGira 8s linear infinite, mare 4.5s ease-in-out infinite; }
+.orb-liquid i:nth-child(1) { top: 56%; background: rgba(255, 255, 255, 0.16); }
+.orb-liquid i:nth-child(2) { top: 62%; border-radius: 38%; background: rgba(196, 181, 253, 0.32); animation-duration: 11s, 5.5s; animation-direction: reverse, normal; }
+@keyframes ondaGira { to { transform: rotate(360deg); } }
+@keyframes mare { 0%, 100% { translate: 0 0; } 50% { translate: 0 -7%; } }
+.orb-rings { position: absolute; inset: 0; z-index: -3; pointer-events: none; }
+.orb-rings i { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(167, 139, 250, 0.6); opacity: 0; animation: ondaFora 3.6s ease-out infinite; }
+.orb-rings i:nth-child(2) { animation-delay: 1.2s; } .orb-rings i:nth-child(3) { animation-delay: 2.4s; }
+@keyframes ondaFora { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(1.9); opacity: 0; } }
+.orb .orb-face, .orb .orb-sparkle, .orb-mouth { z-index: 2; }
+.orb .orb-face { transition: transform .35s cubic-bezier(.3, 1.4, .5, 1); }
+.orb-mouth { position: absolute; left: 50%; top: 66%; width: 16%; height: 7%; transform: translateX(-50%); border-bottom: 2px solid #F7F3FF; border-radius: 0 0 50% 50% / 0 0 100% 100%; filter: drop-shadow(0 0 4px rgba(235, 225, 255, 0.9)); transition: width .25s, height .25s; }
+.orb-xl .orb-mouth { border-bottom-width: 3px; }
+.orb.feliz .orb-mouth { width: 26%; height: 11%; }
+.orb.feliz .orb-face i { animation: none; transform: scaleY(0.45) translateY(-20%); border-radius: 999px 999px 4px 4px; }
+.orb.pisca .orb-face i:first-child { animation: none; transform: scaleY(0.15); }
+.orb.falando .orb-mouth { border: 0; background: #F7F3FF; border-radius: 50%; height: 4%; width: 12%; animation: fala .26s ease-in-out infinite alternate; }
+@keyframes fala { to { height: 11%; width: 15%; } }
+.orb.falando .orb-liquid i, .orb.pensando .orb-liquid i { animation-duration: 2.6s, 1.6s; }
+.orb.falando .orb-rings i { animation-duration: 1.6s; }
+.orb.pulo { animation: orbFloat 4.5s ease-in-out infinite, boing .75s cubic-bezier(.3, 1.5, .5, 1); }
+@keyframes boing { 0% { scale: 1; } 25% { scale: 1.12 0.88; } 50% { scale: 0.93 1.08; } 75% { scale: 1.03 0.97; } 100% { scale: 1; } }
+
+/* no topo, a Zoe mora no quadrado; ao rolar, voa para o canto */
+.orb-wrap.no-quadrado { visibility: hidden; pointer-events: none; }
+.orb-wrap.voando .orb-hint { visibility: hidden; }
+.hero-orb.saiu { visibility: hidden; }
+.hero-card::after { content: "a Zoe foi para o canto ↘"; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); white-space: nowrap; padding: 6px 12px; border-radius: 999px; background: var(--surface); border: 1.5px solid var(--fg); font: 500 0.85rem var(--f-mono); color: var(--fg); opacity: 0; transition: opacity .4s .3s; pointer-events: none; }
+.hero-card:has(.saiu)::after { opacity: 1; }
+
+/* algoritmo com fórmulas */
+.algo { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.algo li { border: 1px solid var(--line-strong); border-radius: 12px; background: var(--surface); padding: 18px 20px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.algo-h { display: flex; align-items: center; gap: 10px; }
+.algo-h .n { font: 400 1.4rem/1 var(--f-display); color: var(--accent); }
+.algo-h b { font-weight: 600; font-size: 1.02rem; }
+.algo p { color: var(--muted); font-size: 0.95rem; }
+.formula { font: 400 1.04rem/1.9 "STIX Two Text", "Cambria Math", Cambria, Georgia, serif; color: var(--fg); background: var(--bg); border: 1px dashed var(--line-strong); border-radius: 8px; padding: 10px 14px; overflow-x: auto; }
+.formula var { font-style: italic; }
+[data-param] { font-weight: 700; color: var(--accent); }
+.formula code { font-size: 0.82em; }
+.f-note { display: block; margin-top: 4px; font: 400 0.8rem/1.5 var(--f-sans); color: var(--faint); }
+.f-note var { font-family: "STIX Two Text", Georgia, serif; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; line-height: 1.25; margin: 0 2px; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+
+/* rede neural interativa */
+.nn { border: 1.5px solid var(--fg); border-radius: 16px; background: var(--surface); padding: clamp(14px, 3vw, 22px); display: grid; gap: 14px; }
+.nn-top { display: grid; gap: 10px; }
+.nn-modes { display: flex; flex-wrap: wrap; gap: 6px; }
+.nn-modes button { font: 600 0.86rem var(--f-sans); padding: 7px 13px; border-radius: 999px; border: 1.5px solid var(--fg); background: var(--surface); color: var(--fg); cursor: pointer; }
+.nn-modes button[aria-selected="true"] { background: var(--fg); color: var(--bg); }
+.nn-form { display: flex; gap: 10px; }
+.nn-form input { flex: 1; min-width: 0; padding: 11px 14px; border-radius: 10px; border: 1px solid var(--line-strong); background: var(--bg); color: var(--fg); font: 400 1rem var(--f-sans); }
+.nn-form input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+.nn-train { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; gap: 12px 18px; align-items: end; padding: 14px; border-radius: 12px; background: var(--bg); border: 1px dashed var(--line-strong); }
+.nn-train[hidden] { display: none; }
+.nn-train label { display: grid; gap: 4px; font-size: 0.85rem; color: var(--muted); }
+.nn-train output { font: 600 0.85rem var(--f-mono); color: var(--fg); justify-self: start; }
+.nn-train input[type=range] { accent-color: var(--accent); width: 100%; }
+.nn-curva { grid-column: 1 / 3; width: 100%; height: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+.nn-status { grid-column: 3 / -1; font-size: 0.88rem; color: var(--muted); align-self: center; }
+.block { grid-template-columns: minmax(0, 1fr); }
+.nn-scroll { overflow-x: auto; }
+.nn-svg { width: 100%; height: auto; display: block; }
+.nn-svg text { font-family: var(--f-mono); font-size: 13px; fill: var(--fg); }
+.nn-svg .lbl-out { font-family: var(--f-sans); font-size: 13.5px; }
+.nn-svg .muted { fill: var(--faint); }
+.nn-svg .layer { font: 600 11px var(--f-sans); letter-spacing: .1em; text-transform: uppercase; fill: var(--faint); }
+.nn-svg .edge { fill: none; transition: opacity .2s; }
+.nn-svg .node { stroke: var(--fg); stroke-width: 1.5; cursor: pointer; transition: r .3s; }
+.nn-svg.foco .edge:not(.on) { opacity: 0.04; }
+.nn-svg .bar { fill: var(--soft); } .nn-svg .bar-v { fill: var(--accent); } .nn-svg .bar-v.top { fill: var(--accent); } .nn-svg .bar-v:not(.top) { fill: var(--faint); }
+.nn-cap { font-size: 0.95rem; }
+.nn-legenda { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 0.82rem; color: var(--faint); }
+.nn-legenda span { display: inline-block; width: 22px; height: 3px; border-radius: 2px; }
+.nn-legenda .pos { background: #C62828; } .nn-legenda .neg { background: #2F6FDB; margin-left: 10px; }
+
+@media (max-width: 760px) {
+  .algo { grid-template-columns: minmax(0, 1fr); }
+  .nn-train { grid-template-columns: minmax(0, 1fr); }
+  .nn-curva, .nn-status { grid-column: auto; }
+  .nn-form { flex-direction: column; }
+  .nn-svg { min-width: 760px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orb-liquid i, .orb-rings i, .orb.falando .orb-mouth { animation: none; }
+  .orb-rings { display: none; }
+  .orb.pulo { animation: none; }
+}
 </style>
 <style>html{-webkit-text-size-adjust:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
@@ -1516,10 +1608,10 @@ apenas os trechos recuperados das bases.</pre>
               </div>
             </div>
             <div class="metrics">
-              <div><b>97%</b><span>de acerto no 1º resultado, em perguntas de teste</span></div>
+              <div><b>96%</b><span>de acerto no 1º resultado, em perguntas de teste</span></div>
               <div><b>601</b><span>perguntas escritas à mão em 15 temas</span></div>
               <div><b>0</b><span>servidores e chaves de API</span></div>
-              <div><b>~115 KB</b><span>de modelo baixado, com gzip</span></div>
+              <div><b>~120 KB</b><span>de modelo baixado, com gzip</span></div>
             </div>
           </div>
 
@@ -1565,16 +1657,77 @@ apenas os trechos recuperados das bases.</pre>
               </ol>
             </section>
 
+            <section class="block" data-indice="nao" id="zoe-algoritmo"><p class="blabel">o algoritmo, passo a passo</p>
+              <p>Tudo o que a Zoe faz cabe em dez passos. Os valores em destaque são os do modelo publicado hoje, lidos do próprio índice: quando o modelo é retreinado, eles mudam aqui também.</p>
+              <ol class="algo">
+                <li><div class="algo-h"><span class="n">01</span><b>Normalização e tokens</b></div>
+                  <p>A pergunta vai para minúsculas, perde os acentos e é cortada em palavras. Palavras vazias (de, que, você…) saem, e um radical simples junta singular e plural.</p>
+                  <div class="formula">"Quais <var>decisões</var> técnicas?" → [<code>decisao</code>, <code>tecnica</code>]<span class="f-note">-ões, -ães → -ão · -ais → -al · -res, -ses, -zes → -r, -s, -z · -s → ∅</span></div></li>
+                <li><div class="algo-h"><span class="n">02</span><b>Correção de digitação</b></div>
+                  <p>Palavra desconhecida é trocada pela mais parecida do vocabulário, pela distância de Damerau–Levenshtein: quantas letras inserir, apagar, trocar ou inverter.</p>
+                  <div class="formula"><var>D</var>(<var>i</var>,<var>j</var>) = min { <var>D</var>(<var>i</var>−1,<var>j</var>)+1 , <var>D</var>(<var>i</var>,<var>j</var>−1)+1 , <var>D</var>(<var>i</var>−1,<var>j</var>−1)+[<var>a<sub>i</sub></var> ≠ <var>b<sub>j</sub></var>] , <var>D</var>(<var>i</var>−2,<var>j</var>−2)+1 se as letras se inverteram }<span class="f-note">aceita se <var>D</var> ≤ 1 (até 7 letras) ou ≤ 2; mesma primeira letra; no empate, a palavra mais comum</span></div></li>
+                <li><div class="algo-h"><span class="n">03</span><b>TF-IDF</b></div>
+                  <p>Cada trecho do site vira um vetor: termos frequentes no trecho e raros no resto pesam mais. Entram palavras e pares de palavras, e o título conta duas vezes.</p>
+                  <div class="formula"><var>w</var>(<var>t</var>,<var>d</var>) = (1 + ln tf(<var>t</var>,<var>d</var>)) · idf(<var>t</var>)<br>idf(<var>t</var>) = ln <span class="frac"><span>1 + <var>N</var></span><span>1 + df(<var>t</var>)</span></span> + 1<br><var>v</var> = <span class="frac"><span><var>w</var></span><span>‖<var>w</var>‖<sub>2</sub></span></span><span class="f-note"><var>N</var> = <span data-param="trechos">183</span> trechos · df = em quantos trechos o termo aparece</span></div></li>
+                <li><div class="algo-h"><span class="n">04</span><b>Similaridade de cosseno</b></div>
+                  <p>A pergunta passa pelo mesmo processo (mais sinônimos: "e-mail" também procura "contato") e é comparada com cada trecho.</p>
+                  <div class="formula">cos(<var>q</var>,<var>d</var>) = Σ<sub><var>t</var></sub> <var>q<sub>t</sub></var> · <var>d<sub>t</sub></var><span class="f-note">os dois vetores já têm norma 1, então o produto escalar é o cosseno</span></div></li>
+                <li><div class="algo-h"><span class="n">05</span><b>Classificador de tema</b></div>
+                  <p>Regressão logística multinomial sobre TF-IDF de palavras e de pedaços de 3 e 4 letras. Ela dá a probabilidade de a pergunta ser de cada um dos <span data-param="temas">15</span> temas, inclusive "fora do portfólio".</p>
+                  <div class="formula"><var>z<sub>k</sub></var> = <var>b<sub>k</sub></var> + Σ<sub><var>j</var></sub> <var>w<sub>kj</sub></var> <var>x<sub>j</sub></var><br><var>P</var>(<var>k</var> | <var>x</var>) = <span class="frac"><span><var>e</var><sup><var>z<sub>k</sub></var></sup></span><span>Σ<sub><var>m</var></sub> <var>e</var><sup><var>z<sub>m</sub></var></sup></span></span><span class="f-note">treino: min<sub><var>W</var></sub> ½‖<var>W</var>‖² + <var>C</var> Σ<sub><var>i</var></sub> −ln <var>P</var>(<var>y<sub>i</sub></var> | <var>x<sub>i</sub></var>) , com <var>C</var> = <span data-param="C">10</span> · <span data-param="perguntas">601</span> perguntas, cada uma com mais duas versões com erro de digitação, e os próprios trechos</span></div></li>
+                <li><div class="algo-h"><span class="n">06</span><b>Contexto da conversa</b></div>
+                  <p>Se a pergunta aponta para a anterior ("e os testes dele?"), o projeto da conversa vale metade da decisão.</p>
+                  <div class="formula"><var>P</var>′(<var>k</var>) = ½ <var>P</var>(<var>k</var>) + ½ · 𝟙[<var>k</var> = projeto anterior]</div></li>
+                <li><div class="algo-h"><span class="n">07</span><b>Fusão</b></div>
+                  <p>A nota de cada trecho soma o quanto ele se parece com a pergunta e o quanto o tema dele é provável.</p>
+                  <div class="formula">nota(<var>d</var>) = (1 − λ) · cos(<var>q</var>,<var>d</var>) + λ · <var>P</var>(tema(<var>d</var>) | <var>q</var>) ,  λ = <span data-param="lambda">0,4</span></div></li>
+                <li><div class="algo-h"><span class="n">08</span><b>Recusa</b></div>
+                  <p>Melhor dizer que não sabe do que devolver o trecho menos pior.</p>
+                  <div class="formula">fora ⇔ ( argmax<sub><var>k</var></sub> <var>P</var>(<var>k</var>) = fora ∧ <var>P</var>(fora) ≥ θ<sub>f</sub> ) ∨ max<sub><var>d</var></sub> nota(<var>d</var>) &lt; θ<sub>n</sub><span class="f-note">θ<sub>f</sub> = <span data-param="limiar_fora">0,4</span> · θ<sub>n</sub> = <span data-param="limiar_nota">0,1</span></span></div></li>
+                <li><div class="algo-h"><span class="n">09</span><b>Escolha dos hiperparâmetros</b></div>
+                  <p>Busca em grade com 384 combinações de <var>C</var>, λ, θ<sub>f</sub> e θ<sub>n</sub>, cada uma medida em três sorteios de validação. Dizer "não sei" a uma pergunta que o site responde é punido.</p>
+                  <div class="formula">s(<var>r</var>) = 1 se acerta a seção · 0 se erra · −½ se recusa sem motivo<br>(<var>C</var>, λ, θ<sub>f</sub>, θ<sub>n</sub>) = argmax ⅓ Σ<sub>sorteios</sub> média(s)</div></li>
+                <li><div class="algo-h"><span class="n">10</span><b>Poda para a web</b></div>
+                  <p>Pesos pequenos quase não mudam a resposta e ocupam espaço. Saem do arquivo que vai para o navegador.</p>
+                  <div class="formula">mantém <var>w<sub>kj</sub></var> ⇔ |<var>w<sub>kj</sub></var>| ≥ 0,08 · max |<var>w</var>|<span class="f-note">o mesmo cálculo roda em Python (treino) e em JavaScript (resposta), e um teste exige resultados idênticos</span></div></li>
+              </ol>
+            </section>
+
+            <section class="block" data-indice="nao" id="zoe-rede"><p class="blabel">rede neural interativa</p>
+              <p>O classificador do passo 5 é uma rede neural de uma camada: cada termo da pergunta é um neurônio de entrada, cada tema é um neurônio de saída, e as ligações são os pesos aprendidos no treino. O desenho abaixo usa os pesos reais do modelo publicado. No modo experimento, você treina aqui no navegador uma rede com camada oculta sobre as mesmas perguntas.</p>
+              <div class="nn">
+                <div class="nn-top">
+                  <div class="nn-modes" role="tablist" aria-label="Qual rede mostrar">
+                    <button type="button" role="tab" aria-selected="true" data-modo="zoe">Zoe hoje · 1 camada</button>
+                    <button type="button" role="tab" aria-selected="false" data-modo="oculta">Experimento · camada oculta</button>
+                  </div>
+                  <form class="nn-form" id="nn-form" autocomplete="off"><label class="sr" for="nn-q">Pergunta para passar pela rede</label><input id="nn-q" type="text" maxlength="120" value="como funciona o gerador de solos?"><button type="submit" class="btn">Passar pela rede</button></form>
+                  <div class="lab-ex nn-ex" id="nn-ex"><span>Teste:</span><button type="button">qual o seu email?</button><button type="button">você sabe python?</button><button type="button">qual a capital da frança?</button><button type="button">o que é a zoe?</button></div>
+                </div>
+                <div class="nn-train" id="nn-train" hidden>
+                  <label>Neurônios ocultos <output id="nn-h-v">16</output><input type="range" id="nn-h" min="4" max="32" step="4" value="16"></label>
+                  <label>Épocas <output id="nn-e-v">40</output><input type="range" id="nn-e" min="10" max="80" step="10" value="40"></label>
+                  <label>Taxa de aprendizado <output id="nn-lr-v">0,010</output><input type="range" id="nn-lr" min="1" max="5" step="1" value="2"></label>
+                  <button type="button" class="btn" id="nn-treinar">Treinar a rede</button>
+                  <svg class="nn-curva" id="nn-curva" viewBox="0 0 320 120" role="img" aria-label="Curva de treino: ainda não treinada"></svg>
+                  <p class="nn-status" id="nn-status">Ainda não treinada. A rede aprende com as perguntas de treino da Zoe; 20% delas ficam de fora para medir o acerto.</p>
+                </div>
+                <div class="nn-scroll"><svg class="nn-svg" id="nn-svg" viewBox="0 0 960 460" role="img" aria-label="Rede neural"></svg></div>
+                <p class="nn-cap" id="nn-cap">Carregando o modelo…</p>
+                <p class="nn-legenda"><span class="pos"></span>peso que aumenta a chance do tema <span class="neg"></span>peso que diminui · passe o mouse num neurônio para ver as ligações dele</p>
+              </div>
+            </section>
+
             <section class="block"><p class="blabel">avaliação</p>
               <p>Separei 72 perguntas de teste que nunca entram no treino, com erros de digitação, perguntas de continuação e perguntas fora do escopo. A comparação é com a primeira versão do assistente, que usava só a busca TF-IDF:</p>
               <div class="tablewrap">
                 <table class="cmp" data-medicao="acerto no 1º resultado nas perguntas de teste">
                   <thead><tr><th scope="col">grupo de perguntas</th><th scope="col">só TF-IDF</th><th scope="col">Zoe hoje</th></tr></thead>
                   <tbody>
-                    <tr><td>todas</td><td>67%</td><td class="good up">97%</td></tr>
-                    <tr><td>no escopo</td><td>73%</td><td class="good up">96%</td></tr>
+                    <tr><td>todas</td><td>65%</td><td class="good up">96%</td></tr>
+                    <tr><td>no escopo</td><td>71%</td><td class="good up">96%</td></tr>
                     <tr><td>fora do escopo</td><td>50%</td><td class="good up">100%</td></tr>
-                    <tr><td>continuação da conversa</td><td>44%</td><td class="good up">100%</td></tr>
+                    <tr><td>continuação da conversa</td><td>44%</td><td class="good up">89%</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -1597,13 +1750,29 @@ apenas os trechos recuperados das bases.</pre>
               </div>
             </section>
 
-            <section class="block"><p class="blabel">status e próximos passos</p>
+            <section class="block"><p class="blabel">o que estou fazendo agora</p>
+              <p>A Zoe passou de ferramenta escondida no canto para projeto com página própria. Nesta etapa estou documentando a matemática de cada passo, mostrando o modelo por dentro (o laboratório e a rede neural acima), dando mais vida ao orbe e ampliando a base com um perfil além do site, o que levou a recusa fora do escopo de 75% para 100%.</p>
+            </section>
+
+            <section class="block"><p class="blabel">status e próximos passos de integração</p>
               <ol class="roadmap">
                 <li class="done"><b>Concluído: motor de respostas</b><span>Busca TF-IDF, classificador de tema, correção de digitação, contexto da conversa e recusa fora do escopo, com testes e avaliação no CI.</span></li>
-                <li class="now"><b>Em andamento: integração</b><span>Nome, identidade e página própria, laboratório que mostra cada etapa da resposta e retreino automático a cada push no GitHub Actions.</span></li>
-                <li><b>Próximo: aprender com o uso</b><span>Registrar de forma anônima as perguntas que ficaram sem resposta, para virar novos exemplos de treino.</span></li>
-                <li><b>Próximo: camada com LLM</b><span>Uma etapa opcional em que um modelo de linguagem monta a resposta só com os trechos recuperados, mantendo o modo local como reserva.</span></li>
+                <li class="done"><b>Concluído: perfil além do site</b><span>Formação, objetivos, forma de trabalhar e hobbies entraram na base, com perguntas pessoais que continuam fora do escopo.</span></li>
+                <li class="now"><b>Em andamento: integração visual</b><span>Página própria, laboratório, rede neural interativa, algoritmo documentado e um orbe que vive no topo e voa para o canto ao rolar a página.</span></li>
+                <li><b>Próximo: aprender com o uso</b><span>Registrar de forma anônima as perguntas que ficaram sem resposta, numa função serverless gratuita, revisar e transformar em novos exemplos de treino.</span></li>
+                <li><b>Próximo: embeddings de frases</b><span>Vetores de significado calculados no build com um modelo multilíngue pequeno, somados à fusão para entender sinônimos que o TF-IDF não pega.</span></li>
+                <li><b>Próximo: camada oculta no treino oficial</b><span>Levar o experimento da rede neural para o pipeline em Python e só trocar o classificador se ele vencer a regressão logística na validação.</span></li>
+                <li><b>Próximo: camada com LLM</b><span>Uma etapa opcional em que um modelo de linguagem monta a resposta só com os trechos recuperados, com a chave fora do navegador e o modo local como reserva.</span></li>
               </ol>
+            </section>
+
+            <section class="block"><p class="blabel">por que aprender machine learning</p>
+              <div class="decisions">
+                <div><b>Do relatório à previsão</b><p>Já trato dados de vendas, compras e equipe todo dia. Machine learning é o passo seguinte da análise: em vez de só descrever o que aconteceu, estimar o que vem e classificar o que chega.</p></div>
+                <div><b>Saber quando o modelo erra</b><p>Chamar uma IA pronta é fácil. Medir, validar e fazer o modelo admitir que não sabe é o que separa um protótipo de uma ferramenta em que a equipe confia.</p></div>
+                <div><b>Pequeno, barato e privado</b><p>Um modelo treinado nos próprios dados roda no navegador, sem custo por pergunta e sem mandar dado nenhum para fora. Nem todo problema precisa de um LLM.</p></div>
+                <div><b>Base para usar LLMs bem</b><p>RAG, embeddings e avaliação são machine learning. Entender vetores, probabilidade e regularização é o que permite integrar modelos grandes com responsabilidade, em vez de só conversar com eles.</p></div>
+              </div>
             </section>
 
             <div class="stackline"><span class="chip">Python</span><span class="chip">scikit-learn</span><span class="chip">BeautifulSoup</span><span class="chip">pytest</span><span class="chip">JavaScript</span><span class="chip">Node</span><span class="chip">GitHub Actions</span></div>
@@ -1880,10 +2049,11 @@ apenas os trechos recuperados das bases.</pre>
     texto = texto.trim(); if (!texto) return;
     log.appendChild(el('div', 'msg user', esc(texto))); rolar();
     var dig = el('div', 'msg bot typing', '<i></i><i></i><i></i>'); log.appendChild(dig); rolar();
+    orb.classList.add('falando');
     carregar().then(function () {
-      setTimeout(function () { dig.remove(); responder(texto); }, 450 + Math.random() * 350);
+      setTimeout(function () { dig.remove(); responder(texto); setTimeout(function () { orb.classList.remove('falando'); }, 700); }, 450 + Math.random() * 350);
     }).catch(function () {
-      dig.remove(); bot('Não consegui carregar a base de conhecimento agora. Recarregue a página ou fale com o Ayalan pelo e-mail <b>ayalanlima35@gmail.com</b>.');
+      orb.classList.remove('falando'); dig.remove(); bot('Não consegui carregar a base de conhecimento agora. Recarregue a página ou fale com o Ayalan pelo e-mail <b>ayalanlima35@gmail.com</b>.');
     });
   }
 
@@ -1895,9 +2065,10 @@ apenas os trechos recuperados das bases.</pre>
       bot('Oi! Eu sou a <b>Zoe</b>, a assistente do portfólio do <b>Ayalan</b>. Respondo com base neste site e nos repositórios dele: quem ele é, o dia a dia e os projetos. Pode perguntar em sequência, como “e os testes dele?”.');
       sugestoes(SUGESTOES);
     }
+    posicionar(true);
     setTimeout(function () { input.focus(); }, 50);
   }
-  function fechar() { chat.hidden = true; orb.setAttribute('aria-expanded', 'false'); orb.focus(); }
+  function fechar() { chat.hidden = true; orb.setAttribute('aria-expanded', 'false'); posicionar(true); (noCanto ? orb : heroOrb).focus({ preventScroll: true }); }
   orb.addEventListener('click', function () { chat.hidden ? abrir() : fechar(); });
   document.getElementById('chat-close').addEventListener('click', fechar);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !chat.hidden) fechar(); });
@@ -1944,28 +2115,319 @@ apenas os trechos recuperados das bases.</pre>
   labForm.addEventListener('submit', function (e) { e.preventDefault(); analisar(labIn.value); });
   document.querySelectorAll('#lab-ex button').forEach(function (b) { b.addEventListener('click', function () { analisar(b.textContent); }); });
 
-  // na página da Zoe, os olhos do orbe grande seguem o ponteiro
-  var grandes = document.querySelectorAll('.orb-xl');
-  if (grandes.length && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    var alvo = null;
+  var calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- vida: ondas dentro e em volta do orbe, boca, olhar e pequenos gestos ----------
+  var orbes = Array.prototype.slice.call(document.querySelectorAll('.orb'));
+  orbes.forEach(function (o) {
+    o.insertAdjacentHTML('afterbegin', '<span class="orb-rings" aria-hidden="true"><i></i><i></i><i></i></span><span class="orb-liquid" aria-hidden="true"><i></i><i></i></span>');
+    if (!o.querySelector('.orb-mouth')) o.querySelector('.orb-face').insertAdjacentHTML('afterend', '<span class="orb-mouth" aria-hidden="true"></span>');
+  });
+  var vivos = orbes.filter(function (o) { return o.id === 'orb' || o.classList.contains('orb-xl'); });
+  function olharPara(o, x, y) {
+    var b = o.getBoundingClientRect(), face = o.querySelector('.orb-face');
+    if (!b.width) return;
+    var dx = x - (b.left + b.width / 2), dy = y - (b.top + b.height / 2), d = Math.hypot(dx, dy) || 1, m = Math.min(1, d / 300) * b.width * 0.08;
+    face.style.transform = 'translate(calc(-50% + ' + (dx / d * m).toFixed(1) + 'px), calc(-50% + ' + (dy / d * m).toFixed(1) + 'px))';
+  }
+  function gesto(o, cls, ms) { o.classList.add(cls); setTimeout(function () { o.classList.remove(cls); }, ms); }
+  if (!calmo) {
+    var alvo = null, ultimoMovimento = 0;
     window.addEventListener('pointermove', function (e) {
-      if (alvo === null) requestAnimationFrame(function () {
-        grandes.forEach(function (o) {
-          var b = o.getBoundingClientRect(), face = o.querySelector('.orb-face');
-          if (!b.width) return;
-          var dx = alvo[0] - (b.left + b.width / 2), dy = alvo[1] - (b.top + b.height / 2), d = Math.hypot(dx, dy) || 1, m = Math.min(1, d / 300) * b.width * 0.08;
-          face.style.transform = 'translate(calc(-50% + ' + (dx / d * m).toFixed(1) + 'px), calc(-50% + ' + (dy / d * m).toFixed(1) + 'px))';
-        });
-        alvo = null;
-      });
+      ultimoMovimento = Date.now();
+      if (alvo === null) requestAnimationFrame(function () { vivos.forEach(function (o) { olharPara(o, alvo[0], alvo[1]); }); alvo = null; });
       alvo = [e.clientX, e.clientY];
     }, { passive: true });
+    // quando ninguém mexe o mouse, ela olha em volta, sorri, pisca de um olho ou dá um pulinho
+    (function acaso() {
+      setTimeout(function () {
+        if (!document.hidden) vivos.forEach(function (o) {
+          var b = o.getBoundingClientRect();
+          if (!b.width || o.classList.contains('falando')) return;
+          var r = Math.random();
+          if (r < 0.4 && Date.now() - ultimoMovimento > 2500) {
+            var ang = Math.random() * 6.283;
+            olharPara(o, b.left + b.width / 2 + Math.cos(ang) * 400, b.top + b.height / 2 + Math.sin(ang) * 300);
+            setTimeout(function () { o.querySelector('.orb-face').style.transform = ''; }, 1400);
+          } else if (r < 0.62) gesto(o, 'feliz', 1600);
+          else if (r < 0.8) gesto(o, 'pulo', 800);
+          else gesto(o, 'pisca', 380);
+        });
+        acaso();
+      }, 2800 + Math.random() * 3200);
+    })();
   }
+
+  // ---------- no topo, a Zoe mora no quadrado; ao rolar, voa até o canto ----------
+  var wrap = document.querySelector('.orb-wrap'), heroOrb = document.querySelector('.hero-orb'), inicio = document.getElementById('inicio');
+  var noCanto = null, voo = null, dicaArmada = false;
+  function armarDica() {
+    if (dicaArmada || !hint) return;
+    dicaArmada = true; setTimeout(function () { if (hint.isConnected) hint.remove(); }, 12000);
+  }
+  function deveFicarNoCanto() { return !heroOrb || inicio.hidden || window.scrollY > 80 || !chat.hidden; }
+  function aplicar(canto) {
+    wrap.classList.toggle('no-quadrado', !canto);
+    if (heroOrb) heroOrb.classList.toggle('saiu', canto);
+    if (canto) armarDica();
+  }
+  function posicionar(animar) {
+    var canto = deveFicarNoCanto();
+    if (canto === noCanto) return;
+    noCanto = canto;
+    if (voo) { voo.cancel(); voo = null; wrap.classList.remove('voando'); }
+    var h = heroOrb && heroOrb.getBoundingClientRect();
+    if (!animar || calmo || !h || !h.width) return aplicar(canto);
+    wrap.classList.remove('no-quadrado'); wrap.classList.add('voando'); heroOrb.classList.add('saiu');
+    var c = orb.getBoundingClientRect(), s = h.width / c.width;
+    var dx = h.left + h.width / 2 - (c.left + c.width / 2), dy = h.top + h.height / 2 - (c.top + c.height / 2);
+    var longe = 'translate(' + dx + 'px, ' + dy + 'px) scale(' + s + ')';
+    var meio = 'translate(' + (dx * 0.42) + 'px, ' + (dy * 0.5 - 70) + 'px) scale(' + (1 + (s - 1) * 0.35) + ') rotate(' + (canto ? -16 : 16) + 'deg)';
+    var quadros = canto ? [{ transform: longe }, { transform: meio, offset: 0.55 }, { transform: 'none' }]
+                        : [{ transform: 'none' }, { transform: meio, offset: 0.45 }, { transform: longe }];
+    voo = orb.animate(quadros, { duration: 820, easing: 'cubic-bezier(.45, 0, .25, 1)', fill: 'forwards' });
+    voo.onfinish = function () { voo.cancel(); voo = null; wrap.classList.remove('voando'); aplicar(canto); if (canto) gesto(orb, 'pulo', 800); else gesto(heroOrb, 'feliz', 1400); };
+  }
+  window.addEventListener('scroll', function () { posicionar(true); }, { passive: true });
+  window.addEventListener('hashchange', function () { setTimeout(function () { posicionar(false); }, 0); });
+  posicionar(false);
+
+  // ---------- página da Zoe: valores do modelo publicado e rede neural interativa ----------
+  var zoeView = document.getElementById('zoe'), nnSvg = document.getElementById('nn-svg'), nnCap = document.getElementById('nn-cap');
+  var nnIn = document.getElementById('nn-q'), nnTrain = document.getElementById('nn-train'), nnStatus = document.getElementById('nn-status');
+  var nnModo = 'zoe', mlp = null, treinando = false, NS = 'http://www.w3.org/2000/svg', COR_POS = '#C62828', COR_NEG = '#2F6FDB';
+  function num(v, d) { return (d == null ? String(v) : v.toFixed(d)).replace('.', ','); }
+  function svgEl(tag, at, txt) { var e = document.createElementNS(NS, tag); for (var k in at) e.setAttribute(k, at[k]); if (txt != null) e.textContent = txt; return e; }
+  function nomeTema(c) { return TEMAS[c] || c; }
+
+  function preencherParametros() {
+    var v = { trechos: dados.trechos.length, temas: dados.classificador.classes.length, C: dados.metricas.C % 1 ? num(dados.metricas.C, 1) : dados.metricas.C,
+      perguntas: dados.metricas.perguntas_treino, lambda: num(dados.fusao.lambda, 1), limiar_fora: num(dados.fusao.limiar_fora, 2).replace(/0$/, ''), limiar_nota: num(dados.fusao.limiar_nota, 2).replace(/0$/, '') };
+    document.querySelectorAll('[data-param]').forEach(function (s) { if (v[s.dataset.param] != null) s.textContent = v[s.dataset.param]; });
+  }
+
+  // desenha qualquer rede: entradas, ocultas (opcional) e saídas, com as ligações coloridas pelo sinal do peso
+  function desenhar(rede) {
+    while (nnSvg.firstChild) nnSvg.removeChild(nnSvg.firstChild);
+    var W = 960, H = 460, top = 44, alt = H - top - 18, xs = rede.ocultas ? [210, 430, 640] : [210, null, 640];
+    function ys(n) { var passo = Math.min(alt / Math.max(n - 1, 1), 46), ini = top + (alt - passo * (n - 1)) / 2; return Array.from({ length: n }, function (_, i) { return ini + i * passo; }); }
+    var yIn = ys(rede.entradas.length), yOc = rede.ocultas ? ys(rede.ocultas.length) : [], yOut = ys(rede.saidas.length);
+    var pos = { e: function (i) { return [xs[0], yIn[i]]; }, o: function (i) { return [xs[1], yOc[i]]; }, s: function (i) { return [xs[2], yOut[i]]; } };
+    nnSvg.appendChild(svgEl('text', { x: xs[0], y: 18, 'text-anchor': 'middle', class: 'layer' }, 'entrada · termos'));
+    if (rede.ocultas) nnSvg.appendChild(svgEl('text', { x: xs[1], y: 18, 'text-anchor': 'middle', class: 'layer' }, 'camada oculta'));
+    nnSvg.appendChild(svgEl('text', { x: xs[2], y: 18, 'text-anchor': 'middle', class: 'layer' }, 'saída · temas'));
+    var maxC = rede.ligs.reduce(function (m, l) { return Math.max(m, Math.abs(l.c)); }, 1e-9), gEdges = svgEl('g', {});
+    nnSvg.appendChild(gEdges);
+    rede.ligs.forEach(function (l) {
+      var a = pos[l.de[0]](l.de[1]), b = pos[l.para[0]](l.para[1]), f = Math.abs(l.c) / maxC, mx = (a[0] + b[0]) / 2;
+      var e = svgEl('path', { d: 'M' + a[0] + ' ' + a[1] + ' C' + mx + ' ' + a[1] + ' ' + mx + ' ' + b[1] + ' ' + b[0] + ' ' + b[1], class: 'edge',
+        stroke: l.c > 0 ? COR_POS : COR_NEG, 'stroke-width': (0.6 + 4.4 * f).toFixed(2), 'stroke-opacity': (0.12 + 0.78 * f).toFixed(2) });
+      e.dataset.de = l.de.join(''); e.dataset.para = l.para.join('');
+      gEdges.appendChild(e);
+    });
+    function no(chave, x, y, r, fill, titulo) {
+      var c = svgEl('circle', { cx: x, cy: y, r: r.toFixed(1), fill: fill, class: 'node', tabindex: 0 });
+      c.appendChild(svgEl('title', {}, titulo));
+      function foco(on) {
+        nnSvg.classList.toggle('foco', on);
+        gEdges.querySelectorAll('.edge').forEach(function (e) { e.classList.toggle('on', on && (e.dataset.de === chave || e.dataset.para === chave)); });
+      }
+      c.addEventListener('pointerenter', function () { foco(true); }); c.addEventListener('pointerleave', function () { foco(false); });
+      c.addEventListener('focus', function () { foco(true); }); c.addEventListener('blur', function () { foco(false); });
+      nnSvg.appendChild(c);
+    }
+    rede.entradas.forEach(function (n, i) {
+      var p = pos.e(i);
+      no('e' + i, p[0], p[1], 5 + 9 * Math.min(1, n.v), 'color-mix(in srgb, var(--fg) ' + Math.round(25 + 75 * Math.min(1, n.v)) + '%, var(--surface))', n.rot + ' · valor ' + num(n.v, 2));
+      nnSvg.appendChild(svgEl('text', { x: p[0] - 18, y: p[1] + 4, 'text-anchor': 'end' }, n.rot));
+    });
+    if (rede.ocultas) {
+      var maxA = rede.ocultas.reduce(function (m, n) { return Math.max(m, n.a); }, 1e-9);
+      rede.ocultas.forEach(function (n, i) {
+        var p = pos.o(i), f = n.a / maxA;
+        no('o' + i, p[0], p[1], 3.5 + 7 * f, f > 0.01 ? 'color-mix(in srgb, #8B5CF6 ' + Math.round(20 + 80 * f) + '%, var(--surface))' : 'var(--soft)', 'neurônio oculto ' + (i + 1) + ' · ativação ' + num(n.a, 2));
+      });
+    }
+    rede.saidas.forEach(function (n, i) {
+      var p = pos.s(i);
+      no('s' + i, p[0], p[1], 5 + 12 * n.p, n.top ? 'var(--accent)' : 'color-mix(in srgb, var(--fg) ' + Math.round(10 + 80 * n.p) + '%, var(--surface))', n.rot + ' · ' + Math.round(n.p * 100) + '%');
+      nnSvg.appendChild(svgEl('text', { x: p[0] + 22, y: p[1] + 4.5, class: 'lbl-out' + (n.top ? '' : ' muted') }, n.rot));
+      nnSvg.appendChild(svgEl('rect', { x: 800, y: p[1] - 4, width: 100, height: 8, rx: 4, class: 'bar' }));
+      nnSvg.appendChild(svgEl('rect', { x: 800, y: p[1] - 4, width: Math.max(1, 100 * n.p).toFixed(1), height: 8, rx: 4, class: 'bar-v' + (n.top ? ' top' : '') }));
+      nnSvg.appendChild(svgEl('text', { x: 952, y: p[1] + 4.5, 'text-anchor': 'end', class: n.top ? '' : 'muted' }, Math.round(n.p * 100) + '%'));
+    });
+  }
+
+  // modo "Zoe hoje": a regressão logística publicada, com os pesos reais do índice
+  function redeZoe(q) {
+    var e = motor.explicar(q), probs = e.probs;
+    var ordem = e.classes.slice().sort(function (a, b) { return probs[b] - probs[a]; });
+    var lugar = {}; ordem.forEach(function (c, i) { lugar[e.classes.indexOf(c)] = i; });
+    var feats = e.feats.map(function (f) { return { f: f, forca: f.pesos.reduce(function (m, kw) { return Math.max(m, Math.abs(f.v * kw[1])); }, 0) }; })
+      .filter(function (x) { return x.forca > 0; }).sort(function (a, b) { return b.forca - a.forca; }).slice(0, 10);
+    var ligs = [];
+    feats.forEach(function (x, i) { x.f.pesos.forEach(function (kw) { ligs.push({ de: ['e', i], para: ['s', lugar[kw[0]]], c: x.f.v * kw[1] }); }); });
+    var maxC = ligs.reduce(function (m, l) { return Math.max(m, Math.abs(l.c)); }, 0);
+    ligs = ligs.filter(function (l) { return Math.abs(l.c) >= 0.05 * maxC; });
+    desenhar({
+      entradas: feats.map(function (x) { return { rot: x.f.parte === 'letras' ? '"' + x.f.termo.replace(/ /g, '_') + '"' : x.f.termo, v: x.f.v }; }),
+      saidas: ordem.map(function (c, i) { return { rot: nomeTema(c), p: probs[c], top: i === 0 }; }), ligs: ligs
+    });
+    var vence = ordem[0], quem = feats.filter(function (x) { return x.f.pesos.some(function (kw) { return e.classes[kw[0]] === vence && kw[1] > 0; }); }).slice(0, 3);
+    var txt = e.feats.length
+      ? 'Tema vencedor: ' + nomeTema(vence) + ' (' + Math.round(probs[vence] * 100) + '%). ' + e.feats.length + ' termos ativos entre palavras e pedaços de letras; o desenho mostra os ' + feats.length + ' mais fortes' + (quem.length ? ', e os que mais empurraram para o vencedor foram ' + quem.map(function (x) { return '“' + x.f.termo.trim() + '”'; }).join(', ') : '') + '.'
+      : 'Nenhum termo conhecido: só os vieses decidem, e a pergunta tende a cair fora do portfólio.';
+    nnCap.textContent = txt; nnSvg.setAttribute('aria-label', 'Rede de uma camada. ' + txt);
+  }
+
+  // modo "experimento": rede com camada oculta, treinada aqui no navegador com as perguntas de treino da Zoe
+  var D = 2048, LRS = [0.003, 0.01, 0.02, 0.05, 0.1], perguntasTreino = null;
+  function hashTermo(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0) % D; }
+  function vetorizar(q) {
+    var m = {}, rot = {};
+    function add(chave, peso, nome) { var j = hashTermo(chave); m[j] = (m[j] || 0) + peso; if (!rot[j]) rot[j] = nome; }
+    motor.tokenizar(q).forEach(function (t) { add('p:' + t, 1, t); });
+    motor.ngramasChar(q).forEach(function (g) { add('l:' + g, 0.35, '"' + g.replace(/ /g, '_') + '"'); });
+    var idx = Object.keys(m).map(Number), n = Math.sqrt(idx.reduce(function (s, j) { return s + m[j] * m[j]; }, 0)) || 1;
+    return { idx: idx, val: idx.map(function (j) { return m[j] / n; }), rot: rot };
+  }
+  function rng(seed) { return function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }; }
+  function novaRede(Hn, K, r) {
+    function init(n, esc) { var a = new Float32Array(n); for (var i = 0; i < n; i++) a[i] = (r() * 2 - 1) * esc; return a; }
+    return { H: Hn, K: K, W1: init(D * Hn, Math.sqrt(6 / (40 + Hn))), b1: new Float32Array(Hn), W2: init(Hn * K, Math.sqrt(6 / (Hn + K))), b2: new Float32Array(K) };
+  }
+  function frente(n, x) {
+    var h = new Float32Array(n.H), z = new Float32Array(n.K), j, k, i;
+    for (j = 0; j < n.H; j++) h[j] = n.b1[j];
+    for (i = 0; i < x.idx.length; i++) { var o = x.idx[i] * n.H, v = x.val[i]; for (j = 0; j < n.H; j++) h[j] += v * n.W1[o + j]; }
+    for (j = 0; j < n.H; j++) if (h[j] < 0) h[j] = 0;
+    for (k = 0; k < n.K; k++) z[k] = n.b2[k];
+    for (j = 0; j < n.H; j++) if (h[j]) for (k = 0; k < n.K; k++) z[k] += h[j] * n.W2[j * n.K + k];
+    var m = Math.max.apply(null, z), s = 0, p = new Float32Array(n.K);
+    for (k = 0; k < n.K; k++) { p[k] = Math.exp(z[k] - m); s += p[k]; }
+    for (k = 0; k < n.K; k++) p[k] /= s;
+    return { h: h, p: p };
+  }
+  function carregarTreino() {
+    if (!perguntasTreino) perguntasTreino = fetch('assistente/treino.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+    return perguntasTreino;
+  }
+  function treinar() {
+    if (treinando) return;
+    treinando = true;
+    var btn = document.getElementById('nn-treinar'); btn.disabled = true;
+    var Hn = +document.getElementById('nn-h').value, epocas = +document.getElementById('nn-e').value, lr = LRS[+document.getElementById('nn-lr').value - 1];
+    nnStatus.textContent = 'Carregando as perguntas de treino…';
+    Promise.all([carregar(), carregarTreino()]).then(function (r) {
+      var porTema = r[1], classes = Object.keys(porTema), r0 = rng(42), tr = [], va = [];
+      classes.forEach(function (c, k) {
+        var lista = porTema[c].slice();
+        for (var i = lista.length - 1; i > 0; i--) { var j = Math.floor(r0() * (i + 1)), t = lista[i]; lista[i] = lista[j]; lista[j] = t; }
+        var corte = Math.round(lista.length * 0.2);
+        lista.forEach(function (q, i) { (i < corte ? va : tr).push({ x: vetorizar(q), y: k }); });
+      });
+      var n = novaRede(Hn, classes.length, r0), K = n.K, hist = [];
+      // Adam com atualização preguiçosa: só as linhas de W1 tocadas pelo lote mudam
+      var m1 = new Float32Array(n.W1.length), v1 = new Float32Array(n.W1.length), mW2 = new Float32Array(n.W2.length), vW2 = new Float32Array(n.W2.length);
+      var mb1 = new Float32Array(Hn), vb1 = new Float32Array(Hn), mb2 = new Float32Array(K), vb2 = new Float32Array(K), passo = 0, B1 = 0.9, B2 = 0.999, L2 = 1e-4;
+      function adam(w, g, m, v, i, c1, c2) { var gi = g + L2 * w[i]; m[i] = B1 * m[i] + (1 - B1) * gi; v[i] = B2 * v[i] + (1 - B2) * gi * gi; w[i] -= lr * (m[i] / c1) / (Math.sqrt(v[i] / c2) + 1e-8); }
+      var ep = 0;
+      function epoca() {
+        for (var a = tr.length - 1; a > 0; a--) { var b = Math.floor(r0() * (a + 1)), t = tr[a]; tr[a] = tr[b]; tr[b] = t; }
+        var perda = 0;
+        for (var ini = 0; ini < tr.length; ini += 16) {
+          var lote = tr.slice(ini, ini + 16), gW1 = {}, gb1 = new Float32Array(Hn), gW2 = new Float32Array(Hn * K), gb2 = new Float32Array(K);
+          lote.forEach(function (ex) {
+            var f = frente(n, ex.x), dz = Array.from(f.p); perda -= Math.log(f.p[ex.y] + 1e-9); dz[ex.y] -= 1;
+            var dh = new Float32Array(Hn), j, k;
+            for (j = 0; j < Hn; j++) { if (!f.h[j]) continue; for (k = 0; k < K; k++) { gW2[j * K + k] += f.h[j] * dz[k]; dh[j] += n.W2[j * K + k] * dz[k]; } }
+            for (k = 0; k < K; k++) gb2[k] += dz[k];
+            for (j = 0; j < Hn; j++) gb1[j] += dh[j];
+            ex.x.idx.forEach(function (row, q) { var g = gW1[row] || (gW1[row] = new Float32Array(Hn)); for (j = 0; j < Hn; j++) g[j] += ex.x.val[q] * dh[j]; });
+          });
+          passo++; var c1 = 1 - Math.pow(B1, passo), c2 = 1 - Math.pow(B2, passo), nl = lote.length, i, j2;
+          for (i = 0; i < gW2.length; i++) adam(n.W2, gW2[i] / nl, mW2, vW2, i, c1, c2);
+          for (i = 0; i < K; i++) adam(n.b2, gb2[i] / nl, mb2, vb2, i, c1, c2);
+          for (i = 0; i < Hn; i++) adam(n.b1, gb1[i] / nl, mb1, vb1, i, c1, c2);
+          Object.keys(gW1).forEach(function (row) { var g = gW1[row], o = row * Hn; for (j2 = 0; j2 < Hn; j2++) adam(n.W1, g[j2] / nl, m1, v1, o + j2, c1, c2); });
+        }
+        var certos = va.filter(function (ex) { var p = frente(n, ex.x).p, best = 0; for (var k = 1; k < K; k++) if (p[k] > p[best]) best = k; return best === ex.y; }).length;
+        hist.push({ perda: perda / tr.length, acerto: certos / va.length });
+        curva(hist, epocas);
+        ep++;
+        nnStatus.textContent = 'Época ' + ep + ' de ' + epocas + ' · perda ' + num(hist[ep - 1].perda, 3) + ' · acerto na validação ' + Math.round(hist[ep - 1].acerto * 100) + '%';
+        if (ep < epocas) return setTimeout(epoca, 0);
+        mlp = { rede: n, classes: classes };
+        treinando = false; btn.disabled = false; btn.textContent = 'Treinar de novo';
+        var ref = dados.metricas.acerto_classificador_cv5;
+        nnStatus.textContent = 'Pronto: ' + Math.round(hist[ep - 1].acerto * 100) + '% de acerto de tema em ' + va.length + ' perguntas que a rede não viu, com ' + Hn + ' neurônios ocultos e ' + tr.length + ' de treino.' +
+          (ref ? ' Referência: o classificador da Zoe acerta ' + Math.round(ref * 100) + '% em validação cruzada no Python (outro protocolo, então compare com cuidado).' : '');
+        if (nnModo === 'oculta') passar();
+      }
+      nnStatus.textContent = 'Treinando…'; setTimeout(epoca, 30);
+    }).catch(function () { treinando = false; btn.disabled = false; nnStatus.textContent = 'Não consegui carregar as perguntas de treino. Recarregue a página e tente de novo.'; });
+  }
+  function curva(hist, total) {
+    var c = document.getElementById('nn-curva'); while (c.firstChild) c.removeChild(c.firstChild);
+    var maxP = Math.max.apply(null, hist.map(function (h) { return h.perda; })), X = function (i) { return 28 + (i / Math.max(total - 1, 1)) * 280; };
+    c.appendChild(svgEl('line', { x1: 28, y1: 104, x2: 308, y2: 104, stroke: 'var(--line-strong)' }));
+    [['perda', COR_POS, function (h) { return 104 - (h.perda / maxP) * 88; }], ['acerto', 'var(--fg)', function (h) { return 104 - h.acerto * 88; }]].forEach(function (s, i) {
+      c.appendChild(svgEl('polyline', { points: hist.map(function (h, k) { return X(k).toFixed(1) + ',' + s[2](h).toFixed(1); }).join(' '), fill: 'none', stroke: s[1], 'stroke-width': 2 }));
+      c.appendChild(svgEl('text', { x: 30 + i * 70, y: 12, fill: s[1], 'font-size': 11, 'font-family': 'var(--f-sans)' }, s[0]));
+    });
+    var u = hist[hist.length - 1];
+    c.setAttribute('aria-label', 'Curva de treino: época ' + hist.length + ', perda ' + num(u.perda, 3) + ', acerto na validação ' + Math.round(u.acerto * 100) + '%');
+  }
+  function redeOculta(q) {
+    if (!mlp) {
+      nnCap.textContent = 'Treine a rede no painel acima para ver a camada oculta. Ela aprende com as mesmas perguntas da Zoe, em poucos segundos.';
+      while (nnSvg.firstChild) nnSvg.removeChild(nnSvg.firstChild);
+      return;
+    }
+    var n = mlp.rede, x = vetorizar(q), f = frente(n, x), K = n.K;
+    var ordem = Array.from({ length: K }, function (_, k) { return k; }).sort(function (a, b) { return f.p[b] - f.p[a]; }), lugar = {};
+    ordem.forEach(function (k, i) { lugar[k] = i; });
+    var ent = x.idx.map(function (row, q2) { var s = 0; for (var j = 0; j < n.H; j++) s += Math.abs(x.val[q2] * n.W1[row * n.H + j]); return { row: row, v: x.val[q2], s: s }; })
+      .sort(function (a, b) { return b.s - a.s; }).slice(0, 10);
+    var ligs = [];
+    ent.forEach(function (e2, i) { for (var j = 0; j < n.H; j++) ligs.push({ de: ['e', i], para: ['o', j], c: e2.v * n.W1[e2.row * n.H + j] }); });
+    for (var j = 0; j < n.H; j++) if (f.h[j]) ordem.slice(0, 3).forEach(function (k) { ligs.push({ de: ['o', j], para: ['s', lugar[k]], c: f.h[j] * n.W2[j * K + k] }); });
+    var maxC = ligs.reduce(function (m, l) { return Math.max(m, Math.abs(l.c)); }, 0);
+    ligs = ligs.filter(function (l) { return Math.abs(l.c) >= 0.08 * maxC; });
+    desenhar({ entradas: ent.map(function (e2) { return { rot: x.rot[e2.row], v: e2.v * 2 }; }), ocultas: Array.from(f.h).map(function (a) { return { a: a }; }),
+      saidas: ordem.map(function (k, i) { return { rot: nomeTema(mlp.classes[k]), p: f.p[k], top: i === 0 }; }), ligs: ligs });
+    var ativos = Array.from(f.h).filter(function (a) { return a > 0; }).length;
+    var txt = 'Tema vencedor na rede experimental: ' + nomeTema(mlp.classes[ordem[0]]) + ' (' + Math.round(f.p[ordem[0]] * 100) + '%). ' + ativos + ' de ' + n.H + ' neurônios ocultos acenderam (ReLU); as ligações para a saída aparecem só nos 3 temas mais prováveis.';
+    nnCap.textContent = txt; nnSvg.setAttribute('aria-label', 'Rede com camada oculta. ' + txt);
+  }
+  function passar() {
+    var q = nnIn.value.trim(); if (!q) return;
+    carregar().then(function () { preencherParametros(); if (nnModo === 'zoe') redeZoe(q); else redeOculta(q); })
+      .catch(function () { nnCap.textContent = 'Não consegui carregar o modelo agora. Recarregue a página para tentar de novo.'; });
+  }
+  document.getElementById('nn-form').addEventListener('submit', function (e) { e.preventDefault(); passar(); });
+  document.querySelectorAll('#nn-ex button').forEach(function (b) { b.addEventListener('click', function () { nnIn.value = b.textContent; passar(); }); });
+  document.querySelectorAll('.nn-modes button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      nnModo = b.dataset.modo;
+      document.querySelectorAll('.nn-modes button').forEach(function (o) { o.setAttribute('aria-selected', o === b ? 'true' : 'false'); });
+      nnTrain.hidden = nnModo !== 'oculta'; passar();
+    });
+  });
+  [['nn-h', 'nn-h-v', function (v) { return v; }], ['nn-e', 'nn-e-v', function (v) { return v; }], ['nn-lr', 'nn-lr-v', function (v) { return num(LRS[v - 1], 3); }]].forEach(function (c) {
+    var inp = document.getElementById(c[0]), out = document.getElementById(c[1]);
+    inp.addEventListener('input', function () { out.textContent = c[2](+inp.value); });
+  });
+  document.getElementById('nn-treinar').addEventListener('click', treinar);
+  var redeVista = false;
+  function aoAbrirZoe() { if (!zoeView.hidden && !redeVista) { redeVista = true; passar(); } }
+  window.addEventListener('hashchange', function () { setTimeout(aoAbrirZoe, 0); });
+  setTimeout(aoAbrirZoe, 0);
 
   if (hint) {
     hint.querySelector('button').addEventListener('click', function (e) { e.stopPropagation(); hint.remove(); });
     hint.addEventListener('click', abrir);
-    setTimeout(function () { if (hint.isConnected) hint.remove(); }, 12000);
+    if (noCanto) armarDica();
   }
 })();
 

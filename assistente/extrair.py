@@ -78,6 +78,8 @@ def trechos_do_site(html: str) -> list[dict]:
         if legendas:
             add(nome, "Telas", f"{nome}: telas", f"Telas do {nome}: " + " ".join(legendas), link + "-demo" if v.select_one(f"#{pid}-demo") else link)
         for bloco in v.select(".block"):
+            if bloco.get("data-indice") == "nao":
+                continue  # fórmulas e widgets interativos são para ler na página, não para responder perguntas
             secao = limpo(bloco.select_one(".blabel")).capitalize()
             corpo = [limpo(p) for p in bloco.find_all("p", recursive=False) if "blabel" not in (p.get("class") or [])]
             if corpo:

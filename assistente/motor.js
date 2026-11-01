@@ -144,7 +144,18 @@
       return { res: res.slice(0, k || 5), fora: fora, tema: tema, prob: probs[tema], probs: probs, toks: toks, usada: usada, contexto: contexto };
     }
 
-    return { buscar: buscar, classificar: classificar, tokenizar: tokenizar, corrigir: corrigir, normalizar: normalizar };
+    // para a rede neural interativa da página da Zoe: cada termo ativo da pergunta (neurônio de entrada),
+    // com o valor TF-IDF e os pesos aprendidos para cada tema (neurônios de saída). Não muda nenhuma resposta.
+    function explicar(pergunta) {
+      var toks = corrigir(tokenizar(pergunta)), feats = [];
+      [['palavras', pal, toks.concat(bigramas(toks))], ['letras', let_, ngramasChar(pergunta)]].forEach(function (p) {
+        var v = tfidf(p[2], p[1], clf[p[0]].idf), termos = clf[p[0]].termos;
+        Object.keys(v).forEach(function (j) { feats.push({ termo: termos[j], parte: p[0], v: v[j], pesos: clf[p[0]].pesos[j] }); });
+      });
+      return { feats: feats, probs: classificar(pergunta, toks), classes: clf.classes, vies: clf.vies, toks: toks };
+    }
+
+    return { buscar: buscar, classificar: classificar, explicar: explicar, tokenizar: tokenizar, corrigir: corrigir, normalizar: normalizar, ngramasChar: ngramasChar };
   }
 
   Motor.normalizar = normalizar;
