@@ -1797,7 +1797,9 @@ apenas os trechos recuperados das bases.</pre>
   <div class="wrap"><span>© 2026 Ayalan Lima · Desenvolvedor &amp; Analista de Dados</span><span><a href="#contato">Contato</a> · <a href="https://github.com/Ahaylima2721" target="_blank" rel="noopener">GitHub</a></span></div>
 </footer>
 
-<script src="assistente/motor.js"></script>
+<!-- __VERSAO__ é trocado pelo commit no deploy (GitHub Actions): o navegador sempre baixa o motor e o índice da mesma versão da página -->
+<script>window.VERSAO_SITE = '__VERSAO__';</script>
+<script src="assistente/motor.js?v=__VERSAO__"></script>
 <script>
 (function () {
   // copiar e-mail
@@ -1985,7 +1987,7 @@ apenas os trechos recuperados das bases.</pre>
   var TEMAS_PROJETO = { fluxo: 1, mapa: 1, superagente: 1, harmony: 1, assistente: 1 };
 
   function carregar() {
-    if (!carregando) carregando = fetch('assistente/indice.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (d) {
+    if (!carregando) carregando = fetch('assistente/indice.json?v=' + window.VERSAO_SITE).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (d) {
       dados = d; motor = window.MotorAssistente(d); return motor;
     });
     return carregando;
@@ -2309,7 +2311,7 @@ apenas os trechos recuperados das bases.</pre>
     return { h: h, p: p };
   }
   function carregarTreino() {
-    if (!perguntasTreino) perguntasTreino = fetch('assistente/treino.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+    if (!perguntasTreino) perguntasTreino = fetch('assistente/treino.json?v=' + window.VERSAO_SITE).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
     return perguntasTreino;
   }
   function treinar() {
@@ -2402,7 +2404,10 @@ apenas os trechos recuperados das bases.</pre>
   }
   function passar() {
     var q = nnIn.value.trim(); if (!q) return;
-    carregar().then(function () { preencherParametros(); if (nnModo === 'zoe') redeZoe(q); else redeOculta(q); })
+    carregar().then(function () {
+      if (!motor.explicar) { nnCap.textContent = 'O navegador guardou uma versão antiga do motor da Zoe. Recarregue a página com Ctrl+Shift+R para ver a rede.'; return; }
+      preencherParametros(); if (nnModo === 'zoe') redeZoe(q); else redeOculta(q);
+    })
       .catch(function () { nnCap.textContent = 'Não consegui carregar o modelo agora. Recarregue a página para tentar de novo.'; });
   }
   document.getElementById('nn-form').addEventListener('submit', function (e) { e.preventDefault(); passar(); });
