@@ -37,7 +37,14 @@
     "me diz quem você é em poucas palavras",
     "o que você entrega?",
     "qual o seu objetivo profissional?",
-    "você faz sistemas?"
+    "você faz sistemas?",
+    "o que você estuda?",
+    "você faz faculdade?",
+    "qual curso você faz?",
+    "você é formado?",
+    "onde você quer chegar na carreira?",
+    "qual área você quer seguir?",
+    "você quer trabalhar com engenharia de dados?"
   ],
   "sobre": [
     "onde você trabalha?",
@@ -75,7 +82,21 @@
     "você trabalha numa revenda?",
     "trabalha com agronegócio?",
     "qual o seu cargo na empresa?",
-    "você é cltista?"
+    "você é cltista?",
+    "quais seus hobbies?",
+    "o que você faz no tempo livre?",
+    "você toca algum instrumento?",
+    "o que você gosta de fazer fora do trabalho?",
+    "você pratica esporte?",
+    "você gosta de ler?",
+    "o que você faz quando não está programando?",
+    "tem algum passatempo?",
+    "você corre?",
+    "você toca guitarra?",
+    "o que você faz pra relaxar?",
+    "o que você gosta de fazer?",
+    "o que você curte fazer no fim de semana?",
+    "quais são seus interesses pessoais?"
   ],
   "dia_a_dia": [
     "o que você faz no dia a dia?",
@@ -141,7 +162,20 @@
     "você revisa o código da ia?",
     "qual sua opinião sobre ia no desenvolvimento?",
     "por que você documenta tudo?",
-    "o que guia suas decisões técnicas?"
+    "o que guia suas decisões técnicas?",
+    "como você aprende?",
+    "qual seu método de estudo?",
+    "como você começa um projeto novo?",
+    "você confia na IA para fazer contas?",
+    "como você garante a qualidade dos dados?",
+    "você prefere ferramentas pagas ou locais?",
+    "como você usa IA com segurança?",
+    "qual seu processo de aprendizado?",
+    "como você estuda um assunto novo?",
+    "você usa IA para calcular números?",
+    "a IA faz os cálculos de vendas e margem?",
+    "como você aprende uma tecnologia nova?",
+    "você deixa o modelo fazer as contas?"
   ],
   "habilidades": [
     "quais são suas habilidades?",
@@ -178,7 +212,12 @@
     "você sabe analisar dados?",
     "você sabe programar?",
     "você programa em que nível?",
-    "você sabe criar aplicativos?"
+    "você sabe criar aplicativos?",
+    "o que você está estudando agora?",
+    "o que você quer aprender?",
+    "está aprendendo backend?",
+    "você estuda machine learning?",
+    "quais seus próximos estudos?"
   ],
   "trajetoria": [
     "qual a sua experiência?",
@@ -411,7 +450,10 @@
     "como a busca do superagente funciona?",
     "o superagente gasta muita api?",
     "superagente",
-    "você integrou com a api do google?"
+    "você integrou com a api do google?",
+    "o superagente acerta contas?",
+    "o superagente roda local?",
+    "vai usar ollama no superagente?"
   ],
   "harmony": [
     "o que é o harmony?",
@@ -449,7 +491,11 @@
     "o harmony é acessível?",
     "o que é o tocar junto?",
     "como o harmony desenha o braço do violão?",
-    "o harmony está na play store?"
+    "o harmony está na play store?",
+    "por que você criou o harmony?",
+    "o harmony te ajudou a aprender?",
+    "qual a filosofia do harmony?",
+    "o harmony tem professor por voz?"
   ],
   "assistente": [
     "como esse chat funciona?",
@@ -569,6 +615,19 @@
     "qual seu animal favorito?",
     "o que você acha do governo?",
     "me empresta dinheiro",
-    "qual a raiz quadrada de 144?"
+    "qual a raiz quadrada de 144?",
+    "nasceu em que ano?",
+    "quanto você ganha por mês?",
+    "qual faixa salarial você espera?",
+    "qual seu estado civil?",
+    "você tem irmãos?",
+    "como é sua família?",
+    "qual seu tipo sanguíneo?",
+    "você é solteiro?",
+    "que idade o ayalan tem?",
+    "me ensina a cozinhar arroz",
+    "me ensina a dirigir",
+    "me ensina inglês",
+    "quanto você quer receber de salário?"
   ]
 }

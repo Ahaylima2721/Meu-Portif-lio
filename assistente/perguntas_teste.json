@@ -289,5 +289,32 @@
     "pergunta": "E quanto ela acerta?",
     "anterior": "O que é a Zoe?",
     "esperado": "#zoe"
+  },
+  {
+    "pergunta": "Qual faculdade você cursa?",
+    "esperado": "#sobre"
+  },
+  {
+    "pergunta": "O que você gosta de fazer nas horas vagas?",
+    "esperado": "#sobre"
+  },
+  {
+    "pergunta": "Como você costuma aprender coisas novas?",
+    "esperado": "#principios"
+  },
+  {
+    "pergunta": "O que você anda estudando hoje em dia?",
+    "esperado": "#habilidades"
+  },
+  {
+    "pergunta": "Você deixa a IA calcular a margem?",
+    "esperado": "#principios"
+  },
+  {
+    "pergunta": "Por que o Harmony foi criado?",
+    "esperado": [
+      "#harmony",
+      "#sobre"
+    ]
   }
 ]
