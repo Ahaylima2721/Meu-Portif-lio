@@ -1,0 +1,88 @@
+[
+  {
+    "area": "Sobre mim",
+    "secao": "Formação",
+    "titulo": "Formação: Engenharia de Software",
+    "texto": "Estudo Engenharia de Software a distância (EAD). A faculdade dá a base teórica; a prática vem dos projetos deste portfólio, que nasceram de problemas reais do trabalho e me obrigam a lidar com banco de dados, permissões, testes e deploy de verdade.",
+    "link": "#sobre",
+    "tema": "apresentacao"
+  },
+  {
+    "area": "Sobre mim",
+    "secao": "Objetivos",
+    "titulo": "Objetivo profissional",
+    "texto": "Meu objetivo é crescer em engenharia e arquitetura de dados, automação e IA aplicada: ser reconhecido por usar Python, dados e IA para resolver problemas reais, e não só por conversar com chatbots. Desenvolvimento full-stack continua sendo uma competência que quero fortalecer, porque é o que transforma uma análise numa ferramenta que a equipe usa.",
+    "link": "#sobre",
+    "tema": "apresentacao"
+  },
+  {
+    "area": "Sobre mim",
+    "secao": "Aprendendo",
+    "titulo": "O que estou estudando agora",
+    "texto": "O que estou estudando agora: backend de verdade (APIs, autenticação, autorização, banco e deploy), modelagem, qualidade e organização de dados antes de partir para BI mais sofisticado, e os fundamentos de machine learning em etapas, sem pular a matemática nem a avaliação dos modelos. Python e JavaScript/TypeScript são as linguagens em que mais pratico.",
+    "link": "#habilidades"
+  },
+  {
+    "area": "Sobre mim",
+    "secao": "Fora do trabalho",
+    "titulo": "Hobbies e interesses fora do trabalho",
+    "texto": "No tempo livre, nas horas vagas, toco guitarra (gosto de blues, improvisação e teoria musical), corro e leio. O Harmony nasceu justamente do estudo de guitarra: eu queria uma ferramenta que ligasse escala, acorde e frase, e não encontrei uma do jeito que precisava.",
+    "link": "#sobre"
+  },
+  {
+    "area": "Sobre mim",
+    "secao": "Como trabalho",
+    "titulo": "Como eu aprendo",
+    "texto": "Para aprender coisas novas, eu construo. O caminho é sempre o mesmo: entender o conceito, testar num exemplo pequeno, aplicar no projeto real e validar com teste. Prefiro entender o porquê de cada decisão a seguir uma receita, e divido tarefas grandes em etapas pequenas que dá para verificar uma de cada vez.",
+    "link": "#principios"
+  },
+  {
+    "area": "Sobre mim",
+    "secao": "Como trabalho",
+    "titulo": "Ordem de trabalho num projeto novo",
+    "texto": "A ordem que sigo num projeto novo: entender o problema operacional, descobrir de onde vêm os dados e quem é responsável por eles, definir regras e resultado esperado, modelar dados e permissões, fazer uma versão pequena e verificável, testar casos normais, limites e erros, adicionar logs, preparar deploy, backup e manutenção, e só então expandir funcionalidades.",
+    "link": "#principios"
+  },
+  {
+    "area": "Sobre mim",
+    "secao": "Como trabalho",
+    "titulo": "IA com responsabilidade",
+    "texto": "Uso IA para resumir, recuperar contexto, explicar e sugerir; cálculos que importam, como somas, margens e percentuais, ficam com código determinístico. Respostas sobre dados mostram de onde vieram e quais são os limites. Antes de escolher um modelo, comparo qualidade, latência, custo e privacidade, e dados da empresa não vão para APIs externas sem autorização.",
+    "link": "#principios"
+  },
+  {
+    "area": "Sobre mim",
+    "secao": "Como trabalho",
+    "titulo": "Qualidade de dados",
+    "texto": "Com dados, valido esquema, tipos, campos obrigatórios, valores ausentes e duplicatas antes de qualquer análise. Preservo o arquivo original e faço a limpeza numa camada separada, trato datas, separador decimal, encoding e códigos legados do sistema, e confiro os agregados com amostras e totais de controle.",
+    "link": "#principios"
+  },
+  {
+    "area": "Sobre mim",
+    "secao": "Como trabalho",
+    "titulo": "Soluções enxutas e locais",
+    "texto": "Prefiro ferramentas enxutas, que funcionem com orçamento, infraestrutura e tempo reais. Quando há uma alternativa local razoável, evito depender de serviços pagos ou créditos recorrentes: a Zoe roda no navegador sem chave de API e a busca do SuperAgente é local. Usar IA não é objetivo em si; o critério é se ela resolve o problema de forma confiável.",
+    "link": "#principios"
+  },
+  {
+    "area": "Harmony",
+    "secao": "Filosofia",
+    "titulo": "Harmony: filosofia de ensino",
+    "texto": "A ideia do Harmony é entender música como relação entre notas, acordes, ritmo e fraseado, e não decorar desenhos soltos. O gerador cria frases com intenção e coerência harmônica, em vez de sortear notas da escala. O estudante observa a frase, entende por que ela funciona sobre o acorde, varia o motivo e depois improvisa por conta própria. A dificuldade reduz densidade e complexidade sem tirar a estrutura musical.",
+    "link": "#harmony"
+  },
+  {
+    "area": "Harmony",
+    "secao": "Na prática",
+    "titulo": "Harmony: como Ayalan usa no próprio estudo",
+    "texto": "Ayalan usa o Harmony no próprio estudo de guitarra. Ele ajudou a memorizar a pentatônica de Lá menor no braço inteiro e a criar melodias que funcionam: os solos gerados viram material de estudo, e depois ele varia as conexões, a velocidade e as posições. Um professor por voz foi considerado como ideia futura, mas não está implementado.",
+    "link": "#harmony"
+  },
+  {
+    "area": "SuperAgente",
+    "secao": "Limites",
+    "titulo": "SuperAgente: limites do RAG e próximos estudos",
+    "texto": "RAG sozinho não garante precisão numérica: perguntas com somas, margens, percentuais ou comparações precisam de cálculo determinístico, e a resposta deve dizer de quais arquivos e colunas veio. A busca TF-IDF já é local, mas a geração ainda depende de API (Gemini e Groq). A direção em estudo é testar um modelo local com Ollama, avaliando memória, latência e qualidade, para reduzir a dependência de créditos. Isso ainda é plano, não está implementado.",
+    "link": "#superagente"
+  }
+]

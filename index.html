@@ -1516,10 +1516,10 @@ apenas os trechos recuperados das bases.</pre>
               </div>
             </div>
             <div class="metrics">
-              <div><b>92%</b><span>de acerto no 1º resultado, em perguntas de teste</span></div>
-              <div><b>542</b><span>perguntas escritas à mão em 15 temas</span></div>
+              <div><b>97%</b><span>de acerto no 1º resultado, em perguntas de teste</span></div>
+              <div><b>601</b><span>perguntas escritas à mão em 15 temas</span></div>
               <div><b>0</b><span>servidores e chaves de API</span></div>
-              <div><b>~100 KB</b><span>de modelo baixado, com gzip</span></div>
+              <div><b>~115 KB</b><span>de modelo baixado, com gzip</span></div>
             </div>
           </div>
 
@@ -1566,19 +1566,19 @@ apenas os trechos recuperados das bases.</pre>
             </section>
 
             <section class="block"><p class="blabel">avaliação</p>
-              <p>Separei 66 perguntas de teste que nunca entram no treino, com erros de digitação, perguntas de continuação e perguntas fora do escopo. A comparação é com a primeira versão do assistente, que usava só a busca TF-IDF:</p>
+              <p>Separei 72 perguntas de teste que nunca entram no treino, com erros de digitação, perguntas de continuação e perguntas fora do escopo. A comparação é com a primeira versão do assistente, que usava só a busca TF-IDF:</p>
               <div class="tablewrap">
                 <table class="cmp" data-medicao="acerto no 1º resultado nas perguntas de teste">
                   <thead><tr><th scope="col">grupo de perguntas</th><th scope="col">só TF-IDF</th><th scope="col">Zoe hoje</th></tr></thead>
                   <tbody>
-                    <tr><td>todas</td><td>68%</td><td class="good up">92%</td></tr>
-                    <tr><td>no escopo</td><td>74%</td><td class="good up">96%</td></tr>
-                    <tr><td>fora do escopo</td><td>62%</td><td class="good up">75%</td></tr>
-                    <tr><td>continuação da conversa</td><td>44%</td><td class="good up">89%</td></tr>
+                    <tr><td>todas</td><td>67%</td><td class="good up">97%</td></tr>
+                    <tr><td>no escopo</td><td>73%</td><td class="good up">96%</td></tr>
+                    <tr><td>fora do escopo</td><td>50%</td><td class="good up">100%</td></tr>
+                    <tr><td>continuação da conversa</td><td>44%</td><td class="good up">100%</td></tr>
                   </tbody>
                 </table>
               </div>
-              <p>O ponto fraco hoje são perguntas genéricas, como pedir uma redação: em 2 de 8 casos a Zoe tenta responder em vez de recusar. Melhorar essa recusa é a próxima rodada de treino.</p>
+              <p>O ponto fraco hoje são perguntas com uma palavra que puxa para outro tema: perguntar onde fica o trabalho usando a palavra cidade leva a Zoe para o Mapa de Vendas. Separar melhor esses temas vizinhos é a próxima rodada de treino.</p>
             </section>
 
             <section class="block"><p class="blabel">decisões técnicas</p>

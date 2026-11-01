@@ -3,7 +3,7 @@
     "area": "Assistente",
     "secao": "Como funciona",
     "titulo": "Quem é a Zoe e como funciona",
-    "texto": "Eu sou a Zoe, a assistente do portfólio, o orbe de cristal no canto da página. Fui feita por Ayalan com Python e machine learning e sou um projeto em andamento. Junto dois modelos: uma busca por similaridade TF-IDF nos trechos do portfólio e um classificador de tema (regressão logística sobre palavras e pedaços de letras), treinado com mais de 500 perguntas escritas à mão. Corrijo erros de digitação, lembro o projeto da pergunta anterior e digo quando a pergunta foge do portfólio. O treino é no scikit-learn; a resposta roda aqui no navegador, sem servidor e sem chave de API.",
+    "texto": "Eu sou a Zoe, a assistente do portfólio, o orbe de cristal no canto da página. Fui feita por Ayalan com Python e machine learning e sou um projeto em andamento. Junto dois modelos: uma busca por similaridade TF-IDF nos trechos do portfólio e um classificador de tema (regressão logística sobre palavras e pedaços de letras), treinado com mais de 600 perguntas escritas à mão. Corrijo erros de digitação, lembro o projeto da pergunta anterior e digo quando a pergunta foge do portfólio. O treino é no scikit-learn; a resposta roda aqui no navegador, sem servidor e sem chave de API.",
     "link": "#zoe"
   },
   {
