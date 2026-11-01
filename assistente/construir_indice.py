@@ -3,8 +3,8 @@
 Etapas:
 1. extrai os trechos do site (extrair.py) e junta os fatos dos repositórios (repositorios.json);
 2. vetoriza os trechos com TF-IDF para a busca por similaridade;
-3. separa as perguntas de treino.json em treino e validação, e escolhe por busca em grade a
-   regularização do classificador, o peso λ da fusão e os limiares de "fora do escopo";
+3. separa as perguntas de treino.json em treino e validação (três sorteios), e escolhe por busca em grade
+   a regularização do classificador, o peso λ da fusão e os limiares de "fora do escopo", pela nota média;
 4. treina o classificador final com todas as perguntas e mede a validação cruzada em 5 partes.
 
 Uso:  python assistente/construir_indice.py [caminho/do/index.html]
@@ -32,6 +32,7 @@ GRADE = {
     "limiar_fora": [0.3, 0.4, 0.5, 0.6],
     "limiar_nota": [0.0, 0.05, 0.1, 0.15],
 }
+SEMENTES_VALIDACAO = (0, 1, 2)
 
 
 def texto_para_vetorizar(t: dict) -> str:
@@ -70,26 +71,32 @@ def nota_da_resposta(r: dict, tema_certo: str) -> float:
     return 1.0 if r["res"][0][1]["tema"] == tema_certo else 0.0
 
 
-def escolher_parametros(base: dict, perguntas: dict[str, list[str]], trechos: list[dict]) -> tuple[dict, float]:
-    """Busca em grade na validação (25% das perguntas, fora do treino). Devolve os parâmetros e a nota média."""
+def escolher_parametros(base: dict, perguntas: dict[str, list[str]], trechos: list[dict],
+                        sementes: tuple[int, ...] = SEMENTES_VALIDACAO) -> tuple[dict, float]:
+    """Busca em grade na validação: 25% das perguntas ficam fora do treino, sorteadas com várias sementes.
+    A nota de cada combinação é a média das divisões, o que deixa a escolha menos sujeita à sorte de um
+    único sorteio. Devolve os parâmetros e a nota média."""
     pares = [(p, t) for t, lista in perguntas.items() for p in lista]
-    treino, valid = train_test_split(pares, test_size=0.25, random_state=0, stratify=[t for _, t in pares])
-    por_tema: dict[str, list[str]] = {}
-    for p, t in treino:
-        por_tema.setdefault(t, []).append(p)
-
-    melhor = (-1.0, None)
-    for C in GRADE["C"]:
-        clf = Classificador(C).treinar(*exemplos(por_tema, trechos))
-        indice = dict(base, classificador=clf.exportar())
-        comps = [(componentes(p, indice), t) for p, t in valid]
-        for lam, lf, ln in itertools.product(GRADE["lambda"], GRADE["limiar_fora"], GRADE["limiar_nota"]):
-            params = {"lambda": lam, "limiar_fora": lf, "limiar_nota": ln}
-            acc = np.mean([nota_da_resposta(decidir(*c, indice, params), t) for c, t in comps])
-            # no empate, prefere λ e limiares menores (modelo mais simples)
-            if acc > melhor[0] + 1e-9:
-                melhor = (acc, dict(params, C=C))
-    return melhor[1], float(melhor[0])
+    combos = [dict(C=C, **{"lambda": lam, "limiar_fora": lf, "limiar_nota": ln}) for C, lam, lf, ln in
+              itertools.product(GRADE["C"], GRADE["lambda"], GRADE["limiar_fora"], GRADE["limiar_nota"])]
+    soma = np.zeros(len(combos))
+    for semente in sementes:
+        treino, valid = train_test_split(pares, test_size=0.25, random_state=semente, stratify=[t for _, t in pares])
+        por_tema: dict[str, list[str]] = {}
+        for p, t in treino:
+            por_tema.setdefault(t, []).append(p)
+        for C in GRADE["C"]:
+            clf = Classificador(C).treinar(*exemplos(por_tema, trechos))
+            indice = dict(base, classificador=clf.exportar())
+            comps = [(componentes(p, indice), t) for p, t in valid]
+            for i, params in enumerate(combos):
+                if params["C"] == C:
+                    soma[i] += np.mean([nota_da_resposta(decidir(*c, indice, params), t) for c, t in comps])
+    media = soma / len(sementes)
+    # no empate, fica a primeira da grade: C, λ e limiares menores (modelo mais simples)
+    i = int(np.argmax(media + 1e-9 * np.arange(len(media))[::-1]))
+    params = dict(combos[i])
+    return params, float(media[i])
 
 
 def validacao_cruzada(perguntas: dict[str, list[str]], trechos: list[dict], C: float) -> float:

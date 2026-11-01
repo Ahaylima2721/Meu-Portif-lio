@@ -30,7 +30,7 @@ SINONIMOS = {
     "cargo": ["funcao", "atual"], "profissao": ["funcao"], "atua": ["funcao", "setor"], "trabalha": ["funcao", "setor"],
     "experiencia": ["trajetoria"], "carreira": ["trajetoria"], "historia": ["trajetoria"], "evolucao": ["trajetoria"],
     "inteligencia": ["ia"], "artificial": ["ia"], "llm": ["ia"], "gpt": ["ia"], "chatbot": ["ia", "assistente"],
-    "robo": ["assistente"], "bot": ["assistente"],
+    "robo": ["assistente"], "bot": ["assistente"], "zoe": ["assistente"], "orbe": ["assistente"],
     "seguro": ["seguranca"], "senha": ["seguranca"], "permissao": ["seguranca", "rls"],
     "teste": ["vitest"], "qualidade": ["teste"],
     "violao": ["harmony"], "musica": ["harmony", "violao"], "guitarra": ["harmony", "violao"], "solo": ["harmony"],
@@ -138,9 +138,11 @@ PROJETOS = {
     "mapa": ["mapa", "mapas", "calor", "leaflet"],
     "superagente": ["superagente", "agente", "rag", "gemini", "groq"],
     "harmony": ["harmony", "violao", "guitarra", "solo", "solos", "caged", "acorde", "acordes", "escala", "escalas"],
+    "assistente": ["zoe", "orbe", "orb"],
 }
 # Só o nome do projeto (já com radical), mais palavras genéricas: "o que é o Fluxo?" pede a visão geral.
-NOMES_PROJETO = {"fluxo": ["fluxo", "taskflow"], "mapa": ["mapa", "venda"], "superagente": ["superagente"], "harmony": ["harmony"]}
+NOMES_PROJETO = {"fluxo": ["fluxo", "taskflow"], "mapa": ["mapa", "venda"], "superagente": ["superagente"], "harmony": ["harmony"],
+                 "assistente": ["zoe"]}
 GENERICOS = ["funciona", "projeto", "app", "aplicativo", "sistema", "ferramenta"]
 # Palavras que apontam para algo já dito na conversa: "e as telas dele?", "esse projeto usa testes?".
 REFERENCIAS = sorted({

@@ -2,15 +2,15 @@
   {
     "area": "Assistente",
     "secao": "Como funciona",
-    "titulo": "Como este assistente funciona",
-    "texto": "Este assistente foi feito por Ayalan com Python e machine learning. Ele junta dois modelos: uma busca por similaridade TF-IDF nos trechos do portfólio e um classificador de tema (regressão logística sobre palavras e pedaços de letras), treinado com mais de 500 perguntas escritas à mão. Ele corrige erros de digitação, lembra o projeto da pergunta anterior e diz quando a pergunta foge do portfólio. O treino é no scikit-learn; a resposta roda aqui no navegador, sem servidor e sem chave de API.",
-    "link": "#inicio"
+    "titulo": "Quem é a Zoe e como funciona",
+    "texto": "Eu sou a Zoe, a assistente do portfólio, o orbe de cristal no canto da página. Fui feita por Ayalan com Python e machine learning e sou um projeto em andamento. Junto dois modelos: uma busca por similaridade TF-IDF nos trechos do portfólio e um classificador de tema (regressão logística sobre palavras e pedaços de letras), treinado com mais de 500 perguntas escritas à mão. Corrijo erros de digitação, lembro o projeto da pergunta anterior e digo quando a pergunta foge do portfólio. O treino é no scikit-learn; a resposta roda aqui no navegador, sem servidor e sem chave de API.",
+    "link": "#zoe"
   },
   {
     "area": "Assistente",
     "secao": "Limites",
-    "titulo": "Limites do assistente",
-    "texto": "Este assistente responde só com base no que está neste portfólio: quem é Ayalan, o dia a dia, habilidades, trajetória, ferramentas, contato e os projetos Fluxo, Mapa de Vendas, SuperAgente e Harmony. Para outros assuntos, o melhor é falar direto com Ayalan pelo e-mail ayalanlima35@gmail.com.",
+    "titulo": "Limites da Zoe",
+    "texto": "A Zoe responde só com base no que está neste portfólio: quem é Ayalan, o dia a dia, habilidades, trajetória, ferramentas, contato e os projetos Fluxo, Mapa de Vendas, SuperAgente, Harmony e a própria Zoe. Para outros assuntos, o melhor é falar direto com Ayalan pelo e-mail ayalanlima35@gmail.com.",
     "link": "#contato"
   }
 ]
