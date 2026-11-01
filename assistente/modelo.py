@@ -17,8 +17,9 @@ LINK_TEMA = {
     "#inicio": "apresentacao", "#sobre": "sobre", "#dia-a-dia": "dia_a_dia", "#principios": "principios",
     "#habilidades": "habilidades", "#trajetoria": "trajetoria", "#ferramentas": "ferramentas", "#contato": "contato",
     "#projetos": "projetos", "#fluxo": "fluxo", "#mapa": "mapa", "#superagente": "superagente", "#harmony": "harmony",
+    "#zoe": "assistente",  # a página da Zoe e os trechos sobre o assistente formam um tema só
 }
-TEMAS_PROJETO = {"fluxo", "mapa", "superagente", "harmony"}
+TEMAS_PROJETO = {"fluxo", "mapa", "superagente", "harmony", "assistente"}
 
 
 def tema_do_trecho(t: dict) -> str:

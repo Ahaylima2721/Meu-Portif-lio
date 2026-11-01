@@ -9,7 +9,7 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 
 RAIZ = Path(__file__).resolve().parent
-NOMES = {"fluxo": "Fluxo", "mapa": "Mapa de Vendas", "superagente": "SuperAgente", "harmony": "Harmony"}
+NOMES = {"fluxo": "Fluxo", "mapa": "Mapa de Vendas", "superagente": "SuperAgente", "harmony": "Harmony", "zoe": "Zoe"}
 
 
 def limpo(el) -> str:
@@ -82,7 +82,7 @@ def trechos_do_site(html: str) -> list[dict]:
             corpo = [limpo(p) for p in bloco.find_all("p", recursive=False) if "blabel" not in (p.get("class") or [])]
             if corpo:
                 add(nome, secao, f"{nome}: {secao.lower()}", " ".join(corpo), link, f"{nome}, {secao.lower()}: ")
-            itens = bloco.select(".feat li, .flow li, .decisions > div, .challenges > div, .next li")
+            itens = bloco.select(".feat li, .flow li, .decisions > div, .challenges > div, .next li, .roadmap li")
             for it in itens:
                 cab = it.select_one("b, .ch-q")
                 titulo = limpo(cab).rstrip(".:") if cab else secao
@@ -92,8 +92,9 @@ def trechos_do_site(html: str) -> list[dict]:
                 add(nome, secao, f"{nome}: {titulo}", corpo_item, link, f"{nome}, {secao.lower()}. {titulo}. ")
             linhas = bloco.select(".cmp tbody tr")
             if linhas:
+                medicao = bloco.select_one(".cmp").get("data-medicao", "medição em 500 solos")
                 add(nome, secao, f"{nome}: medição antes e depois",
-                    f"{nome}, medição em 500 solos, antes e depois: " + "; ".join(" ".join(limpo(td) for td in tr.select("td")) for tr in linhas) + ".", link)
+                    f"{nome}, {medicao}, antes e depois: " + "; ".join(" ".join(limpo(td) for td in tr.select("td")) for tr in linhas) + ".", link)
         stack = v.select_one(".stackline")
         if stack:
             add(nome, "Tecnologias", f"{nome}: tecnologias", f"Tecnologias usadas no {nome}: {', '.join(limpo(c) for c in stack.select('.chip'))}.", link)

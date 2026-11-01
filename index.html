@@ -651,6 +651,120 @@ main::before { display: none; }
 .band.ink .card { background: var(--surface); }
 .tile:hover { border-color: var(--accent); box-shadow: 0 24px 50px -28px rgba(255, 90, 79, 0.5); }
 .laptop-lid { box-shadow: 0 0 0 1px #3C3C42 inset, 0 50px 90px -40px rgba(255, 90, 79, 0.35); }
+/* ================= Zoe: página própria ================= */
+.zoe-hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); gap: clamp(24px, 5vw, 56px); align-items: center; }
+.zoe-role { margin-top: 10px; font-family: var(--f-mono); font-size: 0.95rem; color: var(--muted); }
+.zoe-role::before { content: "// "; color: var(--accent); }
+.plinks-btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 10px; border: 1px solid transparent; cursor: pointer; font: 600 0.93rem var(--f-sans);
+  color: #fff; background: radial-gradient(circle at 30% 25%, #C9A7FF, #7C3AED 55%, #5B21B6); box-shadow: 0 10px 24px -12px rgba(124, 58, 237, 0.8); }
+.plinks-btn:hover { filter: brightness(1.08); }
+.badge.wip { gap: 8px; }
+.pulse { width: 8px; height: 8px; border-radius: 50%; background: #A78BFA; box-shadow: 0 0 0 0 rgba(167, 139, 250, 0.6); animation: wipPulse 1.8s ease-out infinite; }
+@keyframes wipPulse { 0% { box-shadow: 0 0 0 0 rgba(167, 139, 250, 0.6); } 80%, 100% { box-shadow: 0 0 0 8px rgba(167, 139, 250, 0); } }
+
+.zoe-stage { position: relative; justify-self: center; width: min(100%, 340px); aspect-ratio: 1; display: grid; place-items: center; }
+.zoe-ring { position: absolute; inset: 6%; border-radius: 50%; border: 1px dashed color-mix(in srgb, #A78BFA 45%, var(--line)); animation: orbSpin 40s linear infinite; }
+.zoe-ring.r2 { inset: 20%; border-style: solid; border-color: color-mix(in srgb, #A78BFA 18%, transparent); animation-direction: reverse; animation-duration: 60s; }
+.orb.orb-xl { width: 46%; height: auto; aspect-ratio: 1; cursor: default; }
+.orb.orb-xl:hover { transform: none; animation-play-state: running; }
+.orb-xl::after { inset: -22%; }
+.orb-xl .orb-face { gap: clamp(18px, 6vw, 26px); transition: transform .25s ease-out; }
+.orb-xl .orb-face i { width: clamp(11px, 4vw, 16px); height: auto; aspect-ratio: 7 / 11; border-radius: 999px; box-shadow: 0 0 14px rgba(235, 225, 255, 0.95); transition: aspect-ratio .2s; }
+.orb-xl .orb-sparkle { top: 13%; right: 18%; width: 9%; height: 9%; }
+.orb-xl.pensando .orb-face i { aspect-ratio: 7 / 3; animation: none; }
+.zoe-node { position: absolute; padding: 4px 10px; border-radius: 999px; font: 500 0.76rem var(--f-mono); color: var(--fg); background: var(--surface); border: 1px solid var(--line-strong); white-space: nowrap; }
+.zoe-node::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 7px; border-radius: 50%; background: #A78BFA; vertical-align: 1px; }
+.zoe-node.n1 { top: 4%; left: 50%; transform: translateX(-50%); }
+.zoe-node.n2 { top: 46%; right: -6%; }
+.zoe-node.n3 { bottom: 4%; left: 50%; transform: translateX(-50%); }
+.zoe-node.n4 { top: 46%; left: -4%; }
+
+/* laboratório */
+.lab { border: 1px solid var(--line); border-radius: 16px; background: var(--surface); padding: clamp(16px, 3vw, 24px); display: grid; gap: 14px; }
+.lab-form { display: flex; gap: 10px; }
+.lab-form input { flex: 1; min-width: 0; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--line-strong); background: var(--bg); color: var(--fg); font: 400 1rem var(--f-sans); outline: none; }
+.lab-form input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+.lab-ex { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--faint); }
+.lab-ex button { font: 500 0.82rem var(--f-mono); padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--bg); color: var(--fg); cursor: pointer; }
+.lab-ex button:hover { border-color: var(--accent); }
+.lab-empty { color: var(--muted); font-size: 0.95rem; max-width: 70ch; }
+.lab-out { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.lab-out > .lab-empty { grid-column: 1 / -1; }
+.lab-step { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: var(--bg); display: grid; gap: 10px; align-content: start; min-width: 0; }
+.lab-step h3 { font: 600 0.74rem var(--f-sans); letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); display: flex; gap: 8px; align-items: center; }
+.lab-step h3 span { font-family: var(--f-mono); color: var(--accent); letter-spacing: 0; }
+.lab-step.full { grid-column: 1 / -1; }
+.toks { display: flex; flex-wrap: wrap; gap: 6px; }
+.tok { font: 500 0.8rem var(--f-mono); padding: 3px 8px; border-radius: 6px; background: var(--soft); border: 1px solid var(--line); }
+.tok.fix { border-color: var(--accent); }
+.tok.fix s { color: var(--faint); margin-right: 4px; }
+.lab-note { font-size: 0.85rem; color: var(--muted); }
+.bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.bars li { display: grid; grid-template-columns: minmax(0, 8.5em) minmax(0, 1fr) 3.4em; gap: 10px; align-items: center; font-size: 0.86rem; }
+.bars .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); }
+.bars .tr { height: 8px; border-radius: 4px; background: var(--soft); overflow: hidden; }
+.bars .tr i { display: block; height: 100%; border-radius: 4px; background: var(--faint); transition: width .5s ease-out; }
+.bars li.top .nm { color: var(--fg); font-weight: 600; }
+.bars li.top .tr i { background: var(--accent); }
+.bars .v { text-align: right; font-family: var(--f-mono); font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+.hits { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.hits li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); }
+.hits li.top { border-color: var(--accent); }
+.hits b { font-weight: 600; font-size: 0.92rem; min-width: 0; overflow-wrap: anywhere; }
+.hits .sc { font: 500 0.78rem var(--f-mono); color: var(--muted); text-align: right; white-space: nowrap; }
+.hits .ar { grid-column: 1 / -1; font-size: 0.8rem; color: var(--faint); }
+.verdict { display: flex; gap: 12px; align-items: flex-start; }
+.verdict .i { color: var(--accent); width: 22px; height: 22px; margin-top: 2px; }
+.verdict p { font-size: 0.97rem; }
+.verdict a { font-weight: 600; }
+
+/* avaliação: aqui maior é melhor */
+.cmp td.good.up::before { content: "↑ "; }
+
+/* status do projeto */
+.roadmap { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; max-width: 78ch; }
+.roadmap li { position: relative; display: grid; gap: 4px; padding: 0 0 22px 32px; }
+.roadmap li::before { content: ""; position: absolute; left: 5px; top: 8px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--line-strong); background: var(--bg); }
+.roadmap li::after { content: ""; position: absolute; left: 11px; top: 24px; bottom: 2px; width: 2px; background: var(--line); }
+.roadmap li:last-child::after { display: none; }
+.roadmap li.done::before { background: var(--fg); border-color: var(--fg); }
+.roadmap li.now::before { background: #A78BFA; border-color: #A78BFA; box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.22); }
+.roadmap b { font-weight: 600; }
+.roadmap span { color: var(--muted); font-size: 0.97rem; }
+
+/* cartão da Zoe na página de projetos: largo, com miniatura própria */
+.pcard.wide { grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto; }
+.pcard.wide .pthumb { border-bottom: 0; border-right: 1px solid var(--line); }
+.pthumb-zoe { position: relative; display: grid; align-content: center; gap: 10px; padding: 26px 28px 26px 112px; min-height: 220px; background: radial-gradient(120% 120% at 0% 50%, #2A1650, #121216 60%); }
+.pthumb-zoe .orb-sm { position: absolute; left: 26px; top: 50%; margin-top: -32px; width: 64px; height: 64px; cursor: inherit; }
+.zb { justify-self: start; max-width: 100%; padding: 8px 12px; border-radius: 12px; font-size: 0.85rem; line-height: 1.45; }
+.zb.q { justify-self: end; background: #D32F2F; color: #fff; border-bottom-right-radius: 4px; }
+.zb.a { background: #232327; color: #F2F2F3; border-bottom-left-radius: 4px; }
+.zb.a i { display: block; margin-top: 4px; font: 400 0.7rem var(--f-mono); font-style: normal; color: #8E8E96; }
+.chat-foot a { color: var(--fg); }
+
+@media (max-width: 1000px) {
+  .zoe-hero { grid-template-columns: minmax(0, 1fr); }
+  .zoe-stage { width: min(100%, 300px); grid-row: 1; }
+}
+@media (max-width: 760px) {
+  .lab-out { grid-template-columns: minmax(0, 1fr); }
+  .pcard.wide { grid-template-columns: minmax(0, 1fr); }
+  .pcard.wide .pthumb { border-right: 0; border-bottom: 1px solid var(--line); }
+}
+@media (max-width: 560px) {
+  .lab-form { flex-direction: column; }
+  .zoe-node { font-size: 0.7rem; }
+  .zoe-node.n2 { right: -2%; } .zoe-node.n4 { left: -2%; }
+  .pthumb-zoe { padding: 22px 18px 22px 94px; }
+  .pthumb-zoe .orb-sm { left: 16px; width: 58px; height: 58px; margin-top: -29px; }
+  .bars li { grid-template-columns: minmax(0, 7em) minmax(0, 1fr) 3.2em; }
+  .hits li { grid-template-columns: minmax(0, 1fr); }
+  .hits .sc { text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .zoe-ring, .pulse, .bars .tr i, .orb-xl .orb-face { animation: none; transition: none; }
+}
 </style>
 <style>html{-webkit-text-size-adjust:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
@@ -836,6 +950,10 @@ main::before { display: none; }
         <a class="pcard" href="#harmony">
           <span class="pthumb pthumb-phones"><img src="img/harmony-inicio.webp" alt="" width="600" height="1298" loading="lazy"><img src="img/harmony-escalas.webp" alt="" width="600" height="1298" loading="lazy"><img src="img/harmony-gerador.webp" alt="" width="600" height="1298" loading="lazy"></span>
           <span class="pinfo"><span class="badges"><span class="badge">Produto</span><span class="badge">Web + Android</span></span><b>Harmony</b><span class="pdesc">App de estudo de violão com motor de teoria musical próprio, gerador de solos e 354 testes.</span><span class="open">Ver projeto <svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-right"/></svg></span></span>
+        </a>
+        <a class="pcard wide" href="#zoe">
+          <span class="pthumb pthumb-zoe"><span class="orb orb-sm" aria-hidden="true"><span class="orb-face"><i></i><i></i></span></span><span class="zb q">harmoni gerdor de solos</span><span class="zb a"><b>Harmony</b> · gerador de solos<i>corrigido: harmoni → harmony · tema 100%</i></span></span>
+          <span class="pinfo"><span class="badges"><span class="badge">Machine learning</span><span class="badge">Em andamento</span></span><b>Zoe</b><span class="pdesc">A assistente do portfólio: classificador e busca TF-IDF treinados em Python, respondendo no navegador.</span><span class="open">Ver projeto <svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-right"/></svg></span></span>
         </a>
       </div>
     </div>
@@ -1238,21 +1356,136 @@ apenas os trechos recuperados das bases.</pre>
             </section>
 
             <div class="stackline"><span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Vite</span><span class="chip">SVG</span><span class="chip">Web Audio</span><span class="chip">Capacitor</span><span class="chip">Vitest</span></div>
-            <nav class="pnav" aria-label="Outros projetos"><a href="#superagente"><svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-left"/></svg>SuperAgente</a><a href="#projetos">Todos os projetos <svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-right"/></svg></a></nav>
+            <nav class="pnav" aria-label="Outros projetos"><a href="#superagente"><svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-left"/></svg>SuperAgente</a><a href="#zoe">Zoe <svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-right"/></svg></a></nav>
+          </div>
+        </article></div>
+      </div>
+<!-- =========================================================== ZOE -->
+<div class="view" id="zoe" data-view="zoe" hidden>
+        <div class="wrap"><article class="pane proj" aria-labelledby="zoe-h">
+          <div class="pane-body">
+            <nav class="crumbs" aria-label="Você está em"><a href="#projetos">Projetos</a><span aria-hidden="true">/</span><span>Zoe</span></nav>
+            <div class="zoe-hero">
+              <div class="zoe-copy">
+                <div class="badges"><span class="badge ai"><svg class="i i-sm" aria-hidden="true"><use href="#ic-bot"/></svg>Machine learning</span><span class="badge wip"><span class="pulse" aria-hidden="true"></span>Em andamento</span><span class="badge ok"><svg class="i i-sm" aria-hidden="true"><use href="#ic-git-fork"/></svg>Código aberto</span></div>
+                <h1 class="ptitle" id="zoe-h">Zoe</h1>
+                <p class="zoe-role">assistente do portfólio</p>
+                <p class="plead">A Zoe é o orbe de cristal no canto da página. Ela responde perguntas sobre o Ayalan e os projetos usando um modelo treinado em Python, e a resposta é calculada no seu navegador, sem servidor e sem chave de API.</p>
+                <div class="plinks"><button type="button" class="plinks-btn" data-abrir-zoe><svg class="i i-sm" aria-hidden="true"><use href="#ic-send"/></svg>Conversar com a Zoe</button><a href="#zoe-lab"><svg class="i i-sm" aria-hidden="true"><use href="#ic-flask-conical"/></svg>Ver por dentro de uma resposta</a><a href="https://github.com/Ahaylima2721/Meu-Portif-lio/tree/main/assistente" target="_blank" rel="noopener"><svg class="i i-sm" aria-hidden="true"><use href="#ic-github"/></svg>Ver código no GitHub</a></div>
+              </div>
+              <div class="zoe-stage" aria-hidden="true">
+                <span class="zoe-ring"></span><span class="zoe-ring r2"></span>
+                <div class="orb orb-xl" id="zoe-orb"><span class="orb-face"><i></i><i></i></span><span class="orb-sparkle"></span></div>
+                <span class="zoe-node n1">correção</span><span class="zoe-node n2">classificador</span><span class="zoe-node n3">TF-IDF</span><span class="zoe-node n4">contexto</span>
+              </div>
+            </div>
+            <div class="metrics">
+              <div><b>92%</b><span>de acerto no 1º resultado, em perguntas de teste</span></div>
+              <div><b>542</b><span>perguntas escritas à mão em 15 temas</span></div>
+              <div><b>0</b><span>servidores e chaves de API</span></div>
+              <div><b>~100 KB</b><span>de modelo baixado, com gzip</span></div>
+            </div>
+          </div>
+
+          <div class="demo" id="zoe-lab">
+            <div class="demo-head"><p class="demo-title"><svg class="i i-sm" aria-hidden="true"><use href="#ic-flask-conical"/></svg>Laboratório · por dentro de uma resposta</p></div>
+            <div class="lab">
+              <form class="lab-form" id="lab-form" autocomplete="off">
+                <label class="sr" for="lab-q">Pergunta para analisar</label>
+                <input id="lab-q" type="text" maxlength="200" placeholder="Escreva uma pergunta, com erro de digitação e tudo…">
+                <button type="submit" class="btn">Analisar</button>
+              </form>
+              <div class="lab-ex" id="lab-ex"><span>Exemplos:</span><button type="button">harmoni gerdor de solos</button><button type="button">quantas migrations tem o fluxo?</button><button type="button">qual a capital da frança?</button><button type="button">você sabe python?</button></div>
+              <div class="lab-out" id="lab-out" aria-live="polite">
+                <p class="lab-empty">Escolha um exemplo ou escreva uma pergunta. Você vê cada etapa que a Zoe percorre: a correção de digitação, a probabilidade de cada tema, os trechos mais parecidos e a decisão final.</p>
+              </div>
+            </div>
+            <p class="demo-note">Este painel roda o mesmo motor da conversa, com o mesmo índice. Nada é enviado para fora do seu navegador.</p>
+          </div>
+
+          <div class="pane-body pdeep">
+            <section class="block"><p class="blabel">contexto e problema</p>
+              <p>Quem visita um portfólio quer achar rápido uma informação específica, como as tecnologias de um projeto ou como entrar em contato, e nem sempre sabe onde ela está. Um chatbot com LLM resolveria, mas precisaria de servidor, chave de API e custo por pergunta, e ainda poderia inventar fatos sobre mim. A Zoe nasceu para responder só com o que está no site, de graça e sem inventar.</p>
+            </section>
+
+            <section class="block"><p class="blabel">o que a zoe faz</p>
+              <ul class="feat">
+                <li><b>Responde com a fonte.</b> Cada resposta traz o link para a parte do site de onde veio, para a pessoa conferir.</li>
+                <li><b>Entende erro de digitação.</b> Palavras desconhecidas são trocadas pela mais parecida do vocabulário: "pyton" vira "python".</li>
+                <li><b>Lembra da conversa.</b> Uma pergunta como "e quantos testes ele tem?" continua no projeto da pergunta anterior.</li>
+                <li><b>Recusa com educação.</b> Quando a pergunta foge do portfólio, ela diz que não sabe em vez de devolver o trecho menos pior.</li>
+                <li><b>Mostra o raciocínio.</b> Abaixo de cada resposta aparecem o tema previsto, a probabilidade e a similaridade.</li>
+              </ul>
+            </section>
+
+            <section class="block"><p class="blabel">como funciona</p>
+              <ol class="flow flow-6">
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-file-code"/></svg></span><b>Extração</b><span>Python lê o próprio site e o divide em trechos com título e link</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-database"/></svg></span><b>TF-IDF</b><span>Vetores de palavras e pares de palavras de cada trecho</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-target"/></svg></span><b>Classificador</b><span>Regressão logística prevê o tema da pergunta</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-gauge"/></svg></span><b>Fusão</b><span>Similaridade e tema somados com peso escolhido em validação</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-layers"/></svg></span><b>Exportação</b><span>Pesos podados viram um JSON pequeno</span></li>
+                <li><span class="step"><svg class="i i-md" aria-hidden="true"><use href="#ic-zap"/></svg></span><b>Navegador</b><span>JavaScript repete as contas e responde na hora</span></li>
+              </ol>
+            </section>
+
+            <section class="block"><p class="blabel">avaliação</p>
+              <p>Separei 66 perguntas de teste que nunca entram no treino, com erros de digitação, perguntas de continuação e perguntas fora do escopo. A comparação é com a primeira versão do assistente, que usava só a busca TF-IDF:</p>
+              <div class="tablewrap">
+                <table class="cmp" data-medicao="acerto no 1º resultado nas perguntas de teste">
+                  <thead><tr><th scope="col">grupo de perguntas</th><th scope="col">só TF-IDF</th><th scope="col">Zoe hoje</th></tr></thead>
+                  <tbody>
+                    <tr><td>todas</td><td>68%</td><td class="good up">92%</td></tr>
+                    <tr><td>no escopo</td><td>74%</td><td class="good up">96%</td></tr>
+                    <tr><td>fora do escopo</td><td>62%</td><td class="good up">75%</td></tr>
+                    <tr><td>continuação da conversa</td><td>44%</td><td class="good up">89%</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>O ponto fraco hoje são perguntas genéricas, como pedir uma redação: em 2 de 8 casos a Zoe tenta responder em vez de recusar. Melhorar essa recusa é a próxima rodada de treino.</p>
+            </section>
+
+            <section class="block"><p class="blabel">decisões técnicas</p>
+              <div class="decisions">
+                <div><b>Dois modelos que se completam</b><p>O classificador acerta o tema mesmo com palavras diferentes das do site; a similaridade escolhe o trecho exato dentro do tema. A nota final é a soma dos dois com um peso λ.</p></div>
+                <div><b>Parâmetros escolhidos por validação</b><p>Regularização, λ e limiares de "fora do escopo" saem de uma busca em grade, com a nota média de três sorteios de 25% das perguntas. Dizer "não sei" a uma pergunta que o site responde custa mais que errar a seção.</p></div>
+                <div><b>Letras, não só palavras</b><p>O classificador também lê pedaços de 3 e 4 letras, o que segura erros de digitação e palavras novas.</p></div>
+                <div><b>O site é a fonte de verdade</b><p>O índice é gerado a partir do próprio HTML. Mudou um texto na página, a Zoe aprende junto no próximo push.</p></div>
+              </div>
+            </section>
+
+            <section class="block"><p class="blabel">desafios que resolvi</p>
+              <div class="challenges">
+                <div><p class="ch-q"><svg class="i i-sm" aria-hidden="true"><use href="#ic-circle-alert"/></svg>Python e JavaScript respondendo igual</p><p>O treino é em Python e a resposta em JavaScript. Um teste passa mais de 600 perguntas pelos dois motores e exige respostas idênticas, até a probabilidade.</p></div>
+                <div><p class="ch-q"><svg class="i i-sm" aria-hidden="true"><use href="#ic-circle-alert"/></svg>Modelo leve para a web</p><p>O índice completo tinha 669 KB. Podar os pesos menores que 8% do maior reduziu o arquivo para menos da metade sem perder acerto.</p></div>
+              </div>
+            </section>
+
+            <section class="block"><p class="blabel">status e próximos passos</p>
+              <ol class="roadmap">
+                <li class="done"><b>Concluído: motor de respostas</b><span>Busca TF-IDF, classificador de tema, correção de digitação, contexto da conversa e recusa fora do escopo, com testes e avaliação no CI.</span></li>
+                <li class="now"><b>Em andamento: integração</b><span>Nome, identidade e página própria, laboratório que mostra cada etapa da resposta e retreino automático a cada push no GitHub Actions.</span></li>
+                <li><b>Próximo: aprender com o uso</b><span>Registrar de forma anônima as perguntas que ficaram sem resposta, para virar novos exemplos de treino.</span></li>
+                <li><b>Próximo: camada com LLM</b><span>Uma etapa opcional em que um modelo de linguagem monta a resposta só com os trechos recuperados, mantendo o modo local como reserva.</span></li>
+              </ol>
+            </section>
+
+            <div class="stackline"><span class="chip">Python</span><span class="chip">scikit-learn</span><span class="chip">BeautifulSoup</span><span class="chip">pytest</span><span class="chip">JavaScript</span><span class="chip">Node</span><span class="chip">GitHub Actions</span></div>
+            <nav class="pnav" aria-label="Outros projetos"><a href="#harmony"><svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-left"/></svg>Harmony</a><a href="#projetos">Todos os projetos <svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-right"/></svg></a></nav>
           </div>
         </article></div>
       </div>
 </main>
 
 <div class="orb-wrap">
-  <div class="orb-hint" id="orb-hint" role="status">Pergunte sobre o Ayalan <button type="button" aria-label="Fechar dica">×</button></div>
-  <button class="orb" id="orb" type="button" aria-label="Abrir o assistente do portfólio" aria-expanded="false" aria-controls="chat"><span class="orb-face" aria-hidden="true"><i></i><i></i></span><span class="orb-sparkle" aria-hidden="true"></span></button>
+  <div class="orb-hint" id="orb-hint" role="status"><span>Oi, eu sou a <b>Zoe</b>. Pergunte sobre o Ayalan</span> <button type="button" aria-label="Fechar dica">×</button></div>
+  <button class="orb" id="orb" type="button" aria-label="Abrir a Zoe, assistente do portfólio" aria-expanded="false" aria-controls="chat"><span class="orb-face" aria-hidden="true"><i></i><i></i></span><span class="orb-sparkle" aria-hidden="true"></span></button>
 </div>
-<section class="chat" id="chat" hidden aria-label="Assistente do portfólio">
-  <div class="chat-head"><span class="mini-orb" aria-hidden="true"></span><div><b>Assistente do portfólio</b><span>Responde com base neste site e nos repositórios</span></div><button class="chat-close" id="chat-close" type="button" aria-label="Fechar o assistente">×</button></div>
+<section class="chat" id="chat" hidden aria-label="Zoe, assistente do portfólio">
+  <div class="chat-head"><span class="mini-orb" aria-hidden="true"></span><div><b>Zoe</b><span>Assistente do portfólio · responde com base no site</span></div><button class="chat-close" id="chat-close" type="button" aria-label="Fechar a Zoe">×</button></div>
   <div class="chat-log" id="chat-log" aria-live="polite"></div>
   <form class="chat-form" id="chat-form" autocomplete="off"><label class="sr" for="chat-q">Sua pergunta</label><input id="chat-q" type="text" placeholder="Pergunte sobre o Ayalan ou um projeto…" maxlength="200"><button type="submit" aria-label="Enviar pergunta"><svg class="i i-md" aria-hidden="true"><use href="#ic-send"/></svg></button></form>
-  <p class="chat-foot">Classificador + TF-IDF treinados em Python · roda no seu navegador</p>
+  <p class="chat-foot">Classificador + TF-IDF treinados em Python · roda no seu navegador · <a href="#zoe" id="chat-sobre">Conheça a Zoe</a></p>
 </section>
 
 <footer class="site-foot">
@@ -1435,20 +1668,20 @@ apenas os trechos recuperados das bases.</pre>
   var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(drawHeat, 150); });
 })();
 (function () {
-  // Assistente do portfólio. A busca fica em assistente/motor.js, que lê o índice treinado em Python
+  // Zoe, a assistente do portfólio. A busca fica em assistente/motor.js, que lê o índice treinado em Python
   // (assistente/construir_indice.py): classificador de tema + similaridade TF-IDF, com correção de digitação e contexto.
   var orb = document.getElementById('orb'), chat = document.getElementById('chat'), log = document.getElementById('chat-log');
   var form = document.getElementById('chat-form'), input = document.getElementById('chat-q'), hint = document.getElementById('orb-hint');
-  var motor = null, carregando = null, projetoAnterior = null, normalizar = window.MotorAssistente.normalizar;
-  var SUGESTOES = ['Quem é você?', 'O que você faz no dia a dia?', 'Como funciona o Fluxo?', 'Quais tecnologias você usa?', 'Como funciona o gerador de solos?', 'Como entrar em contato?'];
+  var motor = null, dados = null, carregando = null, projetoAnterior = null, normalizar = window.MotorAssistente.normalizar;
+  var SUGESTOES = ['Quem é você?', 'O que você faz no dia a dia?', 'Como funciona o Fluxo?', 'Como funciona o gerador de solos?', 'Como a Zoe funciona?', 'Como entrar em contato?'];
   var TEMAS = { apresentacao: 'Apresentação', sobre: 'Sobre mim', dia_a_dia: 'Dia a dia', principios: 'Como trabalho', habilidades: 'Habilidades',
     trajetoria: 'Trajetória', ferramentas: 'Ferramentas', contato: 'Contato', projetos: 'Projetos', fluxo: 'Fluxo', mapa: 'Mapa de Vendas',
-    superagente: 'SuperAgente', harmony: 'Harmony', assistente: 'Assistente', fora: 'Fora do portfólio' };
-  var TEMAS_PROJETO = { fluxo: 1, mapa: 1, superagente: 1, harmony: 1 };
+    superagente: 'SuperAgente', harmony: 'Harmony', assistente: 'Zoe', fora: 'Fora do portfólio' };
+  var TEMAS_PROJETO = { fluxo: 1, mapa: 1, superagente: 1, harmony: 1, assistente: 1 };
 
   function carregar() {
     if (!carregando) carregando = fetch('assistente/indice.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (d) {
-      motor = window.MotorAssistente(d); return motor;
+      dados = d; motor = window.MotorAssistente(d); return motor;
     });
     return carregando;
   }
@@ -1475,12 +1708,12 @@ apenas os trechos recuperados das bases.</pre>
 
   function responder(pergunta) {
     var n = normalizar(pergunta).trim();
-    if (/^(oi|ola|opa|e ai|eai|bom dia|boa tarde|boa noite|hey|hello|hi)\b[\s!.?]*$/.test(n)) return bot('Olá! Sou o assistente do portfólio do Ayalan. Pergunte sobre ele, o dia a dia de trabalho ou qualquer um dos projetos.');
+    if (/^(oi|ola|opa|e ai|eai|bom dia|boa tarde|boa noite|hey|hello|hi)\b[\s!.?]*$/.test(n)) return bot('Oi! Eu sou a <b>Zoe</b>, a assistente do portfólio do Ayalan. Pergunte sobre ele, o dia a dia de trabalho ou qualquer um dos projetos.');
     if (/^(obrigad|valeu|vlw|brigad|thanks)/.test(n)) return bot('De nada! Se quiser falar direto com o Ayalan, o e-mail é <b>ayalanlima35@gmail.com</b>.');
     var r = motor.buscar(pergunta, projetoAnterior, 20), top = r.res[0];
     if (r.fora) {
       bot(r.tema === 'fora'
-        ? 'Essa pergunta foge do que está no portfólio, então prefiro não inventar. Aqui eu respondo sobre o Ayalan, o trabalho dele e os projetos. Para o resto, o e-mail é <b>ayalanlima35@gmail.com</b>.'
+        ? 'Essa pergunta foge do que está no portfólio, então prefiro não inventar. Eu sou a Zoe e respondo sobre o Ayalan, o trabalho dele e os projetos. Para o resto, o e-mail é <b>ayalanlima35@gmail.com</b>.'
         : 'Não encontrei isso no portfólio. Tente perguntar de outro jeito ou escolha uma das sugestões abaixo. Para outros assuntos, fale com o Ayalan pelo e-mail <b>ayalanlima35@gmail.com</b>.');
       return sugestoes(SUGESTOES.slice(0, 4));
     }
@@ -1523,7 +1756,7 @@ apenas os trechos recuperados das bases.</pre>
     chat.hidden = false; orb.setAttribute('aria-expanded', 'true'); if (hint) hint.remove();
     if (!iniciou) {
       iniciou = true; carregar().catch(function () {});
-      bot('Olá! Sou o assistente do portfólio do <b>Ayalan</b>. Respondo com base no conteúdo deste site e dos repositórios dele: quem ele é, o dia a dia e os projetos. Pode perguntar em sequência, como “e os testes dele?”.');
+      bot('Oi! Eu sou a <b>Zoe</b>, a assistente do portfólio do <b>Ayalan</b>. Respondo com base neste site e nos repositórios dele: quem ele é, o dia a dia e os projetos. Pode perguntar em sequência, como “e os testes dele?”.');
       sugestoes(SUGESTOES);
     }
     setTimeout(function () { input.focus(); }, 50);
@@ -1533,6 +1766,64 @@ apenas os trechos recuperados das bases.</pre>
   document.getElementById('chat-close').addEventListener('click', fechar);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !chat.hidden) fechar(); });
   form.addEventListener('submit', function (e) { e.preventDefault(); var v = input.value; input.value = ''; perguntar(v); });
+  document.querySelectorAll('[data-abrir-zoe]').forEach(function (b) { b.addEventListener('click', function () { if (chat.hidden) abrir(); else input.focus(); }); });
+  document.getElementById('chat-sobre').addEventListener('click', function () { if (window.innerWidth < 700) fechar(); });
+
+  // laboratório da página da Zoe: roda o mesmo motor e mostra cada etapa da resposta
+  var labForm = document.getElementById('lab-form'), labIn = document.getElementById('lab-q'), labOut = document.getElementById('lab-out');
+  var orbXL = document.getElementById('zoe-orb');
+  function pct(v) { return Math.round(v * 100) + '%'; }
+  function analisar(q) {
+    q = q.trim(); if (!q) return;
+    labIn.value = q;
+    if (orbXL) orbXL.classList.add('pensando');
+    labOut.innerHTML = '<p class="lab-empty">Carregando o modelo…</p>';
+    carregar().then(function () {
+      var cru = motor.tokenizar(q), r = motor.buscar(q, null, 3), f = dados.fusao, top = r.res[0];
+      var toks = cru.length ? cru.map(function (t, i) {
+        return r.toks[i] !== t ? '<span class="tok fix"><s>' + esc(t) + '</s>' + esc(r.toks[i]) + '</span>' : '<span class="tok">' + esc(t) + '</span>';
+      }).join('') : '';
+      var corrigidas = cru.filter(function (t, i) { return r.toks[i] !== t; }).length;
+      var passo1 = '<div class="lab-step"><h3><span>1</span>Palavras</h3>' + (toks
+        ? '<div class="toks">' + toks + '</div><p class="lab-note">' + (corrigidas ? corrigidas + (corrigidas > 1 ? ' palavras corrigidas' : ' palavra corrigida') + ' pelo vocabulário do índice. ' : '') + 'Sem acentos, sem palavras vazias e com singular e plural juntos.</p>'
+        : '<p class="lab-note">Nenhuma palavra de conteúdo. A decisão fica com o classificador, que também lê pedaços de 3 e 4 letras.</p>') + '</div>';
+      var probs = Object.keys(r.probs).map(function (c) { return [c, r.probs[c]]; }).sort(function (a, b) { return b[1] - a[1]; }).slice(0, 5);
+      var passo2 = '<div class="lab-step"><h3><span>2</span>Classificador de tema</h3><ul class="bars">' + probs.map(function (p, i) {
+        return '<li' + (i ? '' : ' class="top"') + '><span class="nm">' + esc(TEMAS[p[0]] || p[0]) + '</span><span class="tr"><i style="width:' + (p[1] * 100).toFixed(1) + '%"></i></span><span class="v">' + pct(p[1]) + '</span></li>';
+      }).join('') + '</ul></div>';
+      var passo3 = '<div class="lab-step full"><h3><span>3</span>Similaridade + fusão</h3><p class="lab-note">nota = ' + (1 - f.lambda).toFixed(1) + ' × similaridade + ' + f.lambda.toFixed(1) + ' × probabilidade do tema do trecho</p><ul class="hits">' + r.res.map(function (x, i) {
+        return '<li' + (i ? '' : ' class="top"') + '><b>' + esc(x.t.titulo) + '</b><span class="sc">sim ' + x.cos.toFixed(2) + ' · nota ' + x.nota.toFixed(2) + '</span><span class="ar">' + esc(x.t.area) + ' · ' + esc(x.t.secao) + '</span></li>';
+      }).join('') + '</ul></div>';
+      var decisao;
+      if (r.fora) decisao = r.tema === 'fora'
+        ? 'O tema mais provável é <b>fora do portfólio</b> (' + pct(r.prob) + ', limiar ' + pct(f.limiar_fora) + '). A Zoe recusa com educação em vez de inventar.'
+        : 'A melhor nota (' + top.nota.toFixed(2) + ') ficou abaixo do limiar de ' + f.limiar_nota.toFixed(2) + '. A Zoe diz que não encontrou e sugere outras perguntas.';
+      else decisao = 'Responde com <a href="' + top.t.link + '">' + esc(top.t.titulo) + '</a> e mostra o link da seção como fonte.';
+      var passo4 = '<div class="lab-step full"><h3><span>4</span>Decisão</h3><div class="verdict"><svg class="i" aria-hidden="true"><use href="#ic-' + (r.fora ? 'circle-alert' : 'circle-check') + '"/></svg><p>' + decisao + '</p></div></div>';
+      labOut.innerHTML = passo1 + passo2 + passo3 + passo4;
+    }).catch(function () {
+      labOut.innerHTML = '<p class="lab-empty">Não consegui carregar o modelo agora. Recarregue a página para tentar de novo.</p>';
+    }).then(function () { setTimeout(function () { if (orbXL) orbXL.classList.remove('pensando'); }, 350); });
+  }
+  labForm.addEventListener('submit', function (e) { e.preventDefault(); analisar(labIn.value); });
+  document.querySelectorAll('#lab-ex button').forEach(function (b) { b.addEventListener('click', function () { analisar(b.textContent); }); });
+
+  // na página da Zoe, os olhos do orbe grande seguem o ponteiro
+  if (orbXL && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var face = orbXL.querySelector('.orb-face'), alvo = null;
+    window.addEventListener('pointermove', function (e) {
+      if (alvo === null) requestAnimationFrame(function () {
+        var b = orbXL.getBoundingClientRect();
+        if (b.width) {
+          var dx = alvo[0] - (b.left + b.width / 2), dy = alvo[1] - (b.top + b.height / 2), d = Math.hypot(dx, dy) || 1, m = Math.min(1, d / 300) * b.width * 0.08;
+          face.style.transform = 'translate(calc(-50% + ' + (dx / d * m).toFixed(1) + 'px), calc(-50% + ' + (dy / d * m).toFixed(1) + 'px))';
+        }
+        alvo = null;
+      });
+      alvo = [e.clientX, e.clientY];
+    }, { passive: true });
+  }
+
   if (hint) {
     hint.querySelector('button').addEventListener('click', function (e) { e.stopPropagation(); hint.remove(); });
     hint.addEventListener('click', abrir);

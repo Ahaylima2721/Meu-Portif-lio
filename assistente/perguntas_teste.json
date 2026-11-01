@@ -115,7 +115,7 @@
   },
   {
     "pergunta": "Como este robô funciona?",
-    "esperado": "#inicio"
+    "esperado": "#zoe"
   },
   {
     "pergunta": "Voce sabe pyton?",
@@ -272,5 +272,22 @@
   {
     "pergunta": "O que é o Fluxo?",
     "esperado": "#fluxo"
+  },
+  {
+    "pergunta": "O que é a Zoe?",
+    "esperado": "#zoe"
+  },
+  {
+    "pergunta": "Como a Zoe decide a resposta?",
+    "esperado": "#zoe"
+  },
+  {
+    "pergunta": "Qual o próximo passo da assistente?",
+    "esperado": "#zoe"
+  },
+  {
+    "pergunta": "E quanto ela acerta?",
+    "anterior": "O que é a Zoe?",
+    "esperado": "#zoe"
   }
 ]
