@@ -15,7 +15,7 @@
 <meta name="description" content="Ayalan Lima: desenvolvedor e analista de dados. Ferramentas web, análise de vendas e IA aplicada a dados de operação.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Great+Vibes&family=STIX+Two+Text:ital@0;1&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=STIX+Two+Text:ital@0;1&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: portfólio clássico. Menu fixo no topo, uma coluna centralizada de 1100px; início com apresentação, projetos em página própria e cada projeto com sua página.
    Identidade: paleta neutra (preto, cinzas e branco) com o vermelho como única cor dominante,
@@ -766,7 +766,7 @@ main::before { display: none; }
   .zoe-ring, .pulse, .bars .tr i, .orb-xl .orb-face { animation: none; transition: none; }
 }
 /* ================= visual claro: creme, títulos condensados e pastas (referência de portfólio editorial) ================= */
-:root { --f-display: "Anton", "Impact", "Arial Narrow", sans-serif; --f-script: "Great Vibes", "Brush Script MT", cursive;
+:root { --f-display: "Anton", "Impact", "Arial Narrow", sans-serif;
   --sky: #DCEBFB; --sky-strong: #A9CBF2; --sel: #2F6FDB; --f-pink: #F6A9C6; --f-orange: #FF9F5A; --f-blue: #8DB6EE; --f-green: #C3E37A; }
 .glow, main::before { display: none; }
 body { background: var(--bg); }
@@ -820,7 +820,7 @@ body { background: var(--bg); }
 /* ---------- topo ---------- */
 .hero { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: clamp(28px, 5vw, 64px); min-height: 0; padding-block: clamp(40px, 7vw, 88px) clamp(48px, 7vw, 88px); }
 .hero h1 { margin: 0; display: grid; background: none; -webkit-background-clip: border-box; background-clip: border-box; color: var(--fg); letter-spacing: 0; line-height: 1; font-size: inherit; }
-.hero h1 .script { position: relative; z-index: 1; font: 400 clamp(2.6rem, 6.5vw, 4.8rem) / 1 var(--f-script); color: var(--accent); margin: 0 0 -0.42em 0.06em; transform: rotate(-6deg); transform-origin: left bottom; justify-self: start; }
+.hero h1 .script { position: relative; z-index: 1; font: 400 clamp(2.6rem, 6.5vw, 4.8rem) / 1 var(--f-mono); color: var(--accent); margin: 0 0 -0.42em 0.06em; transform: rotate(-6deg); transform-origin: left bottom; justify-self: start; }
 .hero h1 .big { font: 400 clamp(5rem, 15vw, 10.5rem) / 0.9 var(--f-display); text-transform: uppercase; letter-spacing: 0.005em; }
 .hero h1 .role-line { margin-top: 14px; font: 600 clamp(1.05rem, 2vw, 1.35rem) / 1.3 var(--f-sans); text-transform: uppercase; letter-spacing: 0.08em; }
 .hero .where { margin-top: 22px; color: var(--fg); font-size: 1.08rem; max-width: 50ch; }
@@ -828,15 +828,6 @@ body { background: var(--bg); }
 .hero .pitch { margin-top: 8px; color: var(--muted); max-width: 50ch; }
 .cta { align-items: center; gap: 18px; margin-top: 32px; }
 .hero .btn.ghost { border: 1.5px solid var(--fg); color: var(--fg); background: transparent; }
-
-/* botão com alças de seleção, como num editor de design */
-.btn-sel { position: relative; display: inline-flex; align-items: center; padding: 13px 28px; background: var(--sky); border: 1.5px solid var(--sel); color: var(--fg); text-decoration: none;
-  font: 400 1.15rem / 1 var(--f-display); text-transform: uppercase; letter-spacing: 0.04em; transition: background .2s; }
-.btn-sel:hover { background: var(--sky-strong); }
-.btn-sel::before, .btn-sel::after, .btn-sel .hd::before, .btn-sel .hd::after { content: ""; position: absolute; width: 7px; height: 7px; background: #fff; border: 1.5px solid var(--sel); }
-.btn-sel::before { left: -4.5px; top: -4.5px; } .btn-sel::after { right: -4.5px; bottom: -4.5px; }
-.btn-sel .hd::before { right: -4.5px; top: -4.5px; } .btn-sel .hd::after { left: -4.5px; bottom: -4.5px; }
-.btn-sel .hd { position: absolute; inset: 0; pointer-events: none; }
 
 .socials { list-style: none; margin: 26px 0 0; padding: 0; display: flex; gap: 22px; }
 .socials a, .socials button { display: inline-grid; place-items: center; width: 40px; height: 40px; border: 0; background: none; padding: 0; color: var(--fg); cursor: pointer; border-radius: 8px; }
@@ -889,7 +880,7 @@ body { background: var(--bg); }
   .folder { animation: none; }
   .card:hover, .pcard:hover, .challenges > div:hover, .flow li:hover { transform: none; }
 }
-/* ================= Zoe viva: ondas, boca, gestos e voo do topo para o canto ================= */
+/* ================= Zoe viva: ondas, olhos, gestos e voo do topo para o canto ================= */
 .orb-liquid { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; z-index: 0; pointer-events: none; }
 .orb-liquid i { position: absolute; left: -50%; width: 200%; height: 200%; border-radius: 42%; animation: ondaGira 8s linear infinite, mare 4.5s ease-in-out infinite; }
 .orb-liquid i:nth-child(1) { top: 56%; background: rgba(255, 255, 255, 0.16); }
@@ -900,15 +891,13 @@ body { background: var(--bg); }
 .orb-rings i { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(167, 139, 250, 0.6); opacity: 0; animation: ondaFora 3.6s ease-out infinite; }
 .orb-rings i:nth-child(2) { animation-delay: 1.2s; } .orb-rings i:nth-child(3) { animation-delay: 2.4s; }
 @keyframes ondaFora { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(1.9); opacity: 0; } }
-.orb .orb-face, .orb .orb-sparkle, .orb-mouth { z-index: 2; }
+.orb .orb-face, .orb .orb-sparkle { z-index: 2; }
 .orb .orb-face { transition: transform .35s cubic-bezier(.3, 1.4, .5, 1); }
-.orb-mouth { position: absolute; left: 50%; top: 66%; width: 16%; height: 7%; transform: translateX(-50%); border-bottom: 2px solid #F7F3FF; border-radius: 0 0 50% 50% / 0 0 100% 100%; filter: drop-shadow(0 0 4px rgba(235, 225, 255, 0.9)); transition: width .25s, height .25s; }
-.orb-xl .orb-mouth { border-bottom-width: 3px; }
-.orb.feliz .orb-mouth { width: 26%; height: 11%; }
 .orb.feliz .orb-face i { animation: none; transform: scaleY(0.45) translateY(-20%); border-radius: 999px 999px 4px 4px; }
 .orb.pisca .orb-face i:first-child { animation: none; transform: scaleY(0.15); }
-.orb.falando .orb-mouth { border: 0; background: #F7F3FF; border-radius: 50%; height: 4%; width: 12%; animation: fala .26s ease-in-out infinite alternate; }
-@keyframes fala { to { height: 11%; width: 15%; } }
+/* sem boca: quando fala, os olhos pulsam no ritmo da resposta */
+.orb.falando .orb-face i { animation: falaOlho .28s ease-in-out infinite alternate; }
+@keyframes falaOlho { from { transform: scaleY(1); } to { transform: scaleY(0.6); } }
 .orb.falando .orb-liquid i, .orb.pensando .orb-liquid i { animation-duration: 2.6s, 1.6s; }
 .orb.falando .orb-rings i { animation-duration: 1.6s; }
 .orb.pulo { animation: orbFloat 4.5s ease-in-out infinite, boing .75s cubic-bezier(.3, 1.5, .5, 1); }
@@ -977,9 +966,94 @@ body { background: var(--bg); }
   .nn-svg { min-width: 760px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .orb-liquid i, .orb-rings i, .orb.falando .orb-mouth { animation: none; }
+  .orb-liquid i, .orb-rings i, .orb.falando .orb-face i { animation: none; }
   .orb-rings { display: none; }
   .orb.pulo { animation: none; }
+}
+
+/* ================= refino: mais sóbrio, com a mesma paleta ================= */
+/* Creme, tinta e vermelho continuam. Saem a letra manuscrita, as pílulas azuis, as alças de seleção e as sombras duras;
+   as pastas ficam em tons mais fechados, os traços mais finos e os cantos mais retos. O vermelho fica só no que importa. */
+:root { --sky: #E4EAF2; --sky-strong: #BECBDC; --f-pink: #D3A6B1; --f-orange: #D49A70; --f-blue: #8FA8CA; --f-green: #AFBE8C; --r: 8px; }
+
+.site-head { border-bottom: 1px solid var(--fg); }
+.nav a { font-weight: 500; letter-spacing: 0.1em; }
+.nav .gh { border-width: 1px; border-radius: 6px; }
+
+/* topo: saudação discreta em mono e nome menor */
+.hero h1 .script { display: inline-flex; align-items: center; gap: 12px; margin: 0 0 16px; transform: none; font: 500 0.78rem / 1 var(--f-mono); text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); }
+.hero h1 .script::before { content: ""; width: 28px; height: 1px; background: currentColor; }
+.hero h1 .big { font-size: clamp(4.2rem, 11vw, 7.6rem); line-height: 0.92; }
+.hero h1 .role-line { margin-top: 18px; font-weight: 500; font-size: clamp(0.92rem, 1.5vw, 1.05rem); letter-spacing: 0.16em; color: var(--muted); }
+.hero .where { margin-top: 26px; }
+.hero .where .hl { text-decoration-thickness: 1.5px; }
+
+/* botões: tinta no principal, contorno fino no secundário */
+.btn { padding: 12px 22px; border-radius: 6px; background: var(--fg); border: 1px solid var(--fg); color: var(--bg); box-shadow: none; font-weight: 600; transition: background .2s, border-color .2s, color .2s; }
+.btn:not(.ghost)::after { display: none; }
+.btn:hover { transform: none; background: var(--accent-fill); border-color: var(--accent-fill); color: #FFFFFF; }
+.btn.ghost, .hero .btn.ghost, .vitrine .btn.ghost { background: transparent; border: 1px solid var(--fg); color: var(--fg); }
+.btn.ghost:hover, .hero .btn.ghost:hover, .vitrine .btn.ghost:hover { background: var(--fg); border-color: var(--fg); color: var(--bg); }
+.cta { gap: 12px; }
+.socials { gap: 14px; margin-top: 24px; }
+.socials .i { width: 22px; height: 22px; stroke-width: 1.7; }
+
+/* arte do topo: quadro e pastas mais calmos */
+.hero-card { border-width: 1px; border-radius: 4px; }
+.hero-card::after { border-width: 1px; }
+.fd { box-shadow: 0 8px 16px -12px rgba(20, 20, 20, 0.5); }
+.folder:hover .fd { transform: translateY(-3px); }
+.fl { color: var(--muted); }
+.hero-name { font-size: 1.15rem; letter-spacing: 0.1em; }
+.hero-name .i { display: none; }
+
+/* rótulos de seção: número e nome em mono, com um fio */
+.eyebrow { padding: 0; border: 0; border-radius: 0; background: none; font: 500 0.74rem / 1.2 var(--f-mono); letter-spacing: 0.16em; color: var(--muted); }
+.sec-head .eyebrow, .page-top .eyebrow, .contact .eyebrow { color: var(--muted); gap: 10px; }
+.sec-head .eyebrow::after, .page-top .eyebrow::after { display: block; content: ""; width: 32px; height: 1px; border-radius: 0; background: var(--line-strong); opacity: 1; }
+.blabel { border-radius: 4px; padding: 5px 12px; font-family: var(--f-mono); font-weight: 500; font-size: 0.72rem; }
+
+/* títulos um pouco menores, com mais ar */
+.sec-head { gap: 14px; }
+.sec-head h2, .contact h2 { font-size: clamp(1.9rem, 4vw, 2.8rem); line-height: 1.04; letter-spacing: 0.012em; }
+.page-top h1 { font-size: clamp(2.4rem, 5.5vw, 3.8rem); letter-spacing: 0.012em; }
+.ptitle { font-size: clamp(2.8rem, 7vw, 4.8rem); letter-spacing: 0.012em; }
+.skills h2 .hl { color: var(--fg); }
+section.sec { padding-top: 104px; }
+
+/* números e fios */
+.facts, .metrics { border-width: 1px 0; }
+.facts b, .metrics b { font-size: clamp(1.6rem, 2.6vw, 2rem); letter-spacing: 0.02em; }
+.facts span, .metrics span { font-size: 0.9rem; }
+
+/* nuvem de ferramentas: o tamanho já diz o peso, a cor não precisa gritar */
+.cloud { gap: 8px 20px; }
+.cloud .w4 { font-size: 1.45rem; } .cloud .w5 { font-size: 1.9rem; font-weight: 600; }
+.cloud .w5, .cloud .c-d.w5, .cloud .c-w.w5, .cloud .c-a.w5 { color: var(--fg); box-shadow: inset 0 -2px 0 var(--accent); }
+.cloud li:hover { transform: none; color: var(--accent); }
+
+/* cartões: cantos mais retos e sombra suave no lugar da sombra dura */
+.card, .role-card, .challenges > div, .flow li, .pcard, .lab, .lab-step, .nn, .nn-train, .browser, .term, .tablewrap, .algo li, .row, .tile, .mapcard, .hits li { border-radius: var(--r); }
+.icon-box, .flow .step, .mini, .plinks a, .pnav a, .demo-tabs button, .lab-form input, .nn-form input, .formula { border-radius: 6px; }
+.card:hover, .pcard:hover, .challenges > div:hover, .flow li:hover { border-color: var(--fg); box-shadow: 0 16px 32px -24px rgba(20, 20, 20, 0.5); transform: translateY(-2px); }
+.card:hover .icon-box { background: var(--fg); border-color: var(--fg); color: var(--bg); }
+.tile:hover { border-color: var(--fg); box-shadow: 0 20px 40px -28px rgba(20, 20, 20, 0.55); transform: translateY(-2px); }
+.laptop-lid { box-shadow: 0 0 0 1px #3C3C42 inset, 0 44px 80px -44px rgba(20, 20, 20, 0.5); }
+.nn { border-width: 1px; }
+.nn-modes button { border-width: 1px; border-radius: 6px; font-weight: 500; }
+
+/* contato: cartão claro, sem gradiente azul nem sombra deslocada */
+.contact { border: 1px solid var(--fg); border-radius: 10px; background: var(--surface); box-shadow: none; }
+
+@media (max-width: 560px) {
+  .hero h1 .big { font-size: clamp(3.6rem, 19vw, 5rem); }
+  section.sec { padding-top: 80px; }
+  .row { padding: 12px; gap: 8px; } .row > div { gap: 8px; } .row .val { font-size: 0.82rem; }
+  .mini { padding: 7px 10px; font-size: 0.8rem; }
+  .contact { padding: 24px 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card:hover, .pcard:hover, .challenges > div:hover, .flow li:hover, .tile:hover, .folder:hover .fd { transform: none; }
 }
 </style>
 <style>html{-webkit-text-size-adjust:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
@@ -1011,7 +1085,7 @@ body { background: var(--bg); }
           <p class="where">No Rio Grande do Sul, transformando <span class="hl">dados de operação</span> em ferramentas que a equipe usa todo dia.</p>
           <p class="pitch">Mapas de vendas, sistemas de gestão de tarefas e assistentes de IA que respondem perguntas sobre as bases da empresa.</p>
           <div class="cta">
-            <a class="btn-sel" href="#contato">Vamos conversar<span class="hd" aria-hidden="true"></span></a>
+            <a class="btn" href="#contato">Vamos conversar</a>
             <a class="btn ghost" href="#projetos">Ver projetos <svg class="i" aria-hidden="true"><use href="#ic-arrow-right"/></svg></a>
           </div>
           <ul class="socials">
@@ -2119,11 +2193,10 @@ apenas os trechos recuperados das bases.</pre>
 
   var calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ---------- vida: ondas dentro e em volta do orbe, boca, olhar e pequenos gestos ----------
+  // ---------- vida: ondas dentro e em volta do orbe, olhar e pequenos gestos (a Zoe tem só os olhos) ----------
   var orbes = Array.prototype.slice.call(document.querySelectorAll('.orb'));
   orbes.forEach(function (o) {
     o.insertAdjacentHTML('afterbegin', '<span class="orb-rings" aria-hidden="true"><i></i><i></i><i></i></span><span class="orb-liquid" aria-hidden="true"><i></i><i></i></span>');
-    if (!o.querySelector('.orb-mouth')) o.querySelector('.orb-face').insertAdjacentHTML('afterend', '<span class="orb-mouth" aria-hidden="true"></span>');
   });
   var vivos = orbes.filter(function (o) { return o.id === 'orb' || o.classList.contains('orb-xl'); });
   function olharPara(o, x, y) {
