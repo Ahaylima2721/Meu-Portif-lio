@@ -1075,32 +1075,42 @@ body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-in
 .cx-logo sup { font-size: .5em; }
 .badge.wip .pulse, .pulse { background: var(--zoe) !important; }
 
-/* hero */
-.cx-hero { position: relative; height: calc(100svh - 64px); min-height: 640px; max-height: 1000px; overflow: hidden; }
-.cx-maos { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.cx-hero.sem-3d .cx-maos { display: none; }
-.cx-copy { position: relative; z-index: 2; text-align: center; padding: clamp(36px, 7vh, 80px) 16px 0; pointer-events: none; }
-.cx-copy a { pointer-events: auto; }
+/* hero: a arte (imagem original, sem alterar) animada por conectando.js */
+.cx-hero { position: relative; height: calc(100svh - 64px); min-height: 680px; max-height: 1000px; overflow: hidden; background: var(--bg); isolation: isolate; }
+.cx-arte { --w: max(104vw, 1180px); position: absolute; margin: 0; left: 50%; top: calc(66% - var(--w) * 0.2578); width: var(--w); aspect-ratio: 2000 / 1116; transform: translateX(-48.9%); pointer-events: none; mix-blend-mode: multiply; }
+.cx-mao { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .9s ease; will-change: transform; user-select: none; -webkit-user-drag: none; }
+.cx-mao-robo { clip-path: inset(0 51.1% 0 0); transform-origin: 0% 70%; }
+.cx-mao-humana { clip-path: inset(0 0 0 48.9%); transform-origin: 100% 45%; }
+.cx-arte.montada .cx-mao { opacity: 1; }
+.cx-pontos { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cx-copy { position: relative; z-index: 2; text-align: center; padding: clamp(36px, 7vh, 80px) 16px 0; }
 .cx-kicker { font: 500 .78rem var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .cx-hero h1 { margin: 14px 0 0; font: 400 clamp(3.6rem, 11vw, 9.6rem)/.9 Anton, var(--f-sans); letter-spacing: -.01em; color: var(--fg); background: none; -webkit-text-fill-color: currentColor; }
 .cx-sub { margin: 18px auto 24px; max-width: 470px; font-size: clamp(.95rem, 1.4vw, 1.05rem); line-height: 1.55; color: #2b2b2e; }
 .cx-cta { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-.cx-btn { display: inline-flex; align-items: center; gap: 10px; padding: 11px 20px; border-radius: 999px; background: var(--fg); color: #fff; font: 500 .95rem var(--f-sans); text-decoration: none; border: 1px solid var(--fg); transition: transform .2s; }
+.cx-btn { display: inline-flex; align-items: center; gap: 10px; padding: 11px 20px; border-radius: 999px; background: var(--fg); color: #fff; font: 500 .95rem var(--f-sans); text-decoration: none; border: 1px solid var(--fg); cursor: pointer; transition: transform .2s; }
 .cx-btn:hover { transform: translateY(-2px); }
 .cx-btn.ghost { background: transparent; color: var(--fg); }
+.cx-btn.zoe { background: #fff; color: #3B1785; border-color: #D9C9FF; }
+.cx-btn.zoe .mini-orb { width: 18px; height: 18px; }
 .cx-btn svg { width: 14px; height: 14px; }
-.cx-zoe { position: absolute; z-index: 3; left: var(--zoe-x, 50%); top: var(--zoe-y, 64%); width: clamp(62px, 7.5vw, 112px); transform: translate(-50%, -50%); }
-.cx-zoe .orb.orb-xl.hero-orb { width: 100%; cursor: pointer; }
-.cx-zoe-tag { position: absolute; left: 50%; top: calc(100% + 18px); transform: translateX(-50%); white-space: nowrap; display: inline-flex; align-items: center; gap: 7px;
-  font: 500 .72rem var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: #3b1785; background: rgba(255,255,255,.85); border: 1px solid #DCCCFF; border-radius: 999px; padding: 5px 11px; text-decoration: none; }
-.cx-zoe-tag i { width: 7px; height: 7px; border-radius: 50%; background: var(--zoe); animation: cxPulse 1.4s infinite; }
-@keyframes cxPulse { 50% { opacity: .2; } }
-.cx-zoe:has(.saiu) .cx-zoe-tag { opacity: 0; }
-.cx-zoe::after { content: "a Zoe foi para o canto ↘"; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); white-space: nowrap; padding: 5px 11px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line-strong); font: 500 .75rem var(--f-mono); opacity: 0; transition: opacity .3s; pointer-events: none; }
-.cx-zoe:has(.saiu)::after { opacity: 1; }
-.cx-stack { position: absolute; z-index: 2; left: 0; right: 0; bottom: 20px; text-align: center; }
-.cx-stack small { display: block; color: var(--muted); font-size: .8rem; margin-bottom: 10px; }
+.cx-stack { position: absolute; z-index: 2; left: 0; right: 0; bottom: 18px; text-align: center; }
+.cx-stack small { display: block; color: var(--muted); font-size: .8rem; margin-bottom: 8px; }
 .cx-stack ul { list-style: none; margin: 0; padding: 0 16px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px clamp(18px, 4vw, 52px); font: 400 clamp(1rem, 1.7vw, 1.3rem) Anton, var(--f-sans); letter-spacing: .03em; }
+
+/* estética de meio-tom no site todo: fotos em preto e branco granulado, cor ao passar o mouse */
+.pthumb img, .tile img, .demo img, .shot img, .rail img { filter: grayscale(1) contrast(1.12) brightness(1.02); transition: filter .5s ease, transform .4s ease; }
+.pcard:hover .pthumb img, .tile:hover img, .demo img:hover, .rail img:hover { filter: none; }
+.pthumb, .tile { position: relative; }
+.pthumb::after, .tile::after { content: ""; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; opacity: .35; transition: opacity .5s;
+  background-image: radial-gradient(rgba(0,0,0,.55) 0.7px, transparent 1.1px); background-size: 4px 4px; }
+.pcard:hover .pthumb::after, .tile:hover::after { opacity: 0; }
+.pthumb-zoe::after, .pthumb-term::after, .tile-term::after { display: none; }
+.band.ink { color-scheme: light; }
+.sec-head h2, .page-top h1, .ptitle { font-family: Anton, var(--f-sans); font-weight: 400; letter-spacing: 0; text-transform: uppercase; }
+.eyebrow { font-family: var(--f-mono); letter-spacing: .14em; }
+hr, .facts, .metrics { border-color: var(--fg) !important; }
+::selection { background: #0F0F10; color: #fff; }
 
 /* Zoe fragmentada → inteira */
 .orb.zoe-fragmentada { opacity: 0; }
@@ -1112,13 +1122,12 @@ body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-in
 .pcard-zoe .badge:last-child { background: #F1EAFF; color: #4C1D95; border-color: #D9C9FF; }
 
 @media (max-width: 640px) {
-  .cx-hero { min-height: 600px; }
+  .cx-hero { min-height: 620px; }
+  .cx-arte { --w: 230vw; top: calc(68% - var(--w) * 0.2578); }
   .cx-sub { font-size: .92rem; }
   .cx-stack ul { gap: 6px 16px; }
 }
-@media (prefers-reduced-motion: reduce) { .cx-zoe-tag i { animation: none; } }
 </style>
-<script type="importmap">{ "imports": { "three": "./vendor/three/build/three.module.min.js", "three/addons/": "./vendor/three/examples/jsm/" } }</script>
 </head>
 <body>
 
@@ -1142,7 +1151,11 @@ body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-in
 <!-- =========================================================== INÍCIO -->
   <div class="view" id="inicio" data-view="inicio">
     <section class="cx-hero" aria-labelledby="nome">
-      <canvas class="cx-maos" aria-hidden="true"></canvas>
+      <figure class="cx-arte" role="img" aria-label="Uma mão robótica e uma mão humana quase se tocando, em meio-tom preto e branco">
+        <img class="cx-mao cx-mao-robo" src="img/maos-conectando.webp" srcset="img/maos-conectando-1200.webp 1200w, img/maos-conectando.webp 2000w" sizes="(max-width: 640px) 220vw, 100vw" width="2000" height="1116" alt="" fetchpriority="high">
+        <img class="cx-mao cx-mao-humana" src="img/maos-conectando.webp" srcset="img/maos-conectando-1200.webp 1200w, img/maos-conectando.webp 2000w" sizes="(max-width: 640px) 220vw, 100vw" width="2000" height="1116" alt="" fetchpriority="high">
+        <canvas class="cx-pontos" aria-hidden="true"></canvas>
+      </figure>
       <div class="cx-copy">
         <p class="cx-kicker">Ayalan Lima · Desenvolvedor &amp; Analista de Dados</p>
         <h1 id="nome"><span class="cx-scr" data-text="Conectando">Conectando</span></h1>
@@ -1150,15 +1163,8 @@ body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-in
         <div class="cx-cta">
           <a class="cx-btn" href="#projetos">Ver projetos <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 12L12 4M5 4h7v7"/></svg></a>
           <a class="cx-btn ghost" href="#contato">Vamos conversar</a>
+          <button class="cx-btn zoe" type="button" data-abrir-zoe><span class="mini-orb" aria-hidden="true"></span>Perguntar à Zoe</button>
         </div>
-      </div>
-      <div class="cx-zoe">
-        <button class="orb orb-xl hero-orb zoe-fragmentada" type="button" data-abrir-zoe aria-label="Conversar com a Zoe, assistente do portfólio"><span class="orb-face" aria-hidden="true"><i></i><i></i></span><span class="orb-sparkle" aria-hidden="true"></span></button>
-        <a class="cx-zoe-tag" href="#zoe"><i aria-hidden="true"></i>Zoe · em desenvolvimento</a>
-      </div>
-      <div class="cx-stack">
-        <small>Ferramentas que uso no dia a dia</small>
-        <ul><li>Python</li><li>TypeScript</li><li>React</li><li>Supabase</li><li>pandas</li><li>scikit-learn</li><li>SQL</li></ul>
       </div>
     </section>
     <div class="wrap">
@@ -2612,7 +2618,7 @@ apenas os trechos recuperados das bases.</pre>
 </script>
 <script src="zoe-ascii.js"></script>
 <script src="zoe-fx.js"></script>
-<script type="module" src="maos.js"></script>
+<script src="conectando.js"></script>
 <script>
 /* título embaralhando, Zoe se formando a partir de caracteres e animações extras da Zoe */
 (function () {
@@ -2629,14 +2635,9 @@ apenas os trechos recuperados das bases.</pre>
     })(performance.now());
   });
 
-  var heroOrb = document.querySelector('.hero-orb');
-  function formarHero() {
-    if (!heroOrb || heroOrb.classList.contains('saiu')) { if (heroOrb) heroOrb.classList.remove('zoe-fragmentada'); return; }
-    ZoeAscii.formar(heroOrb, { atraso: 500 });
-  }
-  if (document.querySelector('.cx-hero.pronto')) formarHero();
-  else { var feito = false; var vai = function () { if (!feito) { feito = true; formarHero(); } };
-    addEventListener('maos-prontas', vai, { once: true }); setTimeout(vai, 2500); }
+  // a Zoe do canto nasce fragmentada em caracteres e vira o orbe
+  var canto0 = document.getElementById('orb');
+  if (canto0) { canto0.classList.add('zoe-fragmentada'); setTimeout(function () { ZoeAscii.formar(canto0, { atraso: 200 }); }, 1600); }
 
   // página da Zoe: ela se forma cada vez que a página abre
   function talvezZoe() {
