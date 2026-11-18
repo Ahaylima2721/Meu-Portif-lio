@@ -903,7 +903,7 @@ body { background: var(--bg); }
 .orb.pulo { animation: orbFloat 4.5s ease-in-out infinite, boing .75s cubic-bezier(.3, 1.5, .5, 1); }
 @keyframes boing { 0% { scale: 1; } 25% { scale: 1.12 0.88; } 50% { scale: 0.93 1.08; } 75% { scale: 1.03 0.97; } 100% { scale: 1; } }
 
-/* no topo, a Zoe mora no quadrado; ao rolar, voa para o canto */
+/* no topo, a Zoe mora entre as mãos; ao rolar, voa para o canto */
 .orb-wrap.no-quadrado { visibility: hidden; pointer-events: none; }
 .orb-wrap.voando .orb-hint { visibility: hidden; }
 .hero-orb.saiu { visibility: hidden; }
@@ -1057,6 +1057,77 @@ section.sec { padding-top: 104px; }
 }
 </style>
 <style>html{-webkit-text-size-adjust:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>
+/* ================= visual "Conectando": monocromático (referência em meio-tom) + Zoe roxa ================= */
+:root, :root:not([data-theme="light"]), :root[data-theme="dark"], :root[data-theme="light"] {
+  --bg: #F4F4F2; --surface: #FFFFFF; --soft: #EAEAE7; --fg: #0F0F10; --muted: #45454A; --faint: #636369;
+  --line: #DCDCD8; --line-strong: #BDBDB8; --band: #EBEBE8;
+  --accent: #0F0F10; --accent-fill: #0F0F10; --accent-soft: #E6E6E3; --accent-ink: #FFFFFF; --spark: #0F0F10; --spark-ink: #636369; --spark-soft: #EAEAE7;
+  --glow-1: rgba(0, 0, 0, 0.04); --glow-2: rgba(124, 58, 237, 0.05); --grid-dot: rgba(15, 15, 16, 0.07);
+  --sheen: linear-gradient(135deg, rgba(15, 15, 16, 0.85), rgba(15, 15, 16, 0) 45%, rgba(124, 58, 237, 0.45));
+  --heat-1: #E6E6E3; --heat-2: #8A8A8A; --heat-3: #111; --map-bg: #F0F0EE;
+  --zoe: #7C3AED;
+}
+body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 90; opacity: .06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.site-head .wrap { justify-content: space-between; }
+.cx-logo { font: 400 1.15rem/1 Anton, var(--f-sans); letter-spacing: .04em; color: var(--fg); text-decoration: none; margin-right: auto; }
+.cx-logo sup { font-size: .5em; }
+.badge.wip .pulse, .pulse { background: var(--zoe) !important; }
+
+/* hero: a arte (imagem original, sem alterar) animada por conectando.js */
+.cx-hero { position: relative; height: calc(100svh - 64px); min-height: 680px; max-height: 1000px; overflow: hidden; background: var(--bg); isolation: isolate; }
+.cx-arte { --w: max(104vw, 1180px); position: absolute; margin: 0; left: 50%; top: calc(66% - var(--w) * 0.2578); width: var(--w); aspect-ratio: 2000 / 1116; transform: translateX(-48.9%); pointer-events: none; mix-blend-mode: multiply; }
+.cx-mao { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .9s ease; will-change: transform; user-select: none; -webkit-user-drag: none; }
+.cx-mao-robo { clip-path: inset(0 51.1% 0 0); transform-origin: 0% 70%; }
+.cx-mao-humana { clip-path: inset(0 0 0 48.9%); transform-origin: 100% 45%; }
+.cx-arte.montada .cx-mao { opacity: 1; }
+.cx-pontos { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cx-copy { position: relative; z-index: 2; text-align: center; padding: clamp(36px, 7vh, 80px) 16px 0; }
+.cx-kicker { font: 500 .78rem var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.cx-hero h1 { margin: 14px 0 0; font: 400 clamp(3.6rem, 11vw, 9.6rem)/.9 Anton, var(--f-sans); letter-spacing: -.01em; color: var(--fg); background: none; -webkit-text-fill-color: currentColor; }
+.cx-sub { margin: 18px auto 24px; max-width: 470px; font-size: clamp(.95rem, 1.4vw, 1.05rem); line-height: 1.55; color: #2b2b2e; }
+.cx-cta { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.cx-btn { display: inline-flex; align-items: center; gap: 10px; padding: 11px 20px; border-radius: 999px; background: var(--fg); color: #fff; font: 500 .95rem var(--f-sans); text-decoration: none; border: 1px solid var(--fg); cursor: pointer; transition: transform .2s; }
+.cx-btn:hover { transform: translateY(-2px); }
+.cx-btn.ghost { background: transparent; color: var(--fg); }
+.cx-btn.zoe { background: #fff; color: #3B1785; border-color: #D9C9FF; }
+.cx-btn.zoe .mini-orb { width: 18px; height: 18px; }
+.cx-btn svg { width: 14px; height: 14px; }
+.cx-stack { position: absolute; z-index: 2; left: 0; right: 0; bottom: 18px; text-align: center; }
+.cx-stack small { display: block; color: var(--muted); font-size: .8rem; margin-bottom: 8px; }
+.cx-stack ul { list-style: none; margin: 0; padding: 0 16px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px clamp(18px, 4vw, 52px); font: 400 clamp(1rem, 1.7vw, 1.3rem) Anton, var(--f-sans); letter-spacing: .03em; }
+
+/* estética de meio-tom no site todo: fotos em preto e branco granulado, cor ao passar o mouse */
+.pthumb img, .tile img, .demo img, .shot img, .rail img { filter: grayscale(1) contrast(1.12) brightness(1.02); transition: filter .5s ease, transform .4s ease; }
+.pcard:hover .pthumb img, .tile:hover img, .demo img:hover, .rail img:hover { filter: none; }
+.pthumb, .tile { position: relative; }
+.pthumb::after, .tile::after { content: ""; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; opacity: .35; transition: opacity .5s;
+  background-image: radial-gradient(rgba(0,0,0,.55) 0.7px, transparent 1.1px); background-size: 4px 4px; }
+.pcard:hover .pthumb::after, .tile:hover::after { opacity: 0; }
+.pthumb-zoe::after, .pthumb-term::after, .tile-term::after { display: none; }
+.band.ink { color-scheme: light; }
+.sec-head h2, .page-top h1, .ptitle { font-family: Anton, var(--f-sans); font-weight: 400; letter-spacing: 0; text-transform: uppercase; }
+.eyebrow { font-family: var(--f-mono); letter-spacing: .14em; }
+hr, .facts, .metrics { border-color: var(--fg) !important; }
+::selection { background: #0F0F10; color: #fff; }
+
+/* Zoe fragmentada → inteira */
+.orb.zoe-fragmentada { opacity: 0; }
+.orb.zoe-revelada { animation: zoeRevela .7s ease-out, orbFloat 4.5s ease-in-out infinite; }
+@keyframes zoeRevela { from { opacity: 0; filter: blur(6px) saturate(1.6); scale: .92; } to { opacity: 1; filter: none; scale: 1; } }
+
+/* primeiro projeto: Zoe em andamento */
+.pcard-zoe { border-color: #CDB8FF !important; }
+.pcard-zoe .badge:last-child { background: #F1EAFF; color: #4C1D95; border-color: #D9C9FF; }
+
+@media (max-width: 640px) {
+  .cx-hero { min-height: 620px; }
+  .cx-arte { --w: 230vw; top: calc(68% - var(--w) * 0.2578); }
+  .cx-sub { font-size: .92rem; }
+  .cx-stack ul { gap: 6px 16px; }
+}
+</style>
 </head>
 <body>
 
@@ -1064,6 +1135,7 @@ section.sec { padding-top: 104px; }
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="ic-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></symbol><symbol id="ic-bot" viewBox="0 0 24 24"><path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" /></symbol><symbol id="ic-chart-column" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></symbol><symbol id="ic-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol><symbol id="ic-circle-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><line x1="12" x2="12" y1="8" y2="12" /><line x1="12" x2="12.01" y1="16" y2="16" /></symbol><symbol id="ic-circle-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></symbol><symbol id="ic-code-xml" viewBox="0 0 24 24"><path d="m18 16 4-4-4-4" /><path d="m6 8-4 4 4 4" /><path d="m14.5 4-5 16" /></symbol><symbol id="ic-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></symbol><symbol id="ic-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M3 5V19A9 3 0 0 0 21 19V5" /><path d="M3 12A9 3 0 0 0 21 12" /></symbol><symbol id="ic-external-link" viewBox="0 0 24 24"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></symbol><symbol id="ic-file-code" viewBox="0 0 24 24"><path d="M10 12.5 8 15l2 2.5" /><path d="m14 12.5 2 2.5-2 2.5" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" /></symbol><symbol id="ic-files" viewBox="0 0 24 24"><path d="M20 7h-3a2 2 0 0 1-2-2V2" /><path d="M9 18a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h7l4 4v10a2 2 0 0 1-2 2Z" /><path d="M3 7.6v12.8A1.6 1.6 0 0 0 4.6 22h9.8" /></symbol><symbol id="ic-flask-conical" viewBox="0 0 24 24"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /><path d="M6.453 15h11.094" /><path d="M8.5 2h7" /></symbol><symbol id="ic-folder-code" viewBox="0 0 24 24"><path d="M10 10.5 8 13l2 2.5" /><path d="m14 10.5 2 2.5-2 2.5" /><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2z" /></symbol><symbol id="ic-folder-git-2" viewBox="0 0 24 24"><path d="M9 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v5" /><circle cx="13" cy="12" r="2" /><path d="M18 19c-2.8 0-5-2.2-5-5v8" /><circle cx="20" cy="19" r="2" /></symbol><symbol id="ic-folder-open" viewBox="0 0 24 24"><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2" /></symbol><symbol id="ic-git-branch" viewBox="0 0 24 24"><line x1="6" x2="6" y1="3" y2="15" /><circle cx="18" cy="6" r="3" /><circle cx="6" cy="18" r="3" /><path d="M18 9a9 9 0 0 1-9 9" /></symbol><symbol id="ic-git-commit-horizontal" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" /><line x1="3" x2="9" y1="12" y2="12" /><line x1="15" x2="21" y1="12" y2="12" /></symbol><symbol id="ic-git-fork" viewBox="0 0 24 24"><circle cx="12" cy="18" r="3" /><circle cx="6" cy="6" r="3" /><circle cx="18" cy="6" r="3" /><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9" /><path d="M12 12v3" /></symbol><symbol id="ic-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" /></symbol><symbol id="ic-guitar" viewBox="0 0 24 24"><path d="m11.9 12.1 4.514-4.514" /><path d="M20.1 2.3a1 1 0 0 0-1.4 0l-1.114 1.114A2 2 0 0 0 17 4.828v1.344a2 2 0 0 1-.586 1.414A2 2 0 0 1 17.828 7h1.344a2 2 0 0 0 1.414-.586L21.7 5.3a1 1 0 0 0 0-1.4z" /><path d="m6 16 2 2" /><path d="M8.2 9.9C8.7 8.8 9.8 8 11 8c2.8 0 5 2.2 5 5 0 1.2-.8 2.3-1.9 2.8l-.9.4A2 2 0 0 0 12 18a4 4 0 0 1-4 4c-3.3 0-6-2.7-6-6a4 4 0 0 1 4-4 2 2 0 0 0 1.8-1.2z" /><circle cx="11.5" cy="12.5" r=".5" fill="currentColor" /></symbol><symbol id="ic-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></symbol><symbol id="ic-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></symbol><symbol id="ic-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></symbol><symbol id="ic-presentation" viewBox="0 0 24 24"><path d="M2 3h20" /><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" /><path d="m7 21 5-5 5 5" /></symbol><symbol id="ic-smartphone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></symbol><symbol id="ic-star" viewBox="0 0 24 24"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></symbol><symbol id="ic-table-2" viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18" /></symbol><symbol id="ic-terminal" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5" /><line x1="12" x2="20" y1="19" y2="19" /></symbol><symbol id="ic-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></symbol><symbol id="ic-braces" viewBox="0 0 24 24"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1" /><path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1" /></symbol><symbol id="ic-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7" /><path d="M19 12H5" /></symbol><symbol id="ic-book-open" viewBox="0 0 24 24"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></symbol><symbol id="ic-compass" viewBox="0 0 24 24"><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" /><circle cx="12" cy="12" r="10" /></symbol><symbol id="ic-file-spreadsheet" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M8 13h2" /><path d="M14 13h2" /><path d="M8 17h2" /><path d="M14 17h2" /></symbol><symbol id="ic-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4" /><path d="M3.34 19a10 10 0 1 1 17.32 0" /></symbol><symbol id="ic-lightbulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /><path d="M9 18h6" /><path d="M10 22h4" /></symbol><symbol id="ic-list-checks" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4" /><path d="m3 7 2 2 4-4" /><path d="M13 6h8" /><path d="M13 12h8" /><path d="M13 18h8" /></symbol><symbol id="ic-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></symbol><symbol id="ic-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></symbol><symbol id="ic-send" viewBox="0 0 24 24"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" /><path d="m21.854 2.147-10.94 10.939" /></symbol><symbol id="ic-shield-check" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /><path d="m9 12 2 2 4-4" /></symbol><symbol id="ic-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></symbol><symbol id="ic-user-round" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5" /><path d="M20 21a8 8 0 0 0-16 0" /></symbol><symbol id="ic-workflow" viewBox="0 0 24 24"><rect width="8" height="8" x="3" y="3" rx="2" /><path d="M7 11v4a2 2 0 0 0 2 2h4" /><rect width="8" height="8" x="13" y="13" rx="2" /></symbol><symbol id="ic-zap" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></symbol></svg>
 <header class="site-head">
   <div class="wrap">
+    <a class="cx-logo" href="#inicio" aria-label="Ayalan Lima, início">AYALAN LIMA<sup>©</sup></a>
     <nav class="nav" aria-label="Menu principal">
       <a href="#inicio" data-nav="inicio">Início</a>
       <a href="#projetos" data-nav="projetos">Projetos</a>
@@ -1078,34 +1150,24 @@ section.sec { padding-top: 104px; }
   <div class="glow" aria-hidden="true"></div>
 <!-- =========================================================== INÍCIO -->
   <div class="view" id="inicio" data-view="inicio">
+    <section class="cx-hero" aria-labelledby="nome">
+      <figure class="cx-arte" role="img" aria-label="Uma mão robótica e uma mão humana quase se tocando, em meio-tom preto e branco">
+        <img class="cx-mao cx-mao-robo" src="img/maos-conectando.webp" srcset="img/maos-conectando-1200.webp 1200w, img/maos-conectando.webp 2000w" sizes="(max-width: 640px) 220vw, 100vw" width="2000" height="1116" alt="" fetchpriority="high">
+        <img class="cx-mao cx-mao-humana" src="img/maos-conectando.webp" srcset="img/maos-conectando-1200.webp 1200w, img/maos-conectando.webp 2000w" sizes="(max-width: 640px) 220vw, 100vw" width="2000" height="1116" alt="" fetchpriority="high">
+        <canvas class="cx-pontos" aria-hidden="true"></canvas>
+      </figure>
+      <div class="cx-copy">
+        <p class="cx-kicker">Ayalan Lima · Desenvolvedor &amp; Analista de Dados</p>
+        <h1 id="nome"><span class="cx-scr" data-text="Conectando">Conectando</span></h1>
+        <p class="cx-sub">Pessoas, dados e inteligência artificial. No Rio Grande do Sul, transformo <b>dados de operação</b> em ferramentas que a equipe usa todo dia.</p>
+        <div class="cx-cta">
+          <a class="cx-btn" href="#projetos">Ver projetos <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 12L12 4M5 4h7v7"/></svg></a>
+          <a class="cx-btn ghost" href="#contato">Vamos conversar</a>
+          <button class="cx-btn zoe" type="button" data-abrir-zoe><span class="mini-orb" aria-hidden="true"></span>Perguntar à Zoe</button>
+        </div>
+      </div>
+    </section>
     <div class="wrap">
-      <section class="hero" aria-labelledby="nome">
-        <div class="hero-copy">
-          <h1 id="nome"><span class="script">Olá, eu sou</span><span class="big">Ayalan</span><span class="role-line">Desenvolvedor &amp; Analista de Dados</span></h1>
-          <p class="where">No Rio Grande do Sul, transformando <span class="hl">dados de operação</span> em ferramentas que a equipe usa todo dia.</p>
-          <p class="pitch">Mapas de vendas, sistemas de gestão de tarefas e assistentes de IA que respondem perguntas sobre as bases da empresa.</p>
-          <div class="cta">
-            <a class="btn" href="#contato">Vamos conversar</a>
-            <a class="btn ghost" href="#projetos">Ver projetos <svg class="i" aria-hidden="true"><use href="#ic-arrow-right"/></svg></a>
-          </div>
-          <ul class="socials">
-            <li><a href="https://github.com/Ahaylima2721" target="_blank" rel="noopener" aria-label="GitHub"><svg class="i" aria-hidden="true"><use href="#ic-github"/></svg></a></li>
-            <li><a href="mailto:ayalanlima35@gmail.com" aria-label="E-mail"><svg class="i" aria-hidden="true"><use href="#ic-mail"/></svg></a></li>
-            <li><button type="button" data-abrir-zoe aria-label="Conversar com a Zoe"><svg class="i" aria-hidden="true"><use href="#ic-bot"/></svg></button></li>
-          </ul>
-        </div>
-        <div class="hero-art">
-          <div class="hero-card">
-            <button class="orb orb-xl hero-orb" type="button" data-abrir-zoe aria-label="Conversar com a Zoe, assistente do portfólio"><span class="orb-face" aria-hidden="true"><i></i><i></i></span><span class="orb-sparkle" aria-hidden="true"></span></button>
-          </div>
-          <a class="folder f1" href="#fluxo"><span class="fd" aria-hidden="true"></span><span class="fl">fluxo_01</span></a>
-          <a class="folder f2" href="#mapa"><span class="fd" aria-hidden="true"></span><span class="fl">mapa_02</span></a>
-          <a class="folder f3" href="#superagente"><span class="fd" aria-hidden="true"></span><span class="fl">superagente_03</span></a>
-          <a class="folder f4" href="#harmony"><span class="fd" aria-hidden="true"></span><span class="fl">harmony_04</span></a>
-          <a class="hero-name" href="#zoe">Zoe <span>· assistente</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 14a8 8 0 0 1-8 8"/><path d="M18 11v-1a2 2 0 0 0-4 0"/><path d="M14 10V9a2 2 0 0 0-4 0v1"/><path d="M10 9.5V4a2 2 0 0 0-4 0v10"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg></a>
-        </div>
-      </section>
-
       <div class="facts">
         <div><b>6</b><span>projetos em 12 meses</span></div>
         <div><b>14.090</b><span>linhas de vendas mapeadas</span></div>
@@ -1237,6 +1299,10 @@ section.sec { padding-top: 104px; }
         <p>Cada projeto nasceu de uma necessidade concreta do trabalho ou do estudo. Abra um para ver o problema, como funciona por dentro, as decisões técnicas e o que dá para medir.</p>
       </div>
       <div class="cards">
+        <a class="pcard wide pcard-zoe" href="#zoe">
+          <span class="pthumb pthumb-zoe"><span class="orb orb-sm" aria-hidden="true"><span class="orb-face"><i></i><i></i></span></span><span class="zb q">harmoni gerdor de solos</span><span class="zb a"><b>Harmony</b> · gerador de solos<i>corrigido: harmoni → harmony · tema 100%</i></span></span>
+          <span class="pinfo"><span class="badges"><span class="badge">Machine learning</span><span class="badge">Em andamento</span></span><b>Zoe</b><span class="pdesc">A assistente do portfólio: classificador e busca TF-IDF treinados em Python, respondendo no navegador.</span><span class="open">Ver projeto <svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-right"/></svg></span></span>
+        </a>
         <a class="pcard" href="#fluxo">
           <span class="pthumb"><img src="img/fluxo-dashboard.webp" alt="" width="1600" height="823" loading="lazy"></span>
           <span class="pinfo"><span class="badges"><span class="badge">Full stack</span><span class="badge">Em produção</span></span><b>Fluxo</b><span class="pdesc">Gestão de tarefas da equipe com cronômetro, envio em lote, aprovações e calendário de compras.</span><span class="open">Ver projeto <svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-right"/></svg></span></span>
@@ -1252,10 +1318,6 @@ section.sec { padding-top: 104px; }
         <a class="pcard" href="#harmony">
           <span class="pthumb pthumb-phones"><img src="img/harmony-inicio.webp" alt="" width="600" height="1298" loading="lazy"><img src="img/harmony-escalas.webp" alt="" width="600" height="1298" loading="lazy"><img src="img/harmony-gerador.webp" alt="" width="600" height="1298" loading="lazy"></span>
           <span class="pinfo"><span class="badges"><span class="badge">Produto</span><span class="badge">Web + Android</span></span><b>Harmony</b><span class="pdesc">App de estudo de violão com motor de teoria musical próprio, gerador de solos e 354 testes.</span><span class="open">Ver projeto <svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-right"/></svg></span></span>
-        </a>
-        <a class="pcard wide" href="#zoe">
-          <span class="pthumb pthumb-zoe"><span class="orb orb-sm" aria-hidden="true"><span class="orb-face"><i></i><i></i></span></span><span class="zb q">harmoni gerdor de solos</span><span class="zb a"><b>Harmony</b> · gerador de solos<i>corrigido: harmoni → harmony · tema 100%</i></span></span>
-          <span class="pinfo"><span class="badges"><span class="badge">Machine learning</span><span class="badge">Em andamento</span></span><b>Zoe</b><span class="pdesc">A assistente do portfólio: classificador e busca TF-IDF treinados em Python, respondendo no navegador.</span><span class="open">Ver projeto <svg class="i i-sm" aria-hidden="true"><use href="#ic-arrow-right"/></svg></span></span>
         </a>
       </div>
     </div>
@@ -2233,7 +2295,7 @@ apenas os trechos recuperados das bases.</pre>
     })();
   }
 
-  // ---------- no topo, a Zoe mora no quadrado; ao rolar, voa até o canto ----------
+  // ---------- no topo, a Zoe mora entre as mãos; ao rolar, voa até o canto ----------
   var wrap = document.querySelector('.orb-wrap'), heroOrb = document.querySelector('.hero-orb'), inicio = document.getElementById('inicio');
   var noCanto = null, voo = null, dicaArmada = false;
   function armarDica() {
@@ -2552,6 +2614,42 @@ apenas os trechos recuperados das bases.</pre>
   new MutationObserver(function () { W = 0; cancelAnimationFrame(raf); raf = 0; start(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(start);
   start();
+})();
+</script>
+<script src="zoe-ascii.js"></script>
+<script src="zoe-fx.js"></script>
+<script src="conectando.js"></script>
+<script>
+/* título embaralhando, Zoe se formando a partir de caracteres e animações extras da Zoe */
+(function () {
+  var calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.cx-scr').forEach(function (el) {
+    var final = el.dataset.text, sim = '!<>-_\\/[]{}=+*^?#01';
+    if (calmo) return;
+    var t0 = performance.now() + 250;
+    (function tick(agora) {
+      var p = (agora - t0) / 1300, out = '';
+      for (var i = 0; i < final.length; i++) out += (p * final.length * 1.2 > i + 2) ? final[i] : sim[(Math.random() * sim.length) | 0];
+      el.textContent = out;
+      if (p < 1.05) requestAnimationFrame(tick); else el.textContent = final;
+    })(performance.now());
+  });
+
+  // a Zoe do canto nasce fragmentada em caracteres e vira o orbe
+  var canto0 = document.getElementById('orb');
+  if (canto0) { canto0.classList.add('zoe-fragmentada'); setTimeout(function () { ZoeAscii.formar(canto0, { atraso: 200 }); }, 1600); }
+
+  // página da Zoe: ela se forma cada vez que a página abre
+  function talvezZoe() {
+    var v = document.getElementById('zoe'), o = document.getElementById('zoe-orb');
+    if (v && o && !v.hidden) { o.classList.add('zoe-fragmentada'); setTimeout(function () { ZoeAscii.formar(o, { atraso: 150 }); }, 60); }
+  }
+  addEventListener('hashchange', function () { setTimeout(talvezZoe, 30); });
+  setTimeout(talvezZoe, 400);
+
+  // reações automáticas (zoe-fx.js) na Zoe do canto: clique, rolagem, bocejo, arquivos soltos nela…
+  var canto = document.getElementById('orb');
+  if (window.ZoeFx && canto) ZoeFx.vida(canto, { soltarArquivos: true });
 })();
 </script>
 </body>
