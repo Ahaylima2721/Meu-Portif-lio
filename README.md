@@ -16,7 +16,7 @@ Portfólio de **Ayalan Lima**, desenvolvedor e analista de dados. O site imita u
 
 ## Zoe, a assistente do portfólio (Python + machine learning)
 
-O orbe de cristal no canto da página é a **Zoe**, uma assistente que responde perguntas sobre o Ayalan e os projetos. Ela tem página própria (`#zoe`), tratada como projeto em andamento, com um laboratório que roda o mesmo motor e mostra as palavras corrigidas, a probabilidade de cada tema, os trechos mais parecidos e a decisão final. A página também traz o algoritmo passo a passo com as fórmulas (os valores de λ, C e limiares são lidos do índice publicado) e uma **rede neural interativa**: o classificador desenhado como rede de uma camada, com os pesos reais, e um experimento que treina no navegador uma rede com camada oculta (ReLU + softmax, Adam) sobre as mesmas perguntas de treino. No topo do site, a Zoe mora no quadrado azul e voa até o canto quando a página rola. O treino é em Python; a resposta roda no navegador, sem servidor e sem chave de API.
+O orbe de cristal no canto da página é a **Zoe**, uma assistente que responde perguntas sobre o Ayalan e os projetos. Ela tem página própria (`#zoe`), tratada como projeto em andamento, com um laboratório que roda o mesmo motor e mostra as palavras corrigidas, a probabilidade de cada tema, os trechos mais parecidos e a decisão final. A página também traz o algoritmo passo a passo com as fórmulas (os valores de λ, C e limiares são lidos do índice publicado) e uma **rede neural interativa**: o classificador desenhado como rede de uma camada, com os pesos reais, e um experimento que treina no navegador uma rede com camada oculta (ReLU + softmax, Adam) sobre as mesmas perguntas de treino. No topo do site, a Zoe nasce fragmentada em caracteres entre as pontas dos dedos de uma mão robótica e uma mão humana, vira o orbe de verdade e voa até o canto quando a página rola. O treino é em Python; a resposta roda no navegador, sem servidor e sem chave de API.
 
 **Base de conhecimento.** `assistente/extrair.py` lê o `index.html` e divide o conteúdo em trechos com título e link. Somam-se os fatos dos READMEs dos repositórios que não cabem na página (`repositorios.json`), os trechos sobre a própria Zoe (`extras.json`) e um perfil além do site, com formação, objetivos, como trabalho e hobbies (`perfil.json`): 183 trechos no total. Blocos com `data-indice="nao"` (fórmulas e widgets) ficam fora do índice. A página da Zoe e os trechos sobre ela formam o tema `assistente`.
 
@@ -55,6 +55,16 @@ python assistente/construir_indice.py   # treina e salva assistente/indice.json
 python assistente/avaliar.py            # compara com a versão só TF-IDF
 python -m pytest -q assistente/tests
 ```
+
+## Topo "Conectando"
+
+O topo mostra uma mão robótica e uma mão humana quase se tocando, desenhadas em meio-tom (pontos), com a Zoe entre os dedos.
+
+- **`maos.js`**: monta as duas mãos em 3D com three.js, renderiza numa textura pequena e redesenha cada pixel como um ponto. Os pontos chegam espalhados e se juntam, fogem do mouse, e as mãos seguem o cursor de leve. A animação pausa fora da tela e respeita "reduzir movimento".
+- **Modelo das mãos**: `generic-hand` do [WebXR Input Profiles](https://github.com/immersive-web/webxr-input-profiles) (MIT, `modelos/LICENSE.md`). A mão humana é a malha original posada; a robótica é montada com peças mecânicas sobre o mesmo esqueleto.
+- **`zoe-ascii.js`**: a Zoe começa como caracteres roxos espalhados, que se juntam no formato do orbe; no fim, o orbe real aparece no lugar. Acontece no topo e sempre que a página da Zoe abre.
+- **`zoe-fx.js`**: animações extras da Zoe, copiadas do repositório [ZOE_Agent_tts](https://github.com/Ahaylima2721/ZOE_Agent_tts) (clique, inclinar ao rolar, bocejo, soltar arquivos nela…).
+- **three.js** fica em `vendor/three` (MIT), sem CDN e sem build.
 
 ## Sobre as imagens
 

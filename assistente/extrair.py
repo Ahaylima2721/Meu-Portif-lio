@@ -29,9 +29,10 @@ def trechos_do_site(html: str) -> list[dict]:
                     "busca": prefixo + texto, "texto": texto, "link": link})
 
     inicio = soup.find(id="inicio")
-    hero = inicio.select_one(".hero")
+    hero = inicio.select_one(".cx-hero")
+    nome, _, funcao = limpo(hero.select_one(".cx-kicker")).partition(" · ")
     add("Sobre mim", "Apresentação", "Quem é Ayalan Lima",
-        f"{limpo(hero.h1)}, {limpo(hero.select_one('.role'))}. {limpo(hero.select_one('.pitch'))} {limpo(hero.select_one('.pill'))}.", "#inicio")
+        f"{nome}, {funcao}. {limpo(hero.select_one('.cx-sub'))}", "#inicio")
     add("Sobre mim", "Números", "Números do portfólio",
         ". ".join(limpo(d) for d in inicio.select(".facts div")) + ".", "#inicio")
 
